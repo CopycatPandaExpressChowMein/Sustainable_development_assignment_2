@@ -7,7 +7,7 @@ class TestHighscore(unittest.TestCase):
     __filepath = "test/test_scores.json"
 
     def test_save_highscores(self):
-        pass
+        score = Highscore()
 
     def test_load_highscores(self):
         pass
