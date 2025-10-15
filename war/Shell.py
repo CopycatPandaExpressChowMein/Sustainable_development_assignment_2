@@ -1,40 +1,41 @@
 from war.Game import Game
 
+
 class Shell:
-    """ handles the interface of the game, input and output. """
+    """handles the interface of the game, input and output."""
 
     def __init__(self, game):
-        """ initialise the shell with intro, prompt and link to the Game """
+        """initialise the shell with intro, prompt and link to the Game"""
         self.intro = "Welcome to WAR!!!"
         self.prompt = "Enter command"
         self.game = game
 
     def do_start(self):
-        """ Start the game when using command """
+        """Start the game when using command"""
         self.game.start()
 
     def do_nameChange(self):
-        """ changes name of player from shell when using command """
+        """changes name of player from shell when using command"""
         print("Change the name of the player.")
 
     def do_drawCard(self):
-        """ Draws card when user uses this command """
+        """Draws card when user uses this command"""
         print("Draws the card.")
 
     def do_quit(self):
-        """ Quits the game when using command """
+        """Quits the game when using command"""
         print("Quit the war game.")
 
     def do_pickmode(self):
-        """ Allows player to pick a mode from the shell interface """
+        """Allows player to pick a mode from the shell interface"""
         print("Standard War card game - Human vs AI only.")
 
     def do_viewStatistics(self):
-        """ Displays the statistics how player performed """
+        """Displays the statistics how player performed"""
         print("View the statistics.")
 
     def do_printRules(self):
-        """ prints the rules of the game to the user """
+        """prints the rules of the game to the user"""
         rules_text = """
             War card game rules:
             - The goal is to win all the cards.
@@ -54,5 +55,5 @@ class Shell:
         print(rules_text)
 
     def do_cheat(self):
-        """ lets you cheat in the game and triggers from shell """
+        """lets you cheat in the game and triggers from shell"""
         self.game.cheat()
