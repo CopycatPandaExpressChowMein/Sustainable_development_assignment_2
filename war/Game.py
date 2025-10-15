@@ -1,6 +1,6 @@
 from war.Deck import Deck
 from war.Player import Player
-from war.Intelligance import Intelligance
+from war.Intelligence import Intelligance
 from war.CardHand import CardHand
 
 

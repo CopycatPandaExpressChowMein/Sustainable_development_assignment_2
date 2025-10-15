@@ -1,7 +1,5 @@
 import unittest
 from war.Main import Main  # if needed
-from war.Game import Game  # if you create/use Game there
-
 
 class TestMain(unittest.TestCase):
     """ Tests for Main program """

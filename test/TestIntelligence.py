@@ -1,7 +1,7 @@
 import unittest
-from war.Intelligance import Intelligance
+from war.Intelligence import Intelligance
 
-class TestIntelligance(unittest.TestCase):
+class TestIntelligence(unittest.TestCase):
     """ Tests for Intelligance class """
 
     def test_initial_hand(self):
