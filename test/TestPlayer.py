@@ -3,7 +3,7 @@ from war.Player import Player
 
 
 class TestPlayer(unittest.TestCase):
-        
+
     def test_set_name(self):
         player = Player()
         self.assertEqual(player.set_name("John"), "John")

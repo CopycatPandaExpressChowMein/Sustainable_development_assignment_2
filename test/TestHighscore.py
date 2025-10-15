@@ -1,7 +1,10 @@
 import unittest, tempfile
 from war.Highscore import Highscore
 
+
 class TestHighscore(unittest.TestCase):
+
+    __filepath = "test/test_scores.json"
 
     def test_save_highscores(self):
         pass
@@ -26,15 +29,16 @@ class TestHighscore(unittest.TestCase):
 
     def test_set_highscores(self):
         pass
-        
+
     def test_get_highscores(self):
         pass
 
     def test_set_filename(self):
         pass
-        
+
     def test_get_filename(self):
         pass
+
 
 if __name__ == "__main__":
     unittest.main()
