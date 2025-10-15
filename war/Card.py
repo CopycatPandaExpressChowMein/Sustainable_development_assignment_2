@@ -1,5 +1,6 @@
 """Card class representing a single playing card."""
 
+
 class Card:
     def __init__(self, value, symbol, suit, color):
         """Initialize a card."""
@@ -7,8 +8,8 @@ class Card:
         self.symbol = symbol
         self.suit = suit
         self.color = color
-        
-    #getter
+
+    # getter
     def get_value(self):
         return self.value
 
@@ -20,8 +21,8 @@ class Card:
 
     def get_color(self):
         return self.color
-    
-    #setter
+
+    # setter
     def set_value(self, value):
         self.value = value
 
@@ -33,4 +34,3 @@ class Card:
 
     def set_color(self, color):
         self.color = color
-
