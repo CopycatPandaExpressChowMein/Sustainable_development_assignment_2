@@ -1,6 +1,6 @@
 from Deck import Deck
 from Player import Player
-from Intelligence import Intelligance
+from Intelligence import Intelligence
 from CardHand import CardHand
 
 
