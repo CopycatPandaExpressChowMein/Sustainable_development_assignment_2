@@ -1,5 +1,5 @@
-from war.Game import Game
-from war.Shell import Shell
+from Game import Game
+from Shell import Shell
 
 class Main:
     """The Main Program When it runs"""

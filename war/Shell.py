@@ -1,4 +1,4 @@
-from war.Game import Game
+from Game import Game
 
 
 class Shell:
