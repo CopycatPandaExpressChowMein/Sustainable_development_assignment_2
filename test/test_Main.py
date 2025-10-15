@@ -1,16 +1,15 @@
 import unittest
-from war.Main import Main
-""" impor Main class """
+from war.Main import Main  # if needed
+from war.Game import Game  # if you create/use Game there
 
 
 class TestMain(unittest.TestCase):
+    """ Tests for Main program """
+
     def test_run_prints(self):
+        """ Test the run method runs and prints """
         main = Main()
-        """Create a new Main object"""
-
         main.run()
-        """Call the run() method to make sure it works properly"""
-
 
 if __name__ == "__main__":
     unittest.main()

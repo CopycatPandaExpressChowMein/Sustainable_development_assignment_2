@@ -1,31 +1,30 @@
 import unittest
 from war.Game import Game
-""" import the Game class """
+
 
 
 class TestGame(unittest.TestCase):
-    def test_initial_mode(self):
-        game = Game()
-        """create a new Game object"""
+    """ Tests for Game logic """
 
-        self.assertEqual(game.mode, "")
-        """check that game.mode is an empty string after its created"""
+    def test_initial_mode(self):
+        """ Game should initialize with the correct mode """
+        game = Game()
+        self.assertEqual(game.mode, "You against AI")
 
     def test_start_runs(self):
+        """ Game start runs without crashing """
         game = Game()
         game.start()
-        """call start() to make sure it exists works"""
 
     def test_pickmode_runs(self):
+        """ Pickmode prints mode info """
         game = Game()
         game.pickmode()
-        """call pickmode() to make sure it exists and works"""
 
     def test_cheat_runs(self):
+        """ Cheat method runs without crashing """
         game = Game()
         game.cheat()
-        """Call cheat() to make sure it exists and runs without crashing"""
-
 
 if __name__ == "__main__":
     unittest.main()
