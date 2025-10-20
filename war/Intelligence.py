@@ -6,7 +6,7 @@ class Intelligence:
         Initializes the AI's hand and name.
         """
         self.setName(name)
-        self.setHand(hand) # The cards AI holds
+        self.setHand(hand) 
 
     def setName(self, name):
         """Sets the name for the AI"""
