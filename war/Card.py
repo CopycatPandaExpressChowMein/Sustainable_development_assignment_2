@@ -9,6 +9,9 @@ class Card:
         self.suit = suit
         self.color = color
 
+    def __str__(self):
+        return self.symbol
+    
     # getter
     def get_value(self):
         return self.value
@@ -34,3 +37,4 @@ class Card:
 
     def set_color(self, color):
         self.color = color
+
