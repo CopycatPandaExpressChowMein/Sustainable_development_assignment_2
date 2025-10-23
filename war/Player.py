@@ -1,33 +1,52 @@
 class Player:
-    """Object that retains info such as the name and CardHand of the  player.
-    With the required methods to manipulate that information."""
+    """
+    Object that retains info such as the name and CardHand of the  player.
+    With the required methods to manipulate that information.
+    """
 
     def __init__(self, name="Anonymous", hand=None):
-        """Initializes a player object, takes a String and CardHand parameter.
-        Uses the default arguments 'Placeholder' and 'None' in case no arguments are given for name and hand.
+        """
+        Initializes a player object with a name and CardHand.
+
+        :name: The name of the player as a String. Default param is Anonymous.
+        :hand: The hand of cards the player has as a CardHand object. Default param is None.
         """
         self.set_name(name)
         self.set_hand(hand)
 
     def __str__(self):
+        """
+        Defines how to represent the player as a String.
+        Prints the name of the player, followed by their given CardHand.
+        """
         return(f"Player: {self.__name} | Hand: {self.__hand}")
     
     def set_name(self, name):
-        """Takes a String as an argument and sets the private __name variable to that argument.
-        The String should be the name of the player."""
+        """
+        Sets the name variable to the given argument.
+        
+        :name: The name of the player as a String.
+        """
         self.__name = name
         return self.__name
 
     def set_hand(self, hand):
-        """Takes a CardHand object as a parameter and sets the private __card variable to that CardHand.
-        The CardHand should be the hand the player will use in a game."""
+        """
+        Sets the card variable to the given argument.
+        
+        :hand: The hand of cards the player has as a CardHand object.
+        """
         self.__hand = hand
         return self.__hand
 
     def get_name(self):
-        """Returns the name of the player object as a String."""
+        """
+        Returns the name of the player object as a String.
+        """
         return self.__name
 
     def get_hand(self):
-        """Returns the CardHand of the player object."""
+        """
+        Returns the CardHand of the player object.
+        """
         return self.__hand
