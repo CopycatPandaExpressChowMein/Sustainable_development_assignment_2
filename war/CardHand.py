@@ -1,7 +1,7 @@
 """CardHand class for managing a player's hand of cards."""
 
 class CardHand:
-    def __init__(self, cards=None):
+    def __init__(self, cards=[]):
         """
         Initialize the hand with a list of cards.
         :param cards: list of Card objects
