@@ -1,5 +1,5 @@
 import json
-from war.Statistics import Statistics
+from Statistics import Statistics
 
 
 class Highscore:

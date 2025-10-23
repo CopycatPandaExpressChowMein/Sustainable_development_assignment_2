@@ -1,8 +1,5 @@
 """CardHand class for managing a player's hand of cards."""
 
-from .Card import Card  # Import Card class from the same package
-
-
 class CardHand:
     def __init__(self, cards):
         """
