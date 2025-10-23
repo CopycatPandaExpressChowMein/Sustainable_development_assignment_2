@@ -2,45 +2,53 @@ from Deck import Deck
 from Player import Player
 from Intelligence import Intelligence
 from CardHand import CardHand
+from Highscore import Highscore
+
 
 
 class Game:
-    """Represent the game logic and also the state of the game"""
+    """Represents the game logic and contains the methods to run and manipulate the game."""
 
+    
     def __init__(self):
         """initialises the game with default value"""
-        self.mode = "You against AI"
-        self.deck = Deck()
-        self.players = []
+        self.__highscore = Highscore()
+        self.__active_game = False
 
-    def start(self):
-        """Starts the game"""
-        player_name = input("Enter your name:")
-        human = Player(player_name)
-        ai = Intelligence("AI")
-        self.players = [human, ai]
-        self.deck.create()
-        self.deck.shuffle()
-        hands = self.deck.split()
-        self.players[0].set_hand(CardHand(hands[0]))
-        self.players[1].set_hand(CardHand(hands[1]))
+    def start(self,  mode=1, player1="Anonymous", player2="Anonymous"):
+        """
+        Starts the game.
+        
+        :player1: Name of player 1 as a String. Default param is Anonymous.
+        :player2: Name of player 2 as a String. Default param is Anonymous.
+        :mode: The gamemode as an int, 1 representing singleplayer and 2 multiplayer. Default param is 1 (Singleplayer)
+        """
+        self.__player1 = Player(player1)
+        self.__player2 = Player(player2) if mode == 2 else Intelligence("AI") #Checks whether the current mode is single or multiplayer and assigns player2 accordingly.
+        self.__players = [self.__player1, self.__player2]
+        
+        self.__deck = Deck()
+        hands = self.__deck.split()
+        self.__players[0].set_hand(CardHand(hands[0]))
+        self.__players[1].set_hand(CardHand(hands[1]))
 
-        print(f"{human.get_name()} vs AI, The Game has started!")
+        for player in self.__players:
+            self.__highscore.add_player(player.get_name())
 
-    def pickmode(self):
-        """allows player to pick a mode"""
-        self.mode = "You against AI"
-        print("Standard War card game")
+        print(f"{self.__player1.get_name()} vs {self.__player2.get_name()}, The Game has started!")
+        self.__active_game = True
 
+    def get_active_game(self):
+        """Returns a bool indicating whether or not a game is ongoing or not."""
+        return self.__active_game
+
+
+    #TODO
     def cheat(self):
         """allows you to cheat in the game"""
-        print("Reveals cards in hand:")
-        for player in self.players:
-            hand = player.get_hand()
-            print(
-                f"{player.get_name()} hand: {[card.get_value() for card in hand.getHand()]}"
-            )
+        print("Place holder cheat")
 
+    #TODO
     def draw_cards(self, war_pile=None):
         # Initialize war pile to keep cards on table for war rounds
         if war_pile is None:
@@ -102,4 +110,23 @@ class Game:
 
             # Recursively call draw_cards to determine who wins the war
             self.draw_cards(war_pile)
+
+    def name_change(self, current_name, new_name):
+        """ 
+        Takes a current and new name and updates it in the highscore object.
+        Prints the change to cmd.
+        And then saves the highscore object to json.
+        """
+        self.__highscore.update_player_name(current_name, new_name)
+        self.save_highscore()
+
+
+    #Functions for manipulating highscores
+    def show_highscore(self):
+        """Prints the current values of the highscore object as a String."""
+        print(self.__highscore)
+
+    def save_highscore(self):
+        """Saves the current values of the highscore object."""
+        self.__highscore.save_highscores()
 

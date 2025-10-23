@@ -1,5 +1,5 @@
 import json
-from war.Statistics import Statistics
+from Statistics import Statistics
 
 
 class Highscore:
@@ -24,10 +24,12 @@ class Highscore:
         Defines how to represent the object as a String.
         Loops through all names and statistics, printing each name, and their associated statistics beneath.
         """
+        tmp = ""
         for name, statistics in self.__highscores:
-            print(f"{name}: ")
+            tmp += f"{name}: "
             for stat_obj in statistics:
-                print(f"    {stat_obj}")
+                tmp += f"    {stat_obj}"
+        return tmp
 
     def save_highscores(self):
         """
@@ -80,16 +82,16 @@ class Highscore:
     def update_player_name(self, name, new_name):
         """
         Changes the name of a player (key) in the dictionary, if they exist. 
-        Adds them as a new player (key) with an empty list (value) if they do not.
 
         :name: The name of an existing player as a String.
         :new_name: The name to replace it with as a String.
         """
-        try:
+        if name in self.__highscores:
             self.__highscores[new_name] = self.__highscores.pop(name)
-        except KeyError:
-            print(f"No key in dictionary named {name}. Making new key.")
-            self.__highscores[new_name] = []
+            print(f"Changed {name} to {new_name}")
+        else:
+            print(f"Could not find player {name}.")
+
 
     def remove_player(self, name):
         """
