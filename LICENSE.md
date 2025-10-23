@@ -1,6 +1,6 @@
 
 
-Copyright YEAR 2025, besart.sadiku0032@stud.hkr.se, amjad.almarhej0059@stud.hkr.se
+Copyright YEAR 2025, besart.sadiku0032@stud.hkr.se, amjad.almarhej0059@stud.hkr.se, jesper.nilsson0205@stud.hkr.se
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
