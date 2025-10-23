@@ -39,6 +39,17 @@ class CardHand:
         if not self.activeCard:
             return None
         return self.activeCard.pop(0)  # Remove and return one active card
+    
+    def return_cards(self):
+        """
+        Returns all active cards to the players hand. 
+        I.E clears the activeCards list.
+        """
+        i, tmp = 0, len(self.activeCard)
+        while i < tmp:
+            self.hand.append(self.removeCard())
+            i += 1
+        self.amount = len(self.hand)
 
     def getHand(self):
         """
@@ -54,3 +65,18 @@ class CardHand:
         """
         self.hand = list(hand)  # Set a new hand
         self.amount = len(hand)  # Update the count
+
+    def get_active_card(self):
+        """
+        Returns the list of active cards        
+        """
+        return self.activeCard
+    
+    def set_active_card(self, active_cards=[]):
+        """
+        Replace the active cards with a new list of active cards.
+
+        :active_cards: List of card objects. Default param is an empty list.
+        """
+        self.activeCard = active_cards
+        return self.activeCard
