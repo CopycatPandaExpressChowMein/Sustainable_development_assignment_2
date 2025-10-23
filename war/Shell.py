@@ -27,7 +27,7 @@ class Shell(cmd.Cmd):
                     print("Please enter either (1) or (2).")
             except:
                 print("Please enter either (1) or (2).")
-
+        
         player1 = input("Please enter the name of player 1: ")
         if mode == 2:
             player2 = input("Please enter the name of player 2: ")
