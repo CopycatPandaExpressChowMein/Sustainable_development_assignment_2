@@ -1,5 +1,5 @@
 import json
-from Statistics import Statistics
+from war.Statistics import Statistics
 
 
 class Highscore:
@@ -51,11 +51,12 @@ class Highscore:
         Uses the private filename variable.
 
         :raises IOError: Raises an IOError if an error occurs while trying to load from a file.
+        :raises ValueError: Raises a ValueError if the JSON file being parsed is empty.
         """
         try:
             with open(self.__filename, "r") as file:
                 self.__highscores = json.load(file)
-        except IOError:
+        except (IOError, ValueError):
             self.__highscores = {}
             print(f"Unable to load highscores from file {self.__filename}")
         else:
