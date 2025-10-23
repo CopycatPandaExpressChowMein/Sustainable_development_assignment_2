@@ -1,7 +1,7 @@
-from war.Deck import Deck
-from war.Player import Player
-from war.Intelligence import Intelligence
-from war.CardHand import CardHand
+from Deck import Deck
+from Player import Player
+from Intelligence import Intelligence
+from CardHand import CardHand
 
 
 class Game:

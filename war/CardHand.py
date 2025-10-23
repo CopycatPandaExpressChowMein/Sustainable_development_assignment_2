@@ -1,6 +1,6 @@
 """CardHand class for managing a player's hand of cards."""
 
-from war.Card import Card  # Import Card class from the same package
+from .Card import Card  # Import Card class from the same package
 
 
 class CardHand:
