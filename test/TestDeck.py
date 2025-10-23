@@ -1,6 +1,6 @@
 """Simple tests for the Deck class."""
 import unittest
-from war.deck import Deck
+from war.Deck import Deck
 from war.Card import Card
 
 class TestDeck(unittest.TestCase):

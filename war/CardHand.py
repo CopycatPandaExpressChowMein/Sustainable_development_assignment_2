@@ -1,6 +1,7 @@
 """CardHand class for managing a player's hand of cards."""
 
-from .Card import Card  # Import Card class from the same package
+from Card import Card  # Import Card class from the same package
+
 
 class CardHand:
     def __init__(self, cards):
@@ -8,9 +9,9 @@ class CardHand:
         Initialize the hand with a list of cards.
         :param cards: list of Card objects
         """
-        self.hand = list(cards)          # All cards currently in hand
-        self.activeCard = []             # Cards that have been drawn (active)
-        self.amount = len(self.hand)     # Number of cards currently in hand
+        self.hand = list(cards)  # All cards currently in hand
+        self.activeCard = []  # Cards that have been drawn (active)
+        self.amount = len(self.hand)  # Number of cards currently in hand
 
     def drawcard(self):
         """
@@ -19,10 +20,10 @@ class CardHand:
         :return: Card object or None if hand is empty
         """
         if not self.hand:
-            return None                  # No cards left to draw
-        card = self.hand.pop(0)          # Remove the top card from the hand
-        self.activeCard.append(card)     # Add it to active cards
-        self.amount = len(self.hand)     # Update the count
+            return None  # No cards left to draw
+        card = self.hand.pop(0)  # Remove the top card from the hand
+        self.activeCard.append(card)  # Add it to active cards
+        self.amount = len(self.hand)  # Update the count
         return card
 
     def addCard(self, card):
@@ -30,8 +31,8 @@ class CardHand:
         Add one card to the hand.
         :param card: Card object
         """
-        self.hand.append(card)           # Add the card to the hand
-        self.amount = len(self.hand)     # Update the count
+        self.hand.append(card)  # Add the card to the hand
+        self.amount = len(self.hand)  # Update the count
 
     def removeCard(self):
         """
@@ -40,7 +41,7 @@ class CardHand:
         """
         if not self.activeCard:
             return None
-        return self.activeCard.pop(0)    # Remove and return one active card
+        return self.activeCard.pop(0)  # Remove and return one active card
 
     def getHand(self):
         """
@@ -54,7 +55,5 @@ class CardHand:
         Replace the hand with a new list of cards.
         :param hand: list of Card objects
         """
-        self.hand = list(hand)           # Set a new hand
-        self.amount = len(hand)          # Update the count
-
-    
+        self.hand = list(hand)  # Set a new hand
+        self.amount = len(hand)  # Update the count
