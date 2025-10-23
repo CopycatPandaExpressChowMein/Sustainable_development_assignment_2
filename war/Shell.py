@@ -1,11 +1,8 @@
 import cmd
 from Game import Game
 
-#TODO A player should be able to change their name
-#TODO A Player should be able to View the statistics (ADD Highschore handling to game class)
 #TODO Rework cheat to be more aligned with requirements, "cheat that one can use for testing purposes and reach the end of the game faster"
 #TODO Rework Graphical interface
-#TODO Rework shell
 
 class Shell(cmd.Cmd):
     """handles the interface of the game, input and output."""
@@ -27,7 +24,7 @@ class Shell(cmd.Cmd):
                     print("Please enter either (1) or (2).")
             except:
                 print("Please enter either (1) or (2).")
-        
+
         player1 = input("Please enter the name of player 1: ")
         if mode == 2:
             player2 = input("Please enter the name of player 2: ")
