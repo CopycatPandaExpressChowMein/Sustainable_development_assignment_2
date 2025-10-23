@@ -34,12 +34,12 @@ class Highscore:
         Attempts to save the '__highscores' dictionary to a json file. 
         Uses the private filename variable.
 
-        :raises IOError: Raises IOError if an error occurs while trying to save. 
+        :return: Returns True if saving was successful, otherwise returns False.
         """
         try:
             with open(self.__filename, "w") as file:
                 json.dump(self.__highscores, file)
-        except IOError:
+        except (IOError, TypeError):
             print(f"Unable to save highscores to file {self.__filename}")
         else:
             print(f"Highscores successfully saved to file {self.__filename}")
@@ -50,17 +50,18 @@ class Highscore:
         If no Json file exists the '__highscores' dictionary is initalized as an empty dictionary.
         Uses the private filename variable.
 
-        :raises IOError: Raises an IOError if an error occurs while trying to load from a file.
-        :raises ValueError: Raises a ValueError if the JSON file being parsed is empty.
+        :return: Finally returns the new dictionary.
         """
         try:
             with open(self.__filename, "r") as file:
                 self.__highscores = json.load(file)
-        except (IOError, ValueError):
+        except (IOError, ValueError, TypeError):
             self.__highscores = {}
             print(f"Unable to load highscores from file {self.__filename}")
         else:
             print(f"Highscores successfully loaded from file {self.__filename}")
+        finally:
+            return self.__highscores
 
     def add_player(self, name="Anonymous", statistics=[]):
         """
@@ -83,7 +84,6 @@ class Highscore:
 
         :name: The name of an existing player as a String.
         :new_name: The name to replace it with as a String.
-        :raises KeyError: Raises a KeyError if the player name is an invalid key. 
         """
         try:
             self.__highscores[new_name] = self.__highscores.pop(name)
@@ -96,7 +96,6 @@ class Highscore:
         Attempts to remove a player (key) from the dictionary.
         
         :name: Name of a player as a String.
-        :raises KeyError: Raises a KeyError if the player name is an invalid key. 
         """
         try:
             self.__highscores.pop(name)
@@ -111,27 +110,26 @@ class Highscore:
         :has_won: Whether or not the player won the game as a bool.
         :draws: Number of draws done in the game as an int.
         :date: Date the game was played as a datettime object.
-        :raises KeyError: Raises a KeyError if the player name is an invalid key. 
         """
         try:
-            self.__highscores[name] = self.__highscores.get(name).append(
-                Statistics(has_won, draws)
-            )
-        except KeyError:
+            tmp = self.__highscores.get(name)
+            tmp.append(Statistics(has_won, draws))
+            self.__highscores[name] = tmp
+        except (KeyError, AttributeError):
             print(f"No key in dictionary named {name}. Statistics not appended.")
 
-    def remove_statistics(self, name, stat_num):
+    def remove_statistics(self, name, stat_num=0):
         """
         Attempts to remove statistics from the list of a player.
         
         :name: Name of a player as a String. 
-        :stat_num: Index of the Stat object to remove in the list.
-        :raises KeyError: Raises a KeyError if the player name is an invalid key. 
-        :raises IndexError: Raises an IndexError if there is no Stat obj for the given index.
+        :stat_num: Index of the Stat object to remove in the list. Default param is index 0
         """
         try:
-            self.__highscores[name] = self.__highscores.get(name).pop(stat_num)
-        except (KeyError, IndexError):
+            tmp = self.__highscores.get(name)
+            tmp.pop(stat_num)
+            self.__highscores[name] = tmp
+        except (KeyError, IndexError, AttributeError):
             print(
                 f"Unable to either find key named {name} or index to remove is out of range."
             )
