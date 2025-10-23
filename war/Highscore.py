@@ -72,7 +72,6 @@ class Highscore:
 
         if name not in self.__highscores:
             self.__highscores[name] = statistics
-            self.save_highscores()
         else:
             print(f"Player {name} already exists in dictionary")
 
@@ -90,8 +89,6 @@ class Highscore:
         except KeyError:
             print(f"No key in dictionary named {name}. Making new key.")
             self.__highscores[new_name] = []
-        finally:
-            self.save_highscores()
 
     def remove_player(self, name):
         """
@@ -102,7 +99,6 @@ class Highscore:
         """
         try:
             self.__highscores.pop(name)
-            self.save_highscores()
         except KeyError:
             print(f"Unable to find or remove key named {name}")
 
@@ -120,7 +116,6 @@ class Highscore:
             self.__highscores[name] = self.__highscores.get(name).append(
                 Statistics(has_won, draws)
             )
-            self.save_highscores()
         except KeyError:
             print(f"No key in dictionary named {name}. Statistics not appended.")
 
@@ -135,7 +130,6 @@ class Highscore:
         """
         try:
             self.__highscores[name] = self.__highscores.get(name).pop(stat_num)
-            self.save_highscores()
         except (KeyError, IndexError):
             print(
                 f"Unable to either find key named {name} or index to remove is out of range."
@@ -148,7 +142,6 @@ class Highscore:
         :highscores: A dictionary with key:value pairs referencing player names and their associated games as lists.
         """
         self.__highscores = highscores
-        self.save_highscores()
         return self.__highscores
 
     def get_highscores(self):
