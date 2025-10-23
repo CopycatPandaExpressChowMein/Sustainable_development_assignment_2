@@ -7,13 +7,8 @@ class Main:
 
     def run(self):
         """Runs the main program"""
-        print("The Main program is running")
-
-        game = Game()  # Create a new game
-        shell = Shell(game)  # Create shell interface linked to the game
-        shell.run()  # Start the game using shell
-
-        print("The main program is running")
+        
+        Shell().cmdloop()
 
 
 if __name__ == "__main__":
