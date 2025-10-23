@@ -1,56 +1,61 @@
+import cmd
+from Game import Game
 
+#TODO A player should be able to change their name
+#TODO A Player should be able to View the statistics (ADD Highschore handling to game class)
+#TODO Rework cheat to be more aligned with requirements, "cheat that one can use for testing purposes and reach the end of the game faster"
+#TODO Rework Graphical interface
+#TODO Rework shell
 
-class Shell:
+class Shell(cmd.Cmd):
     """handles the interface of the game, input and output."""
+    intro = "war"
+    prompt = "> "
+    game = Game()
 
-    def __init__(self, game):
-        """initialise the shell with intro, prompt and link to the Game"""
-        self.intro = "Welcome to WAR!!!"
-        self.prompt = "Enter command"
-        self.game = game
-
-    def run(self):
-        print(self.intro)
+    #Commands that let the user play the game
+    def do_start(self, arg):
+        """
+        Starts the game.
+        """
         while True:
-            cmd = input(f"{self.prompt}: ").strip().lower()
-            if cmd == "start":
-                self.do_start()
-            elif cmd == "draw":
-                self.do_drawCard()
-            elif cmd == "hands":  
-                self.do_show_hands()
-            elif cmd == "quit":
-                self.do_quit()
-                break
-            elif cmd == "rules":
-                self.do_printRules()
-            elif cmd == "cheat":
-                self.do_cheat()
-            elif cmd == "help":
-                print("Commands: start, draw, hands, quit, rules, cheat, help")
-            else:
-                print("Unknown command. Type 'help' for options.")
+            try:
+                mode = int(input("Pick gamemode (1) for singleplayer, (2) for two-player: "))
+                if mode == 1 or mode == 2:
+                    break
+                else:
+                    print("Please enter either (1) or (2).")
+            except:
+                print("Please enter either (1) or (2).")
 
-    def do_start(self):
-        """Start the game when using command"""
-        self.game.start()
+        player1 = input("Please enter the name of player 1: ")
+        if mode == 2:
+            player2 = input("Please enter the name of player 2: ")
+            self.game.start(mode, player1, player2)
+        else:
+            self.game.start(mode, player1)
 
-    def do_drawCard(self):
-        """Draws card when user uses this command"""
-        self.game.draw_cards()
+    def do_draw_card(self, arg):
+        """
+        Draws a card from your deck.
+        Will not work unless a game has been started using the 'start' command.
+        """
+        if self.game.get_active_game():
+            self.game.draw_cards()
+        else:
+            print("Please start a game before you begin drawing cards!")
 
-    def do_show_hands(self):
-        """Shows how many cards each player has"""
-        for player in self.game.players:
-            hand_size = len(player.get_hand().getHand())
-            print(f"{player.get_name()} has {hand_size} cards.")
+    def do_draw(self, arg):
+        """Draws a card from your deck."""
+        self.do_draw_card(arg)
 
-    def do_quit(self):
-        """Quits the game when using command"""
-        print("Quit the war game.")
+    def do_cheat(self, arg):
+        """Shh! This function will let you cheat in the game."""
+        self.game.cheat()
 
-    def do_printRules(self):
-        """prints the rules of the game to the user"""
+    #Commands that give functionality to the game
+    def do_rules(self, arg):
+        """Prints the rules of War."""
         rules_text = """
             War card game rules:
             - The goal is to win all the cards.
@@ -68,7 +73,39 @@ class Shell:
             - This is a simple game of chance with no strategy.
             """
         print(rules_text)
+    
+    def do_highscores(self, arg):
+        """Prints a list of all Highscores!"""
+        self.game.show_highscore()
 
-    def do_cheat(self):
-        """lets you cheat in the game and triggers from shell"""
-        self.game.cheat()
+    #TODO Better way to implement?
+    def do_namechange(self, arg):
+        """
+        Lets the User/s change names.
+        Will not work unless a game has been started using the 'start' command.
+        """
+        if self.game.get_active_game():
+                name_to_replace = input("Please enter the name you would like to change: ")
+                replacing_name = input(f"Please enter the name you would like to change {name_to_replace} to: ")
+                self.game.name_change(name_to_replace, replacing_name)
+        else:
+            print("Please start a game before you begin drawing cards!")
+
+    #Commands to quit the game
+    def do_quit(self, arg):
+        """Saves and closes the game."""
+        print("Saving and Quitting the war game.")
+        self.game.save_highscore()
+        return True
+    
+    def do_q(self, arg):
+        """Saves and closes the game."""
+        return self.do_quit(arg)
+    
+    def do_exit(self, arg):
+        """Saves and closes the game."""
+        return self.do_quit(arg)
+    
+    def do_EOF(self, arg):
+        """Saves and closes the game."""
+        return self.do_quit(arg)
