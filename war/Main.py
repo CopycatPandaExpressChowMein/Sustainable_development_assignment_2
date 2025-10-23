@@ -1,5 +1,6 @@
-from Game import Game
-from Shell import Shell
+from war.Game import Game
+from war.Shell import Shell
+
 
 class Main:
     """The Main Program When it runs"""
@@ -10,5 +11,10 @@ class Main:
 
         game = Game()  # Create a new game
         shell = Shell(game)  # Create shell interface linked to the game
-        shell.do_start()  # Start the game using shell
+        shell.run()  # Start the game using shell
+
         print("The main program is running")
+
+
+if __name__ == "__main__":
+    Main().run()

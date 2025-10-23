@@ -10,8 +10,8 @@ class Player:
         self.set_hand(hand)
 
     def __str__(self):
-        print(f"Player: {self.__name} | Hand: {self.__hand}")
-
+        return(f"Player: {self.__name} | Hand: {self.__hand}")
+    
     def set_name(self, name):
         """Takes a String as an argument and sets the private __name variable to that argument.
         The String should be the name of the player."""

@@ -1,4 +1,4 @@
-from Game import Game
+from war.Game import Game
 
 
 class Shell:
@@ -10,29 +10,45 @@ class Shell:
         self.prompt = "Enter command"
         self.game = game
 
+    def run(self):
+        print(self.intro)
+        while True:
+            cmd = input(f"{self.prompt}: ").strip().lower()
+            if cmd == "start":
+                self.do_start()
+            elif cmd == "draw":
+                self.do_drawCard()
+            elif cmd == "hands":  
+                self.do_show_hands()
+            elif cmd == "quit":
+                self.do_quit()
+                break
+            elif cmd == "rules":
+                self.do_printRules()
+            elif cmd == "cheat":
+                self.do_cheat()
+            elif cmd == "help":
+                print("Commands: start, draw, hands, quit, rules, cheat, help")
+            else:
+                print("Unknown command. Type 'help' for options.")
+
     def do_start(self):
         """Start the game when using command"""
         self.game.start()
 
-    def do_nameChange(self):
-        """changes name of player from shell when using command"""
-        print("Change the name of the player.")
-
     def do_drawCard(self):
         """Draws card when user uses this command"""
-        print("Draws the card.")
+        self.game.draw_cards()
+
+    def do_show_hands(self):
+        """Shows how many cards each player has"""
+        for player in self.game.players:
+            hand_size = len(player.get_hand().getHand())
+            print(f"{player.get_name()} has {hand_size} cards.")
 
     def do_quit(self):
         """Quits the game when using command"""
         print("Quit the war game.")
-
-    def do_pickmode(self):
-        """Allows player to pick a mode from the shell interface"""
-        print("Standard War card game - Human vs AI only.")
-
-    def do_viewStatistics(self):
-        """Displays the statistics how player performed"""
-        print("View the statistics.")
 
     def do_printRules(self):
         """prints the rules of the game to the user"""
