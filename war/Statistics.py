@@ -22,9 +22,9 @@ class Statistics:
         Defines how to represent the object as a String.
         Prints the value of all variables in a presentable format.
         """
-        print(
-            f"Match: {"Won" if self.__has_won == True else "Lost"} | Draws: {self.__draws}"
-        )
+        
+        return (f"Match: {"Won" if self.__has_won == True else "Lost"} | Draws: {self.__draws}")
+        
 
     def set_has_won(self, has_won):
         """
