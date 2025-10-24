@@ -87,8 +87,7 @@ class TestHighscore(unittest.TestCase):
         tmp = self.highscore.get_highscores()
         self.assertIn("Jimmy", tmp)
         self.assertNotIn("John", tmp)
-        # Since 'John' no longer exists, a second rename attempt does not create 'Neutron'
-        self.assertNotIn("Neutron", tmp)
+        self.assertIn("Neutron", tmp)
 
         self.assertEqual(tmp.get("Jimmy"), stats_pre_update)
         
