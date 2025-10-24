@@ -56,6 +56,17 @@ class TestDeck(unittest.TestCase):
         dref[0], dref[1] = dref[1], dref[0]
         self.assertNotEqual(self.deck.getDeck()[0], first)
 
+    def test_setDeck_replaces_deck(self):
+        """setDeck should replace the internal deck list with a new one provided."""
+        # create a tiny fake deck
+        fake_card = Card(2, "X", "None", "black")
+        new_deck = [fake_card]
+        self.deck.setDeck(new_deck)
+        self.assertEqual(self.deck.getDeck(), new_deck)
+        # ensure changes to the returned list are visible (same reference behaviour)
+        self.deck.getDeck().append(Card(3, "Y", "None", "red"))
+        self.assertEqual(len(self.deck.getDeck()), 2)
+
     def test_shuffle_preserves_multiset(self):
         """Shuffling should not change the multiset of cards in the deck."""
         orig = [c.get_symbol() for c in self.deck.getDeck()]

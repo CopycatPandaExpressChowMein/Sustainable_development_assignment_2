@@ -77,5 +77,15 @@ class TestCardHand(unittest.TestCase):
         self.assertEqual(removed, self.card3)
         self.assertEqual(len(self.hand.get_active_card()), 0)
 
+    def test_get_and_set_amount(self):
+        """get_amount should return current amount and set_amount should update it."""
+        # initial amount set in setUp
+        self.assertEqual(self.hand.get_amount(), 3)
+        # set a new amount and verify getter reflects it
+        new_amount = 42
+        returned = self.hand.set_amount(new_amount)
+        self.assertEqual(returned, new_amount)
+        self.assertEqual(self.hand.get_amount(), new_amount)
+
 if __name__ == '__main__':
     unittest.main()
