@@ -20,4 +20,4 @@ coverage
 # Documentation
 pdoc3
 sphinx
-sphinx-rtd-theme # for ReadTheDocs local build
+sphinx-rtd-theme # for ReadTheDocs local buildd
