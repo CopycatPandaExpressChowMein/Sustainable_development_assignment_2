@@ -6,7 +6,23 @@ from Game import Game
 
 class Shell(cmd.Cmd):
     """handles the interface of the game, input and output."""
-    intro = "war"
+    intro = """ 
+    
+                ██╗    ██╗ █████╗ ██████╗ ██╗
+                ██║    ██║██╔══██╗██╔══██╗██║
+                ██║ █╗ ██║███████║██████╔╝██║
+                ██║███╗██║██╔══██║██╔══██╗╚═╝
+                ╚███╔███╔╝██║  ██║██║  ██║██╗
+                 ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝
+            
+                        Welcome to War!
+
+                Type 'Start' to begin playing.
+       If you don't know the rules, simply type 'rules'!
+
+              For more help, type 'help' or '?'.
+
+            """
     prompt = "> "
     game = Game()
 
@@ -31,6 +47,8 @@ class Shell(cmd.Cmd):
             self.game.start(mode, player1, player2)
         else:
             self.game.start(mode, player1)
+        
+        
 
     def do_draw_card(self, arg):
         """
@@ -54,20 +72,19 @@ class Shell(cmd.Cmd):
     def do_rules(self, arg):
         """Prints the rules of War."""
         rules_text = """
-            War card game rules:
-            - The goal is to win all the cards.
-            - The deck is divided evenly between two players.
-            - Each player reveals the top card.
-            The higher card wins both cards.
-            - Aces are high. Suits don't matter.
-            - If the cards are equal, a 'war' occurs:
-            Each player places one card face down, then one card face up.
-            The higher face-up card wins all cards on the table.
-            If again tied, repeat the war.
-            - The game continues until one player has all cards.
-            - If a player runs out of cards during a war,
-            some variants say they lose immediately.
-            - This is a simple game of chance with no strategy.
+        War card game rules:
+        - The goal is to win all the cards.
+        - The deck is divided evenly between two players.
+        - Each player reveals the top card.
+            - The higher card wins both cards.
+        - Aces are high. Suits don't matter.
+        - If the cards are equal, a 'war' occurs:
+            - Each player places one card face down.
+            - Each player then places then one card face up.
+            - The higher face-up card wins all cards on the table.
+            - If again tied, repeat the war.
+        - The game continues until one player has all cards.
+        - This is a simple game of chance with no strategy.
             """
         print(rules_text)
     

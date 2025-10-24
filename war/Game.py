@@ -39,7 +39,6 @@ class Game:
         self.num_draws = 0 #Counter for the number of draws taken per game. Incremented each time cards are drawn.
 
         self.__active_game = True
-        print(f"{self.__player1.get_name()} vs {self.__player2.get_name()}, The Game has started!")
         
 
     def get_active_game(self):
