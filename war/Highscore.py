@@ -1,7 +1,9 @@
 import json
+import os
+from typing import Any
 try:
     from Statistics import Statistics
-except:
+except Exception:
     from .Statistics import Statistics
 
 
@@ -27,12 +29,16 @@ class Highscore:
         Defines how to represent the object as a String.
         Loops through all names and statistics, printing each name, and their associated statistics beneath.
         """
-        tmp = ""
-        for name, statistics in self.__highscores:
-            tmp += f"{name}: "
+        tmp = []
+        for name, statistics in self.__highscores.items():
+            lines = [f"{name}:"]
             for stat_obj in statistics:
-                tmp += f"    {stat_obj}"
-        return tmp
+                if isinstance(stat_obj, Statistics):
+                    lines.append(f"    {str(stat_obj)}")
+                else:
+                    lines.append(f"    {stat_obj}")
+            tmp.append("\n".join(lines))
+        return "\n".join(tmp)
 
     def save_highscores(self):
         """
@@ -42,10 +48,24 @@ class Highscore:
         :return: Returns True if saving was successful, otherwise returns False.
         """
         try:
-            with open(self.__filename, "w") as file:
-                json.dump(self.__highscores, file)
-        except (IOError, TypeError):
-            print(f"Unable to save highscores to file {self.__filename}")
+            # Ensure directory exists
+            os.makedirs(os.path.dirname(self.__filename), exist_ok=True)
+
+            # Convert any Statistics objects to dicts for JSON serialization
+            serializable: dict[str, Any] = {}
+            for name, lst in self.__highscores.items():
+                converted = []
+                for item in lst:
+                    if isinstance(item, Statistics):
+                        converted.append(item.to_dict())
+                    else:
+                        converted.append(item)
+                serializable[name] = converted
+
+            with open(self.__filename, "w", encoding="utf-8") as file:
+                json.dump(serializable, file, ensure_ascii=False)
+        except (IOError, TypeError) as e:
+            print(f"Unable to save highscores to file {self.__filename}: {e}")
         else:
             print(f"Highscores successfully saved to file {self.__filename}")
 
@@ -58,17 +78,35 @@ class Highscore:
         :return: Finally returns the new dictionary.
         """
         try:
-            with open(self.__filename, "r") as file:
-                self.__highscores = json.load(file)
+            with open(self.__filename, "r", encoding="utf-8") as file:
+                raw = json.load(file)
         except (IOError, ValueError, TypeError):
             self.__highscores = {}
             print(f"Unable to load highscores from file {self.__filename}")
-        else:
-            print(f"Highscores successfully loaded from file {self.__filename}")
-        finally:
             return self.__highscores
 
-    def add_player(self, name="Anonymous", statistics=[]):
+        # Convert any dict representations back into Statistics objects when appropriate
+        reconstructed: dict[str, list[Any]] = {}
+        for name, lst in raw.items():
+            new_list = []
+            if isinstance(lst, list):
+                for item in lst:
+                    if isinstance(item, dict) and ("has_won" in item or "draws" in item):
+                        try:
+                            new_list.append(Statistics.from_dict(item))
+                        except Exception:
+                            new_list.append(item)
+                    else:
+                        new_list.append(item)
+            else:
+                new_list = lst
+            reconstructed[name] = new_list
+
+        self.__highscores = reconstructed
+        print(f"Highscores successfully loaded from file {self.__filename}")
+        return self.__highscores
+
+    def add_player(self, name: str = "Anonymous", statistics=None):
         """
         Adds a new player (key) to the dictionary, and associates it with a list of statistics (value).
         Does nothing if the player already exists.
@@ -76,6 +114,9 @@ class Highscore:
         :name: The name of the player as a String. Uses default param Anonymous.
         :statistics: A list of Statistics objects. Uses an empty list as default param.
         """
+
+        if statistics is None:
+            statistics = []
 
         if name not in self.__highscores:
             self.__highscores[name] = statistics
@@ -118,7 +159,9 @@ class Highscore:
         """
         try:
             tmp = self.__highscores.get(name)
-            tmp.append(Statistics(has_won, draws))
+            if tmp is None:
+                raise KeyError(name)
+            tmp.append(Statistics(has_won, draws, date))
             self.__highscores[name] = tmp
         except (KeyError, AttributeError):
             print(f"No key in dictionary named {name}. Statistics not appended.")

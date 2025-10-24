@@ -10,17 +10,21 @@ class CardHand:
         self.activeCard = []  # Cards that have been drawn (active)
         self.amount = len(self.hand)  # Number of cards currently in hand
 
-    def drawcard(self):
+    def drawcard(self, index=0):
         """
-        Draw one card from the hand.
-        Moves the card from 'hand' to 'activeCard'.
-        :return: Card object or None if hand is empty
+        Draw one card from the hand at a given index.
+        Moves the card from 'hand' to 'activeCard'. If no index is provided,
+        draws the top (0) card. Returns None if the hand is empty or index is out of range.
+        :param index: integer index in the hand list
+        :return: Card object or None if hand is empty or index invalid
         """
         if not self.hand:
             return None  # No cards left to draw
-        card = self.hand.pop(0)  # Remove the top card from the hand
-        self.activeCard.append(card)  # Add it to active cards
-        self.amount = len(self.hand)  # Update the count
+        if index < 0 or index >= len(self.hand):
+            return None
+        card = self.hand.pop(index)
+        self.activeCard.append(card)
+        self.amount = len(self.hand)
         return card
 
     def addCard(self, card):

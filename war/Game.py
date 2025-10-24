@@ -23,7 +23,7 @@ class Game:
         self.__highscore = Highscore()
         self.__active_game = False
 
-    def start(self,  mode=1, player1="Anonymous", player2="Anonymous"):
+    def start(self,  mode=1, player1="Anonymous", player2="Anonymous", ai_level="top"):
         """
         Starts the game.
         
@@ -32,7 +32,8 @@ class Game:
         :mode: The gamemode as an int, 1 representing singleplayer and 2 multiplayer. Default param is 1 (Singleplayer)
         """
         self.__player1 = Player(player1)
-        self.__player2 = Player(player2) if mode == 2 else Intelligence("AI") #Checks whether the current mode is single or multiplayer and assigns player2 accordingly.
+        # Checks whether the current mode is single or multiplayer and assigns player2 accordingly.
+        self.__player2 = Player(player2) if mode == 2 else Intelligence("AI", level=ai_level)
         self.__players = [self.__player1, self.__player2]
         
         self.__deck = Deck()
@@ -54,7 +55,62 @@ class Game:
 
     def cheat(self):
         """Allows you to cheat in the game"""
-        pass
+        # Interactive wrapper - kept for compatibility. No-op by default.
+        return None
+
+    def cheat_swap(self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0) -> bool:
+        """Programmatic cheat: swap a card from one player's hand to another player's hand.
+
+        Finds players by name in the current game and swaps the card at index_from in
+        from_name's hand with the card at index_to in to_name's hand.
+
+        Returns True on successful swap, False if players not found or indices invalid.
+        This method performs pure game-state changes and does not interact with I/O.
+        """
+        # Locate players
+        players = getattr(self, "_Game__players", None)
+        if not players:
+            return False
+
+        p_from = None
+        p_to = None
+        for p in players:
+            try:
+                if p.get_name() == from_name:
+                    p_from = p
+                if p.get_name() == to_name:
+                    p_to = p
+            except Exception:
+                continue
+
+        if p_from is None or p_to is None:
+            return False
+
+        hand_from = p_from.get_hand().getHand()
+        hand_to = p_to.get_hand().getHand()
+
+        # Validate indices
+        if index_from < 0 or index_from >= len(hand_from):
+            return False
+        if index_to < 0 or index_to >= len(hand_to):
+            return False
+
+        # Perform swap
+        card_from = hand_from.pop(index_from)
+        card_to = hand_to.pop(index_to)
+
+        # insert swapped cards back at the requested positions
+        hand_from.insert(index_from, card_to)
+        hand_to.insert(index_to, card_from)
+
+        # Update amount fields on CardHand
+        try:
+            p_from.get_hand().amount = len(hand_from)
+            p_to.get_hand().amount = len(hand_to)
+        except Exception:
+            pass
+
+        return True
 
     #TODO Graphics
     def draw_cards(self):
@@ -77,9 +133,22 @@ class Game:
             self.__highscore.add_statistics(player1_name, True, self.num_draws, datetime.date.today())
             return
 
-        # Each player draws a card
-        player1_card = player1_hand.drawcard()
-        player2_card = player2_hand.drawcard()
+        # Each player draws a card. If a player provides a choose_index method (AI), use it.
+        idx1 = None
+        idx2 = None
+        try:
+            if hasattr(self.__players[0], "choose_index"):
+                idx1 = self.__players[0].choose_index()
+        except Exception:
+            idx1 = None
+        try:
+            if hasattr(self.__players[1], "choose_index"):
+                idx2 = self.__players[1].choose_index()
+        except Exception:
+            idx2 = None
+
+        player1_card = player1_hand.drawcard(idx1) if idx1 is not None else player1_hand.drawcard()
+        player2_card = player2_hand.drawcard(idx2) if idx2 is not None else player2_hand.drawcard()
         self.num_draws += 1
 
 

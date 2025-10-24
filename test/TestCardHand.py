@@ -56,5 +56,26 @@ class TestCardHand(unittest.TestCase):
         self.assertEqual(len(self.hand.getHand()), 1)
         self.assertEqual(self.hand.amount, 1)
 
+    def test_return_cards_moves_active_back(self):
+        """Active cards should be returned to hand when return_cards is called."""
+        # draw two cards into active
+        self.hand.drawcard()
+        self.hand.drawcard()
+        active_before = list(self.hand.get_active_card())
+        self.hand.return_cards()
+        self.assertEqual(len(self.hand.get_active_card()), 0)
+        self.assertEqual(self.hand.amount, 3)
+        # ensure previously active cards are now back in hand
+        for c in active_before:
+            self.assertIn(c, self.hand.getHand())
+
+    def test_set_active_card_and_remove(self):
+        """set_active_card should replace active cards and removeCard should pop from it."""
+        self.hand.set_active_card([self.card3])
+        self.assertEqual(self.hand.get_active_card(), [self.card3])
+        removed = self.hand.removeCard()
+        self.assertEqual(removed, self.card3)
+        self.assertEqual(len(self.hand.get_active_card()), 0)
+
 if __name__ == '__main__':
     unittest.main()

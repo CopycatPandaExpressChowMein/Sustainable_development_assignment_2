@@ -1,72 +1,94 @@
+"""Statistics model: stores per-game results and supports JSON serialization."""
+from typing import Optional
+import datetime
+
+
 class Statistics:
-    """
-    Object that stores information about game statistics.
-    With the required methods to manipulate that information.
+    """Object that stores information about game statistics.
+
+    Fields:
+    - has_won: bool
+    - draws: int
+    - date: Optional[str] (ISO date string) or None
     """
 
-    def __init__(self, has_won=False, draws=0, date=None):
-        """
-        Initializes the object to given arguments.
-        Uses class functions.
+    def __init__(self, has_won: bool = False, draws: int = 0, date: Optional[object] = None):
+        """Initialize Statistics.
 
-        :has_won: Boolean indicating if a game was won. Default param is False.
-        :draws: Integer representing how many draws where done in a game. Default param is 0.
-        :date: The date the game was played as a datettime object. Default param is None.
+        Accepts a datetime.date or an ISO date string for `date`. Internally the date
+        is stored as an ISO string to make the object JSON-friendly.
         """
         self.set_has_won(has_won)
         self.set_draws(draws)
         self.set_date(date)
 
-    def __str__(self):
-        """
-        Defines how to represent the object as a String.
-        Prints the value of all variables in a presentable format.
-        """
-        
-        return (f"Match: {"Won" if self.__has_won == True else "Lost"} | Draws: {self.__draws}")
-        
+    # string representation
+    def __str__(self) -> str:
+        return f"Match: {'Won' if self.get_has_won() else 'Lost'} | Draws: {self.get_draws()}"
 
-    def set_has_won(self, has_won):
-        """
-        Sets the has_won bool to the given argument.
-        
-        :has_won: Boolean indicating if a game was won. 
-        """
-        self.__has_won = has_won
+    # setters
+    def set_has_won(self, has_won: bool) -> bool:
+        self.__has_won = bool(has_won)
         return self.__has_won
 
-    def set_draws(self, draws):
-        """
-        Sets the draws variable to the given argument.
-
-        :draws: Integer representing how many draws where done in a game.
-        """
-        self.__draws = draws
+    def set_draws(self, draws: int) -> int:
+        self.__draws = int(draws)
         return self.__draws
 
-    def set_date(self, date):
+    def set_date(self, date: Optional[object]) -> Optional[datetime.date]:
+        """Store date as a datetime.date object. Accepts datetime.date, ISO string or None.
+
+        Returns the stored datetime.date or None.
         """
-        Sets the date variable to the given argument.'
-        
-        :date: The date the game was played as a datettime object.
-        """
-        self.__date = date
+        if date is None:
+            self.__date = None
+        else:
+            if isinstance(date, datetime.date):
+                self.__date = date
+            elif isinstance(date, str):
+                # parse ISO-format date string
+                try:
+                    self.__date = datetime.date.fromisoformat(date)
+                except Exception:
+                    # fallback: attempt to parse common formats via datetime
+                    try:
+                        self.__date = datetime.datetime.fromisoformat(date).date()
+                    except Exception:
+                        # last resort: do not convert, set None
+                        self.__date = None
+            else:
+                # unknown type: try to coerce to date via isoformat if possible
+                try:
+                    self.__date = datetime.date(date)
+                except Exception:
+                    self.__date = None
         return self.__date
 
-    def get_has_won(self):
-        """
-        Returns if a game was won as a boolean.
-        """
-        return self.__has_won
+    # getters
+    def get_has_won(self) -> bool:
+        return getattr(self, "_Statistics__has_won", getattr(self, "__has_won", False))
 
-    def get_draws(self):
-        """
-        Returns the number of draws in the game as an int.
-        """
-        return self.__draws
+    def get_draws(self) -> int:
+        return getattr(self, "_Statistics__draws", getattr(self, "__draws", 0))
 
-    def get_date(self):
-        """
-        Returns the date when the game was played.
-        """
-        return self.__date
+    def get_date(self) -> Optional[datetime.date]:
+        return getattr(self, "_Statistics__date", getattr(self, "__date", None))
+
+    # serialization helpers
+    def to_dict(self) -> dict:
+        """Return a JSON-serializable dict representation."""
+        date = self.get_date()
+        return {"has_won": self.get_has_won(), "draws": self.get_draws(), "date": date.isoformat() if date is not None else None}
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "Statistics":
+        """Create a Statistics from a dict produced by to_dict()."""
+        if not isinstance(data, dict):
+            raise TypeError("from_dict expects a dict")
+        date = data.get("date", None)
+        if isinstance(date, str):
+            try:
+                date = datetime.date.fromisoformat(date)
+            except Exception:
+                date = None
+        return cls(has_won=data.get("has_won", False), draws=data.get("draws", 0), date=date)

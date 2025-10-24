@@ -28,5 +28,18 @@ class TestPlayer(unittest.TestCase):
         """Checks whether the get_hand function correctly returns the players cardhand."""
         self.assertEqual(self.player.get_hand(), self.hand)
 
+    def test_default_name_and_str(self):
+        """Default player has name 'Anonymous' and __str__ includes the name."""
+        p = Player()
+        self.assertEqual(p.get_name(), "Anonymous")
+        s = str(p)
+        self.assertIn("Player:", s)
+        self.assertIn(p.get_name(), s)
+
+    def test_set_hand_none_allowed(self):
+        """Setting hand to None should be allowed and return None."""
+        p = Player("X", None)
+        self.assertIsNone(p.get_hand())
+
 if __name__ == "__main__":
     unittest.main()

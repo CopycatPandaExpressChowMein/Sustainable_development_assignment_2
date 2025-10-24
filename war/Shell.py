@@ -27,7 +27,14 @@ class Shell(cmd.Cmd):
 
             """
     prompt = "> "
-    game = Game()
+
+    def __init__(self, game=None):
+        """Initialize the Shell. Accept an optional Game (or test double) to allow injection for tests.
+
+        If no game is provided, a real Game instance is created.
+        """
+        super().__init__()
+        self.game = game if game is not None else Game()
 
     #Commands that let the user play the game
     def do_start(self, arg):
@@ -49,7 +56,15 @@ class Shell(cmd.Cmd):
             player2 = input("Please enter the name of player 2: ")
             self.game.start(mode, player1, player2)
         else:
-            self.game.start(mode, player1)
+            # Ask for AI intelligence level when starting singleplayer mode
+            while True:
+                ai_level = input("Choose AI level ('top', 'random', 'greedy') [top]: ").strip().lower()
+                if ai_level == "":
+                    ai_level = "top"
+                if ai_level in ("top", "random", "greedy"):
+                    break
+                print("Invalid choice. Please select 'top', 'random' or 'greedy'.")
+            self.game.start(mode, player1, ai_level=ai_level)
         
         
 
@@ -112,7 +127,13 @@ class Shell(cmd.Cmd):
     def do_quit(self, arg):
         """Saves and closes the game."""
         print("Saving and Quitting the war game.")
-        self.game.save_highscore()
+        # Attempt to save highscores if the Game-like object supports it.
+        if hasattr(self.game, 'save_highscore') and callable(getattr(self.game, 'save_highscore')):
+            try:
+                self.game.save_highscore()
+            except Exception:
+                # Don't let save errors break quitting; best-effort only.
+                pass
         return True
     
     def do_q(self, arg):
