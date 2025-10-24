@@ -1,14 +1,16 @@
 """Unit tests for Highscore persistence and Statistics handling."""
+
 import unittest, os, json, datetime
 from war.Highscore import Highscore
 from war.Statistics import Statistics
+
 
 class TestHighscore(unittest.TestCase):
 
     def setUp(self):
         self.test_filename = "test/test.json"
-        self.test_dictionary = {"John":[1, 2, 3], "Abigail":[1, 2, 3, 4]}
-        
+        self.test_dictionary = {"John": [1, 2, 3], "Abigail": [1, 2, 3, 4]}
+
         with open(self.test_filename, "w") as f:
             json.dump(self.test_dictionary, f)
 
@@ -18,7 +20,7 @@ class TestHighscore(unittest.TestCase):
         """
         Checks if the set_highscores function correctly sets a new Dictionary.
         """
-        test_dict = {1:2}
+        test_dict = {1: 2}
         self.assertEqual(self.highscore.set_highscores(test_dict), test_dict)
 
     def test_get_highscores(self):
@@ -41,21 +43,20 @@ class TestHighscore(unittest.TestCase):
         self.assertEqual(self.highscore.get_filename(), self.test_filename)
 
     def test_save_highscores(self):
-        """ 
+        """
         Checks if it's possible to save a file for default params and a valid filename.
         """
-        
+
         os.remove(self.test_filename)
         self.highscore.save_highscores()
         self.assertTrue(os.path.exists(self.test_filename))
         with open(self.test_filename, "r") as file:
             savedata = json.load(file)
         self.assertEqual(savedata, self.test_dictionary)
-        
-        
+
     def test_load_highscores(self):
-        """ 
-        Checks if it's possible to load a valid file from directory. 
+        """
+        Checks if it's possible to load a valid file from directory.
         Also checks if attempts to load a file or directory that doesnt exist are handled correctly.
         """
         # load_highscores() is called during __init__; verify internal state
@@ -75,12 +76,12 @@ class TestHighscore(unittest.TestCase):
         # Adding an existing player should not raise
         self.highscore.add_player("John")
         self.assertIn("Jimmy", self.highscore.get_highscores())
-    
+
     def test_update_player_name(self):
         """
         Checks if it's possible to update a players name in the Highscore object, while retaining their saved Statistics.
         """
-        
+
         stats_pre_update = self.highscore.get_highscores().get("John")
         self.highscore.update_player_name("John", "Jimmy")
         self.highscore.update_player_name("John", "Neutron")
@@ -91,7 +92,6 @@ class TestHighscore(unittest.TestCase):
         self.assertIn("Neutron", tmp)
 
         self.assertEqual(tmp.get("Jimmy"), stats_pre_update)
-        
 
     def test_remove_player(self):
         """
@@ -123,39 +123,41 @@ class TestHighscore(unittest.TestCase):
 
     def test_add_statistics_with_date_string(self):
         """Adding statistics with an ISO date string should store a Statistics with proper date."""
-        self.highscore.add_player('StringDate')
-        self.highscore.add_statistics('StringDate', True, 2, '2020-01-02')
-        lst = self.highscore.get_highscores().get('StringDate')
+        self.highscore.add_player("StringDate")
+        self.highscore.add_statistics("StringDate", True, 2, "2020-01-02")
+        lst = self.highscore.get_highscores().get("StringDate")
         self.assertIsInstance(lst, list)
         self.assertTrue(len(lst) >= 1)
         item = lst[-1]
         # After adding, item should be a Statistics instance with correct date
         from war.Statistics import Statistics
+
         self.assertIsInstance(item, Statistics)
-        self.assertEqual(item.get_date().isoformat(), '2020-01-02')
+        self.assertEqual(item.get_date().isoformat(), "2020-01-02")
 
     def test_remove_statistics_out_of_range_no_crash(self):
         """Removing statistics with an out-of-range index should not crash and keep dict structure."""
         before = dict(self.highscore.get_highscores())
         # attempt to remove index that is likely out of range
-        self.highscore.remove_statistics('John', 999)
-        self.assertEqual(set(self.highscore.get_highscores().keys()), set(before.keys()))
+        self.highscore.remove_statistics("John", 999)
+        self.assertEqual(
+            set(self.highscore.get_highscores().keys()), set(before.keys())
+        )
 
     def test_update_player_name_preserves_statistics_objects(self):
         """Updating a player's name should keep their Statistics instances intact."""
         # add a stat to John
-        self.highscore.add_statistics('John', True, 1, None)
-        old_stats = list(self.highscore.get_highscores().get('John', []))
-        self.highscore.update_player_name('John', 'Johnny')
-        new_stats = self.highscore.get_highscores().get('Johnny')
+        self.highscore.add_statistics("John", True, 1, None)
+        old_stats = list(self.highscore.get_highscores().get("John", []))
+        self.highscore.update_player_name("John", "Johnny")
+        new_stats = self.highscore.get_highscores().get("Johnny")
         self.assertIsNotNone(new_stats)
         # ensure the stats list content is equal (by repr) to previous
         self.assertEqual(len(new_stats), len(old_stats))
 
-
     def tearDown(self):
         os.remove(self.test_filename)
- 
+
 
 class TestHighscoreExtras(unittest.TestCase):
     def setUp(self):
@@ -202,21 +204,21 @@ class TestHighscoreExtras(unittest.TestCase):
         hs.save_highscores()
         self.assertTrue(os.path.exists(self.test_filename))
         # file should contain valid JSON (possibly empty dict)
-        with open(self.test_filename, 'r', encoding='utf-8') as fh:
+        with open(self.test_filename, "r", encoding="utf-8") as fh:
             data = json.load(fh)
         self.assertIsInstance(data, dict)
 
     def test_set_and_get_filename_changes_path(self):
         hs = Highscore(self.test_filename)
-        newname = 'test/test_extras2.json'
+        newname = "test/test_extras2.json"
         ret = hs.set_filename(newname)
         self.assertEqual(ret, newname)
         self.assertEqual(hs.get_filename(), newname)
 
     def test_load_with_invalid_json_results_in_empty_highscores(self):
         # write invalid JSON to file
-        with open(self.test_filename, 'w', encoding='utf-8') as fh:
-            fh.write('{ invalid json')
+        with open(self.test_filename, "w", encoding="utf-8") as fh:
+            fh.write("{ invalid json")
         # constructing Highscore should attempt to load and fall back to empty dict
         hs = Highscore(self.test_filename)
         loaded = hs.get_highscores()
@@ -225,16 +227,16 @@ class TestHighscoreExtras(unittest.TestCase):
 
     def test_add_player_and_add_statistics_then_save_and_load(self):
         hs = Highscore(self.test_filename)
-        hs.add_player('Tester')
-        hs.add_statistics('Tester', has_won=False, draws=3)
+        hs.add_player("Tester")
+        hs.add_statistics("Tester", has_won=False, draws=3)
         # verify in-memory
-        self.assertIn('Tester', hs.get_highscores())
-        self.assertEqual(len(hs.get_highscores()['Tester']), 1)
+        self.assertIn("Tester", hs.get_highscores())
+        self.assertEqual(len(hs.get_highscores()["Tester"]), 1)
         hs.save_highscores()
         # reload
         hs2 = Highscore(self.test_filename)
-        self.assertIn('Tester', hs2.get_highscores())
-        lst = hs2.get_highscores()['Tester']
+        self.assertIn("Tester", hs2.get_highscores())
+        lst = hs2.get_highscores()["Tester"]
         self.assertTrue(isinstance(lst, list))
         self.assertGreaterEqual(len(lst), 1)
 

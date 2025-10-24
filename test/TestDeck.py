@@ -22,7 +22,11 @@ class TestDeck(unittest.TestCase):
         """Test that shuffle() changes the card order."""
         original_order = self.deck.getDeck().copy()
         self.deck.shuffle()
-        self.assertNotEqual(original_order, self.deck.getDeck(), "Deck order did not change after shuffle.")
+        self.assertNotEqual(
+            original_order,
+            self.deck.getDeck(),
+            "Deck order did not change after shuffle.",
+        )
 
     def test_split_returns_two_equal_halves(self):
         """Test that split() returns two equal halves of 26 cards each."""
@@ -56,7 +60,10 @@ class TestDeck(unittest.TestCase):
         combined = half1 + half2
         self.assertEqual(len(combined), len(d))
         # ensure same multiset of symbols
-        self.assertEqual(sorted([c.get_symbol() for c in combined]), sorted([c.get_symbol() for c in d]))
+        self.assertEqual(
+            sorted([c.get_symbol() for c in combined]),
+            sorted([c.get_symbol() for c in d]),
+        )
 
     def test_shuffle_variation_over_multiple_runs(self):
         """Shuffling multiple times should produce at least some order changes (probabilistic but reliable here)."""
@@ -114,5 +121,6 @@ class TestDeck(unittest.TestCase):
         self.assertEqual(values.count(13), 4)
         self.assertEqual(values.count(14), 4)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

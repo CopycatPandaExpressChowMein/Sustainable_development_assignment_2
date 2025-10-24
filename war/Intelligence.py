@@ -81,4 +81,3 @@ class Intelligence:
                 best_val = v
                 best_idx = i
         return best_idx
-    

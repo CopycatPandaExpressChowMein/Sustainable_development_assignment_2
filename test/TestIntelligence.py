@@ -1,4 +1,5 @@
 """Unit tests for AI behaviour (Intelligence class)."""
+
 import unittest
 
 from war.Intelligence import Intelligence
@@ -40,27 +41,32 @@ class TestIntelligence(unittest.TestCase):
         ai = Intelligence(level="random")
         ai.set_hand(None)
         self.assertIsNone(ai.choose_index())
+
         # empty hand object
         class Empty:
             def getHand(self):
                 return []
+
         ai.set_hand(Empty())
         self.assertIsNone(ai.choose_index())
 
     def test_set_level_fallback_and_top(self):
         """Unknown level falls back to 'top'; top returns index 0."""
         ai = Intelligence(level="unknown")
-        self.assertEqual(ai.get_level(), 'top')
+        self.assertEqual(ai.get_level(), "top")
         # fake hand with two cards
         from war.Card import Card
+
         class FakeHand:
             def __init__(self, cards):
                 self._cards = cards
+
             def getHand(self):
                 return list(self._cards)
-        cards = [Card(3, '3', 'H', 'red'), Card(5, '5', 'D', 'black')]
+
+        cards = [Card(3, "3", "H", "red"), Card(5, "5", "D", "black")]
         ai.set_hand(FakeHand(cards))
-        ai.set_level('top')
+        ai.set_level("top")
         self.assertEqual(ai.choose_index(), 0)
 
     def test_choose_index_random_and_greedy(self):
@@ -69,14 +75,20 @@ class TestIntelligence(unittest.TestCase):
 
         # random level: index should be within valid range
         ai = Intelligence(level="random")
+
         # create a fake hand with three cards
         class FakeHand:
             def __init__(self, cards):
                 self._cards = cards
+
             def getHand(self):
                 return list(self._cards)
 
-        cards = [Card(2, '2', 'Hearts', 'red'), Card(14, 'A', 'Spades', 'black'), Card(10, '10', 'Clubs', 'black')]
+        cards = [
+            Card(2, "2", "Hearts", "red"),
+            Card(14, "A", "Spades", "black"),
+            Card(10, "10", "Clubs", "black"),
+        ]
         ai.set_hand(FakeHand(cards))
         idx = ai.choose_index()
         self.assertIn(idx, (0, 1, 2))
@@ -96,13 +108,15 @@ class TestIntelligence(unittest.TestCase):
     def test_greedy_chooses_first_of_ties(self):
         """Greedy should choose the first occurrence when multiple cards tie for highest value."""
         from war.Card import Card
+
         class FakeHand:
             def __init__(self, cards):
                 self._cards = cards
+
             def getHand(self):
                 return list(self._cards)
 
-        cards = [Card(10, '10', 'H', 'red'), Card(10, '10', 'D', 'black')]
+        cards = [Card(10, "10", "H", "red"), Card(10, "10", "D", "black")]
         ai = Intelligence(level="greedy")
         ai.set_hand(FakeHand(cards))
         self.assertEqual(ai.choose_index(), 0)
@@ -110,13 +124,15 @@ class TestIntelligence(unittest.TestCase):
     def test_random_choice_within_bounds_on_multiple_calls(self):
         """Random choice should always produce indices within the valid range."""
         from war.Card import Card
+
         class FakeHand:
             def __init__(self, cards):
                 self._cards = cards
+
             def getHand(self):
                 return list(self._cards)
 
-        cards = [Card(i, str(i), 'S', 'black') for i in range(5)]
+        cards = [Card(i, str(i), "S", "black") for i in range(5)]
         ai = Intelligence(level="random")
         ai.set_hand(FakeHand(cards))
         for _ in range(20):

@@ -1,11 +1,12 @@
 """Card module for representing a single playing card."""
 
+
 class Card:
     """Represents a single playing card with a suit, symbol, value, and color."""
 
     def __init__(self, value, symbol, suit, color):
         """Initialize a Card object.
-        
+
         :param value: Numeric value of the card (2–14)
         :param symbol: Unicode symbol for the card (e.g., 🂡)
         :param suit: The suit of the card (Spades, Hearts, Diamonds, Clubs)
@@ -51,5 +52,3 @@ class Card:
     def set_color(self, color):
         """Set the card’s color."""
         self.color = color
-
-

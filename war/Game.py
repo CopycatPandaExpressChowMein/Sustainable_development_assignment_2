@@ -6,13 +6,14 @@ logic can be used programmatically by tests and by the Shell CLI.
 """
 
 import datetime
-try: #Try imports for executing Main normally
+
+try:  # Try imports for executing Main normally
     from Deck import Deck
     from Player import Player
     from Intelligence import Intelligence
     from CardHand import CardHand
     from Highscore import Highscore
-except: #Except imports for UnitTesting. To prevent module not found Error.
+except:  # Except imports for UnitTesting. To prevent module not found Error.
     from .Deck import Deck
     from .Player import Player
     from .Intelligence import Intelligence
@@ -20,17 +21,15 @@ except: #Except imports for UnitTesting. To prevent module not found Error.
     from .Highscore import Highscore
 
 
-
 class Game:
     """Represents the game logic and contains the methods to run and manipulate the game."""
 
-    
     def __init__(self):
         """Initialize the Game with default values."""
         self.__highscore = Highscore()
         self.__active_game = False
 
-    def start(self,  mode=1, player1="Anonymous", player2="Anonymous", ai_level="top"):
+    def start(self, mode=1, player1="Anonymous", player2="Anonymous", ai_level="top"):
         """Start a new game and deal cards to players.
 
         :param mode: 1 for singleplayer or 2 for two-player
@@ -40,9 +39,11 @@ class Game:
         """
         self.__player1 = Player(player1)
         # Checks whether the current mode is single or multiplayer and assigns player2 accordingly.
-        self.__player2 = Player(player2) if mode == 2 else Intelligence("AI", level=ai_level)
+        self.__player2 = (
+            Player(player2) if mode == 2 else Intelligence("AI", level=ai_level)
+        )
         self.__players = [self.__player1, self.__player2]
-        
+
         self.__deck = Deck()
         hands = self.__deck.split()
         self.__players[0].set_hand(CardHand(hands[0]))
@@ -51,10 +52,9 @@ class Game:
         for player in self.__players:
             self.__highscore.add_player(player.get_name())
 
-        self.num_draws = 0 #Counter for the number of draws taken per game. Incremented each time cards are drawn.
+        self.num_draws = 0  # Counter for the number of draws taken per game. Incremented each time cards are drawn.
 
         self.__active_game = True
-        
 
     def get_active_game(self):
         """Return True when a game is currently active, otherwise False."""
@@ -65,7 +65,9 @@ class Game:
         # programmatic no-op kept for compatibility with Shell.do_cheat()
         return None
 
-    def cheat_swap(self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0) -> bool:
+    def cheat_swap(
+        self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0
+    ) -> bool:
         """Swap cards between two players by index.
 
         Returns True on success or False when players/indices are invalid.
@@ -119,8 +121,9 @@ class Game:
         """Pause helper that avoids blocking when running tests."""
         try:
             import sys
+
             # If unittest is running, skip pause to avoid blocking automated tests
-            if 'unittest' in sys.modules:
+            if "unittest" in sys.modules:
                 return
         except Exception:
             pass
@@ -128,9 +131,8 @@ class Game:
             input("Press to continue...")
         except Exception:
             return
-        
 
-    #TODO Graphics
+    # TODO Graphics
     def draw_cards(self, internal=False):
         """Execute a single draw round and resolve the result.
 
@@ -138,22 +140,20 @@ class Game:
         and will not increment the public draw counter.
         """
 
-        
-
         player1_hand = self.__players[0].get_hand()
         player2_hand = self.__players[1].get_hand()
 
         player1_name = self.__players[0].get_name()
         player2_name = self.__players[1].get_name()
-    
-
 
         # Check if any player ran out of cards, game over condition
         if len(player1_hand.getHand()) == 0:
-            #Player 2 wins, player 1 ran out of cards
-            self.__highscore.add_statistics(player2_name, True, self.num_draws, datetime.date.today())
+            # Player 2 wins, player 1 ran out of cards
+            self.__highscore.add_statistics(
+                player2_name, True, self.num_draws, datetime.date.today()
+            )
 
-            p2_win_msg =    f""" 
+            p2_win_msg = f""" 
 
                     ██╗    ██╗██╗███╗   ██╗
                     ██║    ██║██║████╗  ██║
@@ -168,10 +168,12 @@ class Game:
             print(p2_win_msg)
             return
         elif len(player2_hand.getHand()) == 0:
-            #Player 1 wins, player 2 ran out of cards
-            self.__highscore.add_statistics(player1_name, True, self.num_draws, datetime.date.today())
+            # Player 1 wins, player 2 ran out of cards
+            self.__highscore.add_statistics(
+                player1_name, True, self.num_draws, datetime.date.today()
+            )
 
-            p1_win_msg =    f"""
+            p1_win_msg = f"""
 
                     ██╗    ██╗██╗███╗   ██╗
                     ██║    ██║██║████╗  ██║
@@ -185,9 +187,8 @@ class Game:
                             """
             print(p1_win_msg)
             return
-        
 
-        screen1 =   f"""
+        screen1 = f"""
         {player2_name:^50}
         ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
         ▐                                                ▌
@@ -221,14 +222,18 @@ class Game:
         except Exception:
             idx2 = None
 
-        player1_card = player1_hand.drawcard(idx1) if idx1 is not None else player1_hand.drawcard()
-        player2_card = player2_hand.drawcard(idx2) if idx2 is not None else player2_hand.drawcard()
+        player1_card = (
+            player1_hand.drawcard(idx1) if idx1 is not None else player1_hand.drawcard()
+        )
+        player2_card = (
+            player2_hand.drawcard(idx2) if idx2 is not None else player2_hand.drawcard()
+        )
         # Only count the draw for top-level (external) invocations. Internal recursive
         # draws during war resolution should not increment the public draw counter.
         if not internal:
             self.num_draws += 1
 
-        screen2 =   f"""
+        screen2 = f"""
         {player2_name:^50}
         ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
         ▐                       ?                        ▌
@@ -258,7 +263,7 @@ class Game:
                 i += 1
             player1_hand.return_cards()
 
-            screen3alt1 =   f"""
+            screen3alt1 = f"""
         {player2_name:^50}
         ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
         ▐                       {player2_card.get_value():<2}                       ▌
@@ -286,7 +291,7 @@ class Game:
                 i += 1
             player2_hand.return_cards()
 
-            screen3alt2 =   f"""
+            screen3alt2 = f"""
         {player2_name:^50}
         ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
         ▐                       {player2_card.get_value():<2}                       ▌
@@ -306,7 +311,7 @@ class Game:
             print(screen3alt2)
 
         else:
-            screen3alt3 =   f"""
+            screen3alt3 = f"""
         {player2_name:^50}
         ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
         ▐                       {player2_card.get_value():<2}                       ▌
@@ -327,12 +332,12 @@ class Game:
             self._pause()
 
             # Check if players have enough cards for war
-            if len(player1_hand.getHand()) < 2: #Player 1 doesn't have enough
+            if len(player1_hand.getHand()) < 2:  # Player 1 doesn't have enough
                 for card in player1_hand.get_active_card():
                     player2_hand.addCard(player1_hand.removeCard())
                 player2_hand.return_cards()
 
-                screen3alt3 =   f"""
+                screen3alt3 = f"""
         {player2_name:^50}
         ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
         ▐                       {player2_card.get_value():<2}                       ▌
@@ -352,12 +357,12 @@ class Game:
                 print(screen3alt3)
 
                 return
-            elif len(player2_hand.getHand()) < 2: #Player 2 doesn't have enough cards
+            elif len(player2_hand.getHand()) < 2:  # Player 2 doesn't have enough cards
                 for card in player2_hand.get_active_card():
                     player1_hand.addCard(player2_hand.removeCard())
                 player1_hand.return_cards()
 
-                screen3alt3 =   f"""
+                screen3alt3 = f"""
         {player2_name:^50}
         ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
         ▐                       {player2_card.get_value():<2}                       ▌
@@ -378,14 +383,12 @@ class Game:
 
                 return
 
-
-
             # Each player places one card face down (internal mechanics, do not
             # increment the public draw counter)
             player1_hand.drawcard()
             player2_hand.drawcard()
 
-            screen2 =   f"""
+            screen2 = f"""
         {player2_name:^50}
         ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
         ▐                       ?                        ▌
@@ -408,8 +411,6 @@ class Game:
             # Recursively call draw_cards to determine who wins the war. Mark
             # this as internal so the public draw counter isn't incremented again.
             self.draw_cards(internal=True)
-        
-
 
     def name_change(self, current_name, new_name):
         """Change a player's name and persist the updated highscores.
@@ -427,8 +428,7 @@ class Game:
         self.__highscore.update_player_name(current_name, new_name)
         self.save_highscore()
 
-
-    #Functions for manipulating highscores
+    # Functions for manipulating highscores
     def show_highscore(self):
         """Prints the current values of the highscore object as a String."""
         print(self.__highscore)
@@ -436,4 +436,3 @@ class Game:
     def save_highscore(self):
         """Saves the current values of the highscore object."""
         self.__highscore.save_highscores()
-

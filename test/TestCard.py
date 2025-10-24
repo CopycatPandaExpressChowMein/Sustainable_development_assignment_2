@@ -1,6 +1,8 @@
 """Unit tests for the Card class."""
+
 import unittest
 from war.Card import Card  # Import from your package
+
 
 class TestCard(unittest.TestCase):
 
@@ -65,5 +67,6 @@ class TestCard(unittest.TestCase):
         self.assertEqual(c1.get_value(), 11)
         self.assertEqual(c2.get_value(), 14)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

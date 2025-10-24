@@ -8,14 +8,14 @@ metadata and imports when necessary.
 """
 
 __all__ = [
-	"Card",
-	"CardHand",
-	"Deck",
-	"Game",
-	"Highscore",
-	"Intelligence",
-	"Main",
-	"Player",
-	"Shell",
-	"Statistics",
+    "Card",
+    "CardHand",
+    "Deck",
+    "Game",
+    "Highscore",
+    "Intelligence",
+    "Main",
+    "Player",
+    "Shell",
+    "Statistics",
 ]

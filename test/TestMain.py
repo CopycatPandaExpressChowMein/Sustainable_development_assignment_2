@@ -1,4 +1,5 @@
 """Unit tests for the application entrypoint `Main`."""
+
 import unittest
 from war.Main import Main  # if needed
 
@@ -10,7 +11,7 @@ class TestMain(unittest.TestCase):
         """Test the run method runs and prints"""
         # Do not execute the full application loop in tests; just check the method exists
         main = Main()
-        self.assertTrue(callable(getattr(main, 'run', None)))
+        self.assertTrue(callable(getattr(main, "run", None)))
 
     def test_can_instantiate_main(self):
         """Main can be instantiated repeatedly without side-effects."""
@@ -32,7 +33,7 @@ class TestMain(unittest.TestCase):
                 FakeShell.called = True
                 return "FAKELOOP"
 
-        with patch('war.Main.Shell', FakeShell):
+        with patch("war.Main.Shell", FakeShell):
             main = Main()
             result = main.run()
             # cmdloop should have been called; Main.run does not return the cmdloop return value
@@ -46,8 +47,8 @@ class TestMain(unittest.TestCase):
         # ensure they are separate objects
         self.assertIsNot(m1, m2)
         # ensure no unexpected attributes exist by default
-        self.assertFalse(hasattr(m1, 'shell'))
-        self.assertFalse(hasattr(m2, 'shell'))
+        self.assertFalse(hasattr(m1, "shell"))
+        self.assertFalse(hasattr(m2, "shell"))
 
     def test_run_does_not_create_persistent_shell_attribute(self):
         """Running Main.run shouldn't leave a 'shell' attribute on Main instances."""
@@ -57,11 +58,11 @@ class TestMain(unittest.TestCase):
             def cmdloop(self):
                 return None
 
-        with patch('war.Main.Shell', DummyShell):
+        with patch("war.Main.Shell", DummyShell):
             m = Main()
             _ = m.run()
             # confirm that Main instance still has no attribute 'shell'
-            self.assertFalse(hasattr(m, 'shell'))
+            self.assertFalse(hasattr(m, "shell"))
 
 
 if __name__ == "__main__":

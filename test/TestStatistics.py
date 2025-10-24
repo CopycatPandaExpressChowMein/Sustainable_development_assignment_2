@@ -1,4 +1,5 @@
 """Unit tests for the Statistics data model and serialization helpers."""
+
 import unittest, datetime
 from war.Statistics import Statistics
 
@@ -67,14 +68,14 @@ class TestStatistics(unittest.TestCase):
         s = Statistics(False, 2, self.date)
         d = s.to_dict()
         # keys and basic types
-        self.assertIn('has_won', d)
-        self.assertIn('draws', d)
-        self.assertIn('date', d)
-        self.assertIsInstance(d['has_won'], bool)
-        self.assertIsInstance(d['draws'], int)
+        self.assertIn("has_won", d)
+        self.assertIn("draws", d)
+        self.assertIn("date", d)
+        self.assertIsInstance(d["has_won"], bool)
+        self.assertIsInstance(d["draws"], int)
         # date should be an ISO string matching the original
-        self.assertIsInstance(d['date'], str)
-        self.assertEqual(d['date'], self.date.isoformat())
+        self.assertIsInstance(d["date"], str)
+        self.assertEqual(d["date"], self.date.isoformat())
 
 
 if __name__ == "__main__":

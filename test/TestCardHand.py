@@ -1,7 +1,9 @@
 """Unit tests for the CardHand class."""
+
 import unittest
 from war.Card import Card
 from war.CardHand import CardHand
+
 
 class TestCardHand(unittest.TestCase):
 
@@ -87,5 +89,6 @@ class TestCardHand(unittest.TestCase):
         self.assertEqual(returned, new_amount)
         self.assertEqual(self.hand.get_amount(), new_amount)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

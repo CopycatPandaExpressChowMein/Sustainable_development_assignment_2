@@ -1,13 +1,11 @@
 Group Project - War Game
 ==========================
-
-[![Pipeline status](https://gitlab.com/mikael-roos/python-template/badges/main/pipeline.svg)](https://gitlab.com/mikael-roos/python-template/-/pipelines)
 [![Documentation Status](https://readthedocs.org/projects/a-python-project-template-codestyle-and-linters-included/badge/?version=latest)](https://a-python-project-template-codestyle-and-linters-included.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Group project, written by A Almerhaj, J Nilsson and B Sadiku.
 
-[_TOC_]
+[[_TOC_]]
 
 # Introduction
 --------------------------
@@ -19,12 +17,33 @@ The main goal with this project was to write a small Terminal game in line with 
 
 # Installation
 --------------------------
+There are two main ways to install the game:
+- Download the game as a Zip file and Unzip
+- Clone the Repo
+
+## Downloading a Zip file
+--------------------------
+
+
+## Cloning a Repo
+--------------------------
+To clone the repo, simply open the terminal and enter
+
+```
+git clone https://github.com/CopycatPandaExpressChowMein/Sustainable_development_assignment_2.git
+```
+
+This will clone the report to the directory the terminal is currently open in.
+## Installing Venv
+--------------------------
 
 # Running the game
 --------------------------
 
 # Basic Game Info
 --------------------------
+
+
 
 # Unit Testing
 --------------------------

@@ -24,8 +24,8 @@ class Player:
 
     def __str__(self):
         """Return a concise string representation of the Player."""
-        return (f"Player: {self.__name} | Hand: {self.__hand}")
-    
+        return f"Player: {self.__name} | Hand: {self.__hand}"
+
     def set_name(self, name):
         """Set the player's name and return it.
 

@@ -8,6 +8,7 @@ serialization helpers used by Game and Shell.
 import json
 import os
 from typing import Any
+
 try:
     from Statistics import Statistics
 except:
@@ -82,7 +83,9 @@ class Highscore:
             new_list = []
             if isinstance(lst, list):
                 for item in lst:
-                    if isinstance(item, dict) and ("has_won" in item or "draws" in item):
+                    if isinstance(item, dict) and (
+                        "has_won" in item or "draws" in item
+                    ):
                         try:
                             new_list.append(Statistics.from_dict(item))
                         except Exception:
@@ -127,10 +130,11 @@ class Highscore:
             # (tests expect a key to be created even when the source name is missing).
             if new_name not in self.__highscores:
                 self.__highscores[new_name] = []
-                print(f"Could not find player {name}. Created empty entry for {new_name}.")
+                print(
+                    f"Could not find player {name}. Created empty entry for {new_name}."
+                )
             else:
                 print(f"Could not find player {name}. {new_name} already exists.")
-
 
     def remove_player(self, name):
         """Remove a player key from the highscores dictionary.

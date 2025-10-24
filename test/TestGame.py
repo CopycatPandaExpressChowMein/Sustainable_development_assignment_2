@@ -1,4 +1,5 @@
 """Unit tests for the core Game logic (war/Game.py)."""
+
 import unittest
 import datetime
 import os
@@ -91,8 +92,8 @@ class TestGame(unittest.TestCase):
         # second player should be an Intelligence with greedy level
         p2 = game._Game__players[1]
         # Intelligence exposes get_level()
-        self.assertTrue(hasattr(p2, 'get_level'))
-        self.assertEqual(p2.get_level(), 'greedy')
+        self.assertTrue(hasattr(p2, "get_level"))
+        self.assertEqual(p2.get_level(), "greedy")
 
     def test_draw_when_player_has_no_cards_records_highscore(self):
         """If one player has no cards, the other is recorded as winner in highscores."""
@@ -100,6 +101,7 @@ class TestGame(unittest.TestCase):
         game.start(mode=2, player1="A", player2="B")
         # empty player A's hand to trigger immediate loss
         from war.CardHand import CardHand
+
         game._Game__players[0].set_hand(CardHand([]))
         # ensure player B has at least one card
         self.assertGreaterEqual(len(game._Game__players[1].get_hand().getHand()), 0)
@@ -107,7 +109,7 @@ class TestGame(unittest.TestCase):
         game.draw_cards()
         highs = game._Game__highscore.get_highscores()
         # The winner 'B' should have a key in highscores (possibly empty list appended)
-        self.assertIn('B', highs)
+        self.assertIn("B", highs)
 
     def test_name_change_updates_highscore_keys(self):
         """Game.name_change should propagate to Highscore and replace keys."""
@@ -115,11 +117,11 @@ class TestGame(unittest.TestCase):
         game.start(mode=2, player1="Old", player2="Other")
         hs = game._Game__highscore
         # ensure Old exists
-        self.assertIn('Old', hs.get_highscores())
+        self.assertIn("Old", hs.get_highscores())
         # perform rename
-        game.name_change('Old', 'NewName')
-        self.assertIn('NewName', hs.get_highscores())
-        self.assertNotIn('Old', hs.get_highscores())
+        game.name_change("Old", "NewName")
+        self.assertIn("NewName", hs.get_highscores())
+        self.assertNotIn("Old", hs.get_highscores())
 
     def test_cheat_swap_missing_player(self):
         """cheat_swap should return False when one of the player names is not found."""
@@ -138,9 +140,9 @@ class TestGame(unittest.TestCase):
         p2 = g._Game__players[1]
 
         # p1: will draw a '5' then have only 1 card left -> cannot continue war
-        p1.set_hand(CardHand([Card(5, '5', 's', 'b'), Card(9, '9', 's', 'b')]))
+        p1.set_hand(CardHand([Card(5, "5", "s", "b"), Card(9, "9", "s", "b")]))
         # p2: will draw a '5' and then have no cards left
-        p2.set_hand(CardHand([Card(5, '5', 's', 'b')]))
+        p2.set_hand(CardHand([Card(5, "5", "s", "b")]))
 
         # Ensure precondition
         self.assertEqual(len(p1.get_hand().getHand()), 2)
@@ -162,14 +164,14 @@ class TestGame(unittest.TestCase):
         p2 = g._Game__players[1]
 
         # Give human a low card and AI two cards where the second card is higher
-        p1.set_hand(CardHand([Card(2, '2', 's', 'b')]))
-        p2.set_hand(CardHand([Card(1, '1', 's', 'b'), Card(13, 'K', 's', 'b')]))
+        p1.set_hand(CardHand([Card(2, "2", "s", "b")]))
+        p2.set_hand(CardHand([Card(1, "1", "s", "b"), Card(13, "K", "s", "b")]))
 
         # Monkeypatch AI to choose index 1 (the stronger card)
         def choose_one():
             return 1
 
-        setattr(p2, 'choose_index', choose_one)
+        setattr(p2, "choose_index", choose_one)
 
         # Draw — AI should draw index 1
         g.draw_cards()
@@ -223,21 +225,21 @@ class TestHighscoreExtras(unittest.TestCase):
         hs.save_highscores()
         self.assertTrue(os.path.exists(self.test_filename))
         # file should contain valid JSON (possibly empty dict)
-        with open(self.test_filename, 'r', encoding='utf-8') as fh:
+        with open(self.test_filename, "r", encoding="utf-8") as fh:
             data = json.load(fh)
         self.assertIsInstance(data, dict)
 
     def test_set_and_get_filename_changes_path(self):
         hs = Highscore(self.test_filename)
-        newname = 'test/test_extras2.json'
+        newname = "test/test_extras2.json"
         ret = hs.set_filename(newname)
         self.assertEqual(ret, newname)
         self.assertEqual(hs.get_filename(), newname)
 
     def test_load_with_invalid_json_results_in_empty_highscores(self):
         # write invalid JSON to file
-        with open(self.test_filename, 'w', encoding='utf-8') as fh:
-            fh.write('{ invalid json')
+        with open(self.test_filename, "w", encoding="utf-8") as fh:
+            fh.write("{ invalid json")
         # constructing Highscore should attempt to load and fall back to empty dict
         hs = Highscore(self.test_filename)
         loaded = hs.get_highscores()
@@ -246,16 +248,16 @@ class TestHighscoreExtras(unittest.TestCase):
 
     def test_add_player_and_add_statistics_then_save_and_load(self):
         hs = Highscore(self.test_filename)
-        hs.add_player('Tester')
-        hs.add_statistics('Tester', has_won=False, draws=3)
+        hs.add_player("Tester")
+        hs.add_statistics("Tester", has_won=False, draws=3)
         # verify in-memory
-        self.assertIn('Tester', hs.get_highscores())
-        self.assertEqual(len(hs.get_highscores()['Tester']), 1)
+        self.assertIn("Tester", hs.get_highscores())
+        self.assertEqual(len(hs.get_highscores()["Tester"]), 1)
         hs.save_highscores()
         # reload
         hs2 = Highscore(self.test_filename)
-        self.assertIn('Tester', hs2.get_highscores())
-        lst = hs2.get_highscores()['Tester']
+        self.assertIn("Tester", hs2.get_highscores())
+        lst = hs2.get_highscores()["Tester"]
         self.assertTrue(isinstance(lst, list))
         self.assertGreaterEqual(len(lst), 1)
 
@@ -265,13 +267,13 @@ class TestStatisticsExtra(unittest.TestCase):
     def test_set_date_with_iso_and_invalid_string(self):
         s = Statistics(False, 0, None)
         # valid ISO string
-        d = '2020-12-31'
+        d = "2020-12-31"
         stored = s.set_date(d)
         self.assertIsInstance(stored, datetime.date)
         self.assertEqual(stored.isoformat(), d)
 
         # invalid string should set date to None
-        stored2 = s.set_date('not-a-date')
+        stored2 = s.set_date("not-a-date")
         self.assertIsNone(stored2)
 
     def test_from_dict_non_dict_raises(self):
@@ -287,7 +289,7 @@ class TestStatisticsExtra(unittest.TestCase):
         self.assertEqual(s.get_draws(), 0)
 
         # invalid date string in dict -> date becomes None
-        d2 = {'has_won': True, 'draws': 3, 'date': 'bad-format'}
+        d2 = {"has_won": True, "draws": 3, "date": "bad-format"}
         s2 = Statistics.from_dict(d2)
         self.assertTrue(s2.get_has_won())
         self.assertEqual(s2.get_draws(), 3)
@@ -302,14 +304,14 @@ class TestStatisticsExtra(unittest.TestCase):
         # to_dict with None date returns date: None
         s2 = Statistics(True, 1, None)
         d = s2.to_dict()
-        self.assertIn('date', d)
-        self.assertIsNone(d['date'])
+        self.assertIn("date", d)
+        self.assertIsNone(d["date"])
 
     def test_str_contains_tokens(self):
         s = Statistics(True, 7, datetime.date(2022, 2, 2))
         st = str(s)
-        self.assertIn('Won', st)
-        self.assertIn('Draws:', st)
+        self.assertIn("Won", st)
+        self.assertIn("Draws:", st)
 
 
 if __name__ == "__main__":

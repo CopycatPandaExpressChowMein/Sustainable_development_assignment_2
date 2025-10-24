@@ -6,16 +6,19 @@ testable without running an interactive loop.
 """
 
 import cmd
-try: #Try imports for executing Main normally
+
+try:  # Try imports for executing Main normally
     from Game import Game
-except: #Except imports for UnitTesting. To prevent module not found Error.
+except:  # Except imports for UnitTesting. To prevent module not found Error.
     from .Game import Game
 
-#TODO Rework cheat to be more aligned with requirements, "cheat that one can use for testing purposes and reach the end of the game faster"
-#TODO Rework Graphical interface
+# TODO Rework cheat to be more aligned with requirements, "cheat that one can use for testing purposes and reach the end of the game faster"
+# TODO Rework Graphical interface
+
 
 class Shell(cmd.Cmd):
     """Command-line interface shell for the War game."""
+
     intro = """ 
     
                 ██╗    ██╗ █████╗ ██████╗ ██╗
@@ -40,12 +43,14 @@ class Shell(cmd.Cmd):
         super().__init__()
         self.game = game if game is not None else Game()
 
-    #Commands that let the user play the game
+    # Commands that let the user play the game
     def do_start(self, arg):
         """Start a new interactive game by prompting for mode and names."""
         while True:
             try:
-                mode = int(input("Pick gamemode (1) for singleplayer, (2) for two-player: "))
+                mode = int(
+                    input("Pick gamemode (1) for singleplayer, (2) for two-player: ")
+                )
                 if mode == 1 or mode == 2:
                     break
                 else:
@@ -60,14 +65,18 @@ class Shell(cmd.Cmd):
         else:
             # Ask for AI intelligence level when starting singleplayer mode
             while True:
-                ai_level = input("Choose AI level ('top', 'random', 'greedy') [top]: ").strip().lower()
+                ai_level = (
+                    input("Choose AI level ('top', 'random', 'greedy') [top]: ")
+                    .strip()
+                    .lower()
+                )
                 if ai_level == "":
                     ai_level = "top"
                 if ai_level in ("top", "random", "greedy"):
                     break
                 print("Invalid choice. Please select 'top', 'random' or 'greedy'.")
             self.game.start(mode, player1, ai_level=ai_level)
-        
+
         start_txt = """
               
            You are now free to begin drawing cards!
@@ -75,8 +84,6 @@ class Shell(cmd.Cmd):
           
                     """
         print(start_txt)
-        
-        
 
     def do_draw_card(self, arg):
         """Draw one round in the active game.
@@ -96,7 +103,7 @@ class Shell(cmd.Cmd):
         """Trigger the game's cheat hook (used by tests or for debug)."""
         self.game.cheat()
 
-    #Commands that give functionality to the game
+    # Commands that give functionality to the game
     def do_rules(self, arg):
         """Print the rules of the War card game."""
         rules_text = """
@@ -117,45 +124,49 @@ class Shell(cmd.Cmd):
 
             """
         print(rules_text)
-    
+
     def do_highscores(self, arg):
         """Display stored highscores by delegating to the Game object."""
         self.game.show_highscore()
 
-    #TODO Better way to implement?
+    # TODO Better way to implement?
     def do_namechange(self, arg):
         """Change a player's name in the active game and persist highscores.
 
         Prompts interactively for the existing and replacement names.
         """
         if self.game.get_active_game():
-                name_to_replace = input("Please enter the name you would like to change: ")
-                replacing_name = input(f"Please enter the name you would like to change {name_to_replace} to: ")
-                self.game.name_change(name_to_replace, replacing_name)
+            name_to_replace = input("Please enter the name you would like to change: ")
+            replacing_name = input(
+                f"Please enter the name you would like to change {name_to_replace} to: "
+            )
+            self.game.name_change(name_to_replace, replacing_name)
         else:
             print("Please start a game before you begin drawing cards!")
 
-    #Commands to quit the game
+    # Commands to quit the game
     def do_quit(self, arg):
         """Save highscores (best-effort) and exit the shell."""
         print("Saving and Quitting the war game.")
         # Attempt to save highscores if the Game-like object supports it.
-        if hasattr(self.game, 'save_highscore') and callable(getattr(self.game, 'save_highscore')):
+        if hasattr(self.game, "save_highscore") and callable(
+            getattr(self.game, "save_highscore")
+        ):
             try:
                 self.game.save_highscore()
             except Exception:
                 # Don't let save errors break quitting; best-effort only.
                 pass
         return True
-    
+
     def do_q(self, arg):
         """Saves and closes the game."""
         return self.do_quit(arg)
-    
+
     def do_exit(self, arg):
         """Saves and closes the game."""
         return self.do_quit(arg)
-    
+
     def do_EOF(self, arg):
         """Saves and closes the game."""
         return self.do_quit(arg)

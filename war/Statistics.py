@@ -1,4 +1,5 @@
 """Statistics model: stores per-game results and supports JSON serialization."""
+
 from typing import Optional
 import datetime
 
@@ -12,7 +13,9 @@ class Statistics:
     - date: Optional[datetime.date]
     """
 
-    def __init__(self, has_won: bool = False, draws: int = 0, date: Optional[object] = None):
+    def __init__(
+        self, has_won: bool = False, draws: int = 0, date: Optional[object] = None
+    ):
         """Create a Statistics instance.
 
         `date` may be a datetime.date, an ISO date string, or None.
@@ -78,7 +81,11 @@ class Statistics:
     def to_dict(self) -> dict:
         """Return a JSON-serializable dict representation."""
         date = self.get_date()
-        return {"has_won": self.get_has_won(), "draws": self.get_draws(), "date": date.isoformat() if date is not None else None}
+        return {
+            "has_won": self.get_has_won(),
+            "draws": self.get_draws(),
+            "date": date.isoformat() if date is not None else None,
+        }
 
     @classmethod
     def from_dict(cls, data: dict) -> "Statistics":
@@ -91,4 +98,6 @@ class Statistics:
                 date = datetime.date.fromisoformat(date)
             except Exception:
                 date = None
-        return cls(has_won=data.get("has_won", False), draws=data.get("draws", 0), date=date)
+        return cls(
+            has_won=data.get("has_won", False), draws=data.get("draws", 0), date=date
+        )
