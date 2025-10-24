@@ -136,6 +136,19 @@ class Game:
 
     #TODO Graphics
     def draw_cards(self, internal=False):
+        """Perform a single draw round and resolve the outcome.
+
+        This method executes one round where each player draws a card (or an
+        index chosen by an AI), compares their values, handles wins/losses
+        and resolves 'war' situations recursively. When ``internal`` is
+        True this invocation is part of an internal war resolution and will
+        not increment the public draw counter.
+
+        Parameters
+        ----------
+        internal : bool
+            Mark the call as internal (used for recursive war resolution).
+        """
 
         
 
@@ -411,10 +424,17 @@ class Game:
 
 
     def name_change(self, current_name, new_name):
-        """ 
-        Takes a current and new name and updates it in the highscore object.
-        Prints the change to cmd.
-        And then saves the highscore object to json.
+        """Change a player's name and persist the updated highscores.
+
+        This updates the player's key in the Highscore object and triggers
+        a save to the configured highscores file.
+
+        Parameters
+        ----------
+        current_name : str
+            The existing player name to replace.
+        new_name : str
+            The new player name.
         """
         self.__highscore.update_player_name(current_name, new_name)
         self.save_highscore()
