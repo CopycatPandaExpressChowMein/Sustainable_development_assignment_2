@@ -1,5 +1,8 @@
 import json
-from Statistics import Statistics
+try:
+    from Statistics import Statistics
+except:
+    from .Statistics import Statistics
 
 
 class Highscore:

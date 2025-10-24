@@ -1,5 +1,7 @@
-from Game import Game
-from Shell import Shell
+try:
+    from Shell import Shell
+except:
+    from .Shell import Shell
 
 
 class Main:

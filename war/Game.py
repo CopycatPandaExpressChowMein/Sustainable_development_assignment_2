@@ -1,9 +1,16 @@
 import datetime
-from Deck import Deck
-from Player import Player
-from Intelligence import Intelligence
-from CardHand import CardHand
-from Highscore import Highscore
+try:
+    from Deck import Deck
+    from Player import Player
+    from Intelligence import Intelligence
+    from CardHand import CardHand
+    from Highscore import Highscore
+except:
+    from .Deck import Deck
+    from .Player import Player
+    from .Intelligence import Intelligence
+    from .CardHand import CardHand
+    from .Highscore import Highscore
 
 
 

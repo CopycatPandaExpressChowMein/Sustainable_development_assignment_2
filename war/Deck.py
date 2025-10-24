@@ -1,7 +1,10 @@
 """Deck class using Unicode playing card symbols (U+1F0A0–U+1F0FF)."""
 
 import random
-from Card import Card
+try:
+    from Card import Card
+except:
+    from .Card import Card
 
 
 class Deck:

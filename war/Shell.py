@@ -1,5 +1,8 @@
 import cmd
-from Game import Game
+try:
+    from Game import Game
+except:
+    from .Game import Game
 
 #TODO Rework cheat to be more aligned with requirements, "cheat that one can use for testing purposes and reach the end of the game faster"
 #TODO Rework Graphical interface

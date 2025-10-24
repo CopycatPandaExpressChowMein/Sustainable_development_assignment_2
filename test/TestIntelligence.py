@@ -1,5 +1,5 @@
 import unittest
-from war.Intelligence import Intelligance
+from war.Intelligence import Intelligence
 
 
 class TestIntelligence(unittest.TestCase):
@@ -7,17 +7,17 @@ class TestIntelligence(unittest.TestCase):
 
     def test_initial_hand(self):
         """AI hand should initially be None"""
-        ai = Intelligance()
+        ai = Intelligence()
         self.assertIsNone(ai.hand)
 
     def test_name_set_and_get(self):
         """AI name should be set and get properly"""
-        ai = Intelligance("Bot")
+        ai = Intelligence("Bot")
         self.assertEqual(ai.getName(), "Bot")
 
     def test_set_and_get_hand(self):
         """Can set and get the hand"""
-        ai = Intelligance()
+        ai = Intelligence()
         fake_hand = object()
         ai.setHand(fake_hand)
         self.assertEqual(ai.getHand(), fake_hand)
