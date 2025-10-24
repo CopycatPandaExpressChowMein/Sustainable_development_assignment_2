@@ -1,3 +1,9 @@
+"""Application entrypoint module.
+
+Provides a tiny Main wrapper that launches the Shell CLI. Kept minimal so it
+is safe to import in tests without side-effects.
+"""
+
 try: #Try imports for executing Main normally
     from Shell import Shell
 except: #Except imports for UnitTesting. To prevent module not found Error.
@@ -5,11 +11,11 @@ except: #Except imports for UnitTesting. To prevent module not found Error.
 
 
 class Main:
-    """The Main Program When it runs"""
+    """Minimal application wrapper that launches the Shell CLI."""
 
     def run(self):
-        """Runs the main program"""
-        
+        """Run the main program by starting the Shell command loop."""
+
         Shell().cmdloop()
 
 
