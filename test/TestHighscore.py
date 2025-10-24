@@ -85,7 +85,7 @@ class TestHighscore(unittest.TestCase):
         tmp = self.highscore.get_highscores()
         self.assertIn("Jimmy", tmp)
         self.assertNotIn("John", tmp)
-        self.assertIn("Neutron", tmp)
+        self.assertNotIn("Neutron", tmp)
 
         self.assertEqual(tmp.get("Jimmy"), stats_pre_update)
         self.assertEqual(tmp.get("Neutron"), [])
