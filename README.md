@@ -183,9 +183,9 @@ make doc
 PNG of the UML diagrams can be found in the ```doc/``` folder.
 **OBS!** Without __Graphviz__ installed the UML generation will fail.
 
-![UML classes](/doc/pyreverse/classes.png)
+![UML classes](/doc/uml/classes.png)
 
-![UML packages](/doc/pyreverse/packages.png)
+![UML packages](/doc/uml/packages.png)
 
 Generate UML:
 ```
