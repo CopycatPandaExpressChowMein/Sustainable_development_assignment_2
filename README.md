@@ -7,7 +7,7 @@ Python development project template
 
 A template for a Python development project.
 
-[[_TOC_]]
+[_TOC_]
 
 
 

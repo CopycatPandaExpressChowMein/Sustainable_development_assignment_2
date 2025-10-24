@@ -137,7 +137,6 @@ class Game:
 
         print(f"Swapped your {s_card} with opponent's {t_card}. The taken cards were placed on top of each hand.")
 
-    #TODO Graphics
     def draw_cards(self):
 
         
