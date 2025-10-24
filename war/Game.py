@@ -136,17 +136,6 @@ class Game:
         tgt_hand.insert(0, s_card)
 
         print(f"Swapped your {s_card} with opponent's {t_card}. The taken cards were placed on top of each hand.")
-        
-
-    def draw_cards(self, war_pile=None):
-        # Initialize war pile to keep cards on table for war rounds
-        if war_pile is None:
-            war_pile = []
-
-        hand0 = self.players[0].get_hand()
-        hand1 = self.players[1].get_hand()
-        """Allows you to cheat in the game"""
-        pass
 
     #TODO Graphics
     def draw_cards(self):
