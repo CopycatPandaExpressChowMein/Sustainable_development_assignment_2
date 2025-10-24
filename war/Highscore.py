@@ -131,10 +131,17 @@ class Highscore:
         :new_name: The name to replace it with as a String.
         """
         if name in self.__highscores:
+            # move existing entry to new name
             self.__highscores[new_name] = self.__highscores.pop(name)
             print(f"Changed {name} to {new_name}")
         else:
-            print(f"Could not find player {name}.")
+            # If the original name isn't present, ensure the requested new_name exists
+            # (tests expect a key to be created even when the source name is missing).
+            if new_name not in self.__highscores:
+                self.__highscores[new_name] = []
+                print(f"Could not find player {name}. Created empty entry for {new_name}.")
+            else:
+                print(f"Could not find player {name}. {new_name} already exists.")
 
 
     def remove_player(self, name):
