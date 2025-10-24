@@ -33,6 +33,7 @@ Once installed, open your terminal and navigate to the main directory:
 ```
 cd /*filepath here*/Sustainable_development_assignment_2/
 ```
+*replace 'filepath here' with your filepath to the game, including the asterisks*
 
 ### Downloading a Zip file
 --------------------------
