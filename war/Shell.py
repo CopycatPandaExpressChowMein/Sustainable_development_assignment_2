@@ -1,7 +1,7 @@
 import cmd
-try:
+try: #Try imports for executing Main normally
     from Game import Game
-except:
+except: #Except imports for UnitTesting. To prevent module not found Error.
     from .Game import Game
 
 #TODO Rework cheat to be more aligned with requirements, "cheat that one can use for testing purposes and reach the end of the game faster"
@@ -51,6 +51,14 @@ class Shell(cmd.Cmd):
         else:
             self.game.start(mode, player1)
         
+        start_txt = """
+              
+           You are now free to begin drawing cards!
+             Use the command 'draw' or 'draw_card'
+          
+                    """
+        print(start_txt)
+        
         
 
     def do_draw_card(self, arg):
@@ -75,6 +83,7 @@ class Shell(cmd.Cmd):
     def do_rules(self, arg):
         """Prints the rules of War."""
         rules_text = """
+
         War card game rules:
         - The goal is to win all the cards.
         - The deck is divided evenly between two players.
@@ -88,6 +97,7 @@ class Shell(cmd.Cmd):
             - If again tied, repeat the war.
         - The game continues until one player has all cards.
         - This is a simple game of chance with no strategy.
+
             """
         print(rules_text)
     

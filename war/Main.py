@@ -1,6 +1,6 @@
-try:
+try: #Try imports for executing Main normally
     from Shell import Shell
-except:
+except: #Except imports for UnitTesting. To prevent module not found Error.
     from .Shell import Shell
 
 

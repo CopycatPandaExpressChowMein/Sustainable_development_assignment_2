@@ -1,11 +1,11 @@
 import datetime
-try:
+try: #Try imports for executing Main normally
     from Deck import Deck
     from Player import Player
     from Intelligence import Intelligence
     from CardHand import CardHand
     from Highscore import Highscore
-except:
+except: #Except imports for UnitTesting. To prevent module not found Error.
     from .Deck import Deck
     from .Player import Player
     from .Intelligence import Intelligence
@@ -59,71 +59,260 @@ class Game:
     #TODO Graphics
     def draw_cards(self):
 
+        
+
         player1_hand = self.__players[0].get_hand()
         player2_hand = self.__players[1].get_hand()
 
         player1_name = self.__players[0].get_name()
         player2_name = self.__players[1].get_name()
+    
+
 
         # Check if any player ran out of cards, game over condition
         if len(player1_hand.getHand()) == 0:
             #Player 2 wins, player 1 ran out of cards
-            print(f"{player2_name} wins the game! {player1_name} has no more cards.")
             self.__highscore.add_statistics(player2_name, True, self.num_draws, datetime.date.today())
+
+            p2_win_msg =    f""" 
+
+                    ██╗    ██╗██╗███╗   ██╗
+                    ██║    ██║██║████╗  ██║
+                    ██║ █╗ ██║██║██╔██╗ ██║
+                    ██║███╗██║██║██║╚██╗██║
+                    ╚███╔███╔╝██║██║ ╚████║
+                    ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝
+                {player2_name + " won the game!"}
+                {player1_name + " loses...."}
+                Enter 'start' to begin another game!
+                            """
+            print(p2_win_msg)
             return
         elif len(player2_hand.getHand()) == 0:
             #Player 1 wins, player 2 ran out of cards
-            print(f"{player1_name} wins the game! {player2_name} has no more cards.")
             self.__highscore.add_statistics(player1_name, True, self.num_draws, datetime.date.today())
+
+            p1_win_msg =    f"""
+
+                    ██╗    ██╗██╗███╗   ██╗
+                    ██║    ██║██║████╗  ██║
+                    ██║ █╗ ██║██║██╔██╗ ██║
+                    ██║███╗██║██║██║╚██╗██║
+                    ╚███╔███╔╝██║██║ ╚████║
+                    ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝
+                {player1_name + " won the game!"}
+                {player2_name + " loses...."}
+                Enter 'start' to begin another game!
+                            """
+            print(p1_win_msg)
             return
+        
+
+        screen1 =   f"""
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                                                ▌
+        ▐         {player2_hand.get_amount():<2}🂠                                    ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                      Draw!                     ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                    🂠{player1_hand.get_amount():>2}         ▌
+        ▐                                                ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                    """
+        print(screen1)
+        input("Press to continue...")
 
         # Each player draws a card
         player1_card = player1_hand.drawcard()
         player2_card = player2_hand.drawcard()
         self.num_draws += 1
 
+        screen2 =   f"""
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       ?                        ▌
+        ▐         {player2_hand.get_amount():<2}🂠           🂠                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                    Reveal...                   ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       🂠           🂠{player1_hand.get_amount():>2}          ▌
+        ▐                       ?                        ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                    """
+        print(screen2)
+        input("Press to continue...")
 
         # Compare card values using correct get_value() method
         if player1_card.get_value() > player2_card.get_value():
             player2_active_cards = player2_hand.get_active_card()
-            print(f"{player1_name} wins the round and takes {len(player2_active_cards)} cards from {player2_name}.")
+            save_len = len(player2_active_cards)
             i, tmp = 0, len(player2_active_cards)
             while i < tmp:
                 player1_hand.addCard(player2_hand.removeCard())
                 i += 1
             player1_hand.return_cards()
+
+            screen3alt1 =   f"""
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       {player2_card.get_value():<2}                       ▌
+        ▐         {player2_hand.get_amount():<2}🂠           {player2_card.get_symbol()}                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐{(player1_name + " wins! They get " + str(save_len) + " card(s)"):^48}▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():>2}          ▌
+        ▐                       {player1_card.get_value():<2}                       ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                        """
+            print(screen3alt1)
+
         elif player1_card.get_value() < player2_card.get_value():
             player1_active_cards = player1_hand.get_active_card()
-            print(f"{player2_name} wins the round and takes {len(player1_active_cards)} cards from {player1_name}.")
+            save_len = len(player1_active_cards)
             i, tmp = 0, len(player1_active_cards)
             while i < tmp:
                 player2_hand.addCard(player1_hand.removeCard())
                 i += 1
             player2_hand.return_cards()
+
+            screen3alt2 =   f"""
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       {player2_card.get_value():<2}                       ▌
+        ▐         {player2_hand.get_amount():<2}🂠           {player2_card.get_symbol()}                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐{(player2_name + " wins! They get " + str(save_len) + " card(s)"):^48}▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():>2}          ▌
+        ▐                       {player1_card.get_value():<2}                       ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                        """
+            print(screen3alt2)
+
         else:
-            print("War! Players place one card face down and one card face up.")
+            screen3alt3 =   f"""
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       {player2_card.get_value():<2}                       ▌
+        ▐         {player2_hand.get_amount():<2}🂠           {player2_card.get_symbol()}                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                      War!                      ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():>2}          ▌
+        ▐                       {player1_card.get_value():<2}                       ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                        """
+            print(screen3alt3)
+            input("Press to continue...")
+
             # Check if players have enough cards for war
-            if len(player1_hand.getHand()) < 2:
-                print(f"{player1_name} cannot continue war - loses!")
+            if len(player1_hand.getHand()) < 2: #Player 1 doesn't have enough
                 for card in player1_hand.get_active_card():
                     player2_hand.addCard(player1_hand.removeCard())
                 player2_hand.return_cards()
+
+                screen3alt3 =   f"""
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       {player2_card.get_value():<2}                       ▌
+        ▐         {player2_hand.get_amount():<2}🂠           {player2_card.get_symbol()}                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐{(player1_name + " doesn't have enough cards!"):^48}▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():>2}          ▌
+        ▐                       {player1_card.get_value():<2}                       ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                        """
+                print(screen3alt3)
+
                 return
-            if len(player2_hand.getHand()) < 2:
-                print(f"{player2_name} cannot continue war - loses!")
+            elif len(player2_hand.getHand()) < 2: #Player 2 doesn't have enough cards
                 for card in player2_hand.get_active_card():
                     player1_hand.addCard(player2_hand.removeCard())
                 player1_hand.return_cards()
+
+                screen3alt3 =   f"""
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       {player2_card.get_value():<2}                       ▌
+        ▐         {player2_hand.get_amount():<2}🂠           {player2_card.get_symbol()}                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐{(player2_name + " doesn't have enough cards!"):^48}▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():>2}          ▌
+        ▐                       {player1_card.get_value():<2}                       ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                        """
+                print(screen3alt3)
+
                 return
 
-            # Each player places one card face down (on war pile)
+
+
+            # Each player places one card face down
             player1_hand.drawcard()
             player2_hand.drawcard()
             self.num_draws += 1
 
+            screen2 =   f"""
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       ?                        ▌
+        ▐         {player2_hand.get_amount():<2}🂠           🂠                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐             Place cards face down...           ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       🂠           🂠{player1_hand.get_amount():>2}          ▌
+        ▐                       ?                        ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                    """
+            print(screen2)
+            input("Press to continue...")
 
             # Recursively call draw_cards to determine who wins the war
             self.draw_cards()
+        
 
 
     def name_change(self, current_name, new_name):

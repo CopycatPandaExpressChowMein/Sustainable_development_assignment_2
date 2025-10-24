@@ -1,9 +1,9 @@
 """Deck class using Unicode playing card symbols (U+1F0A0–U+1F0FF)."""
 
 import random
-try:
+try: #Try imports for executing Main normally
     from Card import Card
-except:
+except: #Except imports for UnitTesting. To prevent module not found Error.
     from .Card import Card
 
 
