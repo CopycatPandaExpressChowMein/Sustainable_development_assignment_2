@@ -89,9 +89,36 @@ Each player draws cards; the higher value wins the round. If the cards are equal
 
 # Unit Testing
 --------------------------
+All main classes in the project have dedicated unittest files located in the test/ folder.
+Tests verify that each class and method behaves correctly.
+
+To run all tests:
+
+```
+python -m unittest discover -s test -v
+```
+
 
 # Documentation
 --------------------------
+The project is fully documented with docstrings describing classes, methods, and parameters.
+Documentation can be viewed with PyDoc:
+
+```
+python -m pydoc war
+```
+All code follows PEP 8 standards and is formatted with Black for consistency and readability.
+
 
 # UML Diagrams
 --------------------------
+Below are the UML class diagrams for our War card game.
+They describe the structure and relationships between all main classes in the project.
+
+Amjad: Implemented Card, Deck, and CardHand classes.
+
+Jesper: Implemented Player, Statistics, and Highscore classes.
+
+Besart: Implemented Game, Shell, Intelligence, and Main classes.
+
+Each diagram illustrates class attributes, methods, and their associations within the project.
