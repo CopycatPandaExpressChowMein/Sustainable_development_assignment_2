@@ -17,7 +17,7 @@ The main goal with this project was to write a small Terminal game in line with 
 
 Furthermore, the documentation for this project makes heavy use of __Make__, which can be installed using [Chocolatey](https://chocolatey.org/install)
 
-To install Make
+To install Make using the terminal
 ```
 Choco install make
 ```
@@ -28,6 +28,11 @@ Choco install make
 There are two main ways to install the game:
 - Download the game as a Zip file and Unzip
 - Clone the Repo
+
+Once installed, open your terminal and navigate to the main directory:
+```
+cd /*filepath here*/Sustainable_development_assignment_2/
+```
 
 ### Downloading a Zip file
 --------------------------
@@ -49,7 +54,7 @@ This will clone the report to the directory the terminal is currently open in.
 --------------------------
 In order to ensure that you have all the dependencies necessary, we recommend that you make sure you have a Python Virtual Environment (Venv for short) operational. A makefile with a make command is included with the project to make this as easy as possible. Simply do the following:
 
-How to Install
+How to Install with the terminal
 ```
 # Create the virtual environment
 make venv
@@ -67,6 +72,8 @@ When you are done you can leave the venv using the command deactivate.
 --------------------------
 To install the PIP packages that are dependencies to the project and/or the development environment. The dependencies are documented in the requirements.txt.
 Do not forget to check that you have an active venv.
+
+Using the terminal
 ```
 # Do install them
 make install
@@ -77,7 +84,7 @@ make installed
 
 Additionally, in order to generate UMLs of the project, make sure that Graphviz is installed.
 
-How to install Graphviz:
+How to install Graphviz using the terminal
 ```
 choco install Graphviz
 ```
@@ -91,7 +98,6 @@ cd /*filepath here*/Sustainable_development_assignment_2/
 ```
 
 Once the terminal is open in the right directory you can run it with the following:
-
 ```
 python war/Main.py
 ```
@@ -142,22 +148,22 @@ The player can cheat for testing purposes. This executes the cheat function in t
 All main classes in the project have dedicated unittest files located in the test/ folder.
 Tests verify that each class and method behaves correctly.
 
-Run all tests
+Run all tests using the terminal
 ```
 make unittest
 ```
 
-Run tests with coverage
+Run tests with coverage using the terminal
 ```
 make coverage
 ```
 
-Run linters and unittests with coverage
+Run linters and unittests with coverage using the terminal
 ```
 make test
 ```
 
-You can also run the tests for invidual classes using
+You can also run the tests for invidual classes using using the terminal
 ```
 python -m unittest test.test_game
 ```
@@ -168,12 +174,12 @@ python -m unittest test.test_game
 --------------------------
 Documentation can be found in the ```doc/``` folder.
 
-Generate documentation:
+Generate documentation using the terminal
 ```
 make pdoc
 ```
 
-Generate documentation and UML
+Generate documentation and UML using the terminal
 ```
 make doc
 ```
@@ -187,12 +193,12 @@ PNG of the UML diagrams can be found in the ```doc/``` folder.
 
 ![UML packages](/doc/uml/packages.png)
 
-Generate UML:
+Generate UML using the terminal
 ```
 make pyreverse
 ```
 
-Generate documentation and UML:
+Generate documentation and UML using the terminal
 ```
 make doc
 ```
