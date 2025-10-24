@@ -61,6 +61,20 @@ class TestStatistics(unittest.TestCase):
         self.assertEqual(s2.get_draws(), s.get_draws())
         self.assertEqual(s2.get_date(), s.get_date())
 
+    def test_to_dict_contains_expected_keys_and_types(self):
+        """to_dict should contain expected keys with sensible types/values."""
+        s = Statistics(False, 2, self.date)
+        d = s.to_dict()
+        # keys and basic types
+        self.assertIn('has_won', d)
+        self.assertIn('draws', d)
+        self.assertIn('date', d)
+        self.assertIsInstance(d['has_won'], bool)
+        self.assertIsInstance(d['draws'], int)
+        # date should be an ISO string matching the original
+        self.assertIsInstance(d['date'], str)
+        self.assertEqual(d['date'], self.date.isoformat())
+
 
 if __name__ == "__main__":
     unittest.main()

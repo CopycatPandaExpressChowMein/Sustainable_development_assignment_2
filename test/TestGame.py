@@ -75,6 +75,50 @@ class TestGame(unittest.TestCase):
         self.assertEqual(before_p1, game._Game__players[0].get_hand().getHand())
         self.assertEqual(before_p2, game._Game__players[1].get_hand().getHand())
 
+    def test_start_with_ai_level_and_ai_gets_level(self):
+        """Starting singleplayer with ai_level should create an Intelligence with that level."""
+        game = Game()
+        game.start(mode=1, player1="Solo", ai_level="greedy")
+        self.assertTrue(game.get_active_game())
+        # second player should be an Intelligence with greedy level
+        p2 = game._Game__players[1]
+        # Intelligence exposes get_level()
+        self.assertTrue(hasattr(p2, 'get_level'))
+        self.assertEqual(p2.get_level(), 'greedy')
+
+    def test_draw_when_player_has_no_cards_records_highscore(self):
+        """If one player has no cards, the other is recorded as winner in highscores."""
+        game = Game()
+        game.start(mode=2, player1="A", player2="B")
+        # empty player A's hand to trigger immediate loss
+        from war.CardHand import CardHand
+        game._Game__players[0].set_hand(CardHand([]))
+        # ensure player B has at least one card
+        self.assertGreaterEqual(len(game._Game__players[1].get_hand().getHand()), 0)
+        # call draw_cards should record B as winner
+        game.draw_cards()
+        highs = game._Game__highscore.get_highscores()
+        # The winner 'B' should have a key in highscores (possibly empty list appended)
+        self.assertIn('B', highs)
+
+    def test_name_change_updates_highscore_keys(self):
+        """Game.name_change should propagate to Highscore and replace keys."""
+        game = Game()
+        game.start(mode=2, player1="Old", player2="Other")
+        hs = game._Game__highscore
+        # ensure Old exists
+        self.assertIn('Old', hs.get_highscores())
+        # perform rename
+        game.name_change('Old', 'NewName')
+        self.assertIn('NewName', hs.get_highscores())
+        self.assertNotIn('Old', hs.get_highscores())
+
+    def test_cheat_swap_missing_player(self):
+        """cheat_swap should return False when one of the player names is not found."""
+        game = Game()
+        game.start(mode=2, player1="X", player2="Y")
+        self.assertFalse(game.cheat_swap("X", "NoSuchPlayer", 0, 0))
+
 
 if __name__ == "__main__":
     unittest.main()

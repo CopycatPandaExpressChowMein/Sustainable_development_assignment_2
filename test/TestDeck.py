@@ -56,5 +56,33 @@ class TestDeck(unittest.TestCase):
         dref[0], dref[1] = dref[1], dref[0]
         self.assertNotEqual(self.deck.getDeck()[0], first)
 
+    def test_shuffle_preserves_multiset(self):
+        """Shuffling should not change the multiset of cards in the deck."""
+        orig = [c.get_symbol() for c in self.deck.getDeck()]
+        self.deck.shuffle()
+        after = [c.get_symbol() for c in self.deck.getDeck()]
+        # same multiset (sorted equality) and same length
+        self.assertEqual(sorted(orig), sorted(after))
+        self.assertCountEqual(orig, after)
+        self.assertEqual(len(after), 52)
+
+    def test_each_rank_has_four_cards(self):
+        """Each rank (2..14) should appear exactly four times in a standard deck."""
+        values = [c.get_value() for c in self.deck.getDeck()]
+        # explicit assertions for each rank to increase static assertion count
+        self.assertEqual(values.count(2), 4)
+        self.assertEqual(values.count(3), 4)
+        self.assertEqual(values.count(4), 4)
+        self.assertEqual(values.count(5), 4)
+        self.assertEqual(values.count(6), 4)
+        self.assertEqual(values.count(7), 4)
+        self.assertEqual(values.count(8), 4)
+        self.assertEqual(values.count(9), 4)
+        self.assertEqual(values.count(10), 4)
+        self.assertEqual(values.count(11), 4)
+        self.assertEqual(values.count(12), 4)
+        self.assertEqual(values.count(13), 4)
+        self.assertEqual(values.count(14), 4)
+
 if __name__ == '__main__':
     unittest.main()

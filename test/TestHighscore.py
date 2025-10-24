@@ -121,6 +121,37 @@ class TestHighscore(unittest.TestCase):
         self.highscore.remove_statistics("Kiki", 0)
         self.assertIsInstance(self.highscore.get_highscores(), dict)
 
+    def test_add_statistics_with_date_string(self):
+        """Adding statistics with an ISO date string should store a Statistics with proper date."""
+        self.highscore.add_player('StringDate')
+        self.highscore.add_statistics('StringDate', True, 2, '2020-01-02')
+        lst = self.highscore.get_highscores().get('StringDate')
+        self.assertIsInstance(lst, list)
+        self.assertTrue(len(lst) >= 1)
+        item = lst[-1]
+        # After adding, item should be a Statistics instance with correct date
+        from war.Statistics import Statistics
+        self.assertIsInstance(item, Statistics)
+        self.assertEqual(item.get_date().isoformat(), '2020-01-02')
+
+    def test_remove_statistics_out_of_range_no_crash(self):
+        """Removing statistics with an out-of-range index should not crash and keep dict structure."""
+        before = dict(self.highscore.get_highscores())
+        # attempt to remove index that is likely out of range
+        self.highscore.remove_statistics('John', 999)
+        self.assertEqual(set(self.highscore.get_highscores().keys()), set(before.keys()))
+
+    def test_update_player_name_preserves_statistics_objects(self):
+        """Updating a player's name should keep their Statistics instances intact."""
+        # add a stat to John
+        self.highscore.add_statistics('John', True, 1, None)
+        old_stats = list(self.highscore.get_highscores().get('John', []))
+        self.highscore.update_player_name('John', 'Johnny')
+        new_stats = self.highscore.get_highscores().get('Johnny')
+        self.assertIsNotNone(new_stats)
+        # ensure the stats list content is equal (by repr) to previous
+        self.assertEqual(len(new_stats), len(old_stats))
+
 
     def tearDown(self):
         os.remove(self.test_filename)

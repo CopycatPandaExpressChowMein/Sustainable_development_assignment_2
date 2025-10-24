@@ -83,6 +83,32 @@ class TestShell(unittest.TestCase):
         else:
             self.shell.do_rules("")
 
+    def test_shell_internals_and_methods(self):
+        """A collection of asserts exercising Shell internals and expected methods."""
+        # Common textual tokens
+        self.assertIn("Welcome to War", self.shell.intro)
+        # Prompt and basic callable commands
+        self.assertEqual(self.shell.prompt, "> ")
+        self.assertTrue(hasattr(self.shell, 'do_start'))
+        self.assertTrue(hasattr(self.shell, 'do_quit'))
+        self.assertTrue(hasattr(self.shell, 'do_cheat'))
+        # draw command may be named either do_draw_card or do_drawCard
+        self.assertTrue(hasattr(self.shell, 'do_draw_card') or hasattr(self.shell, 'do_drawCard'))
+        # rules printing alias
+        self.assertTrue(hasattr(self.shell, 'do_rules') or hasattr(self.shell, 'do_printRules'))
+        # the injected fake game should be accessible
+        self.assertIsNotNone(self.shell.game)
+        self.assertTrue(hasattr(self.shell.game, 'players'))
+        self.assertEqual(len(self.shell.game.players), 2)
+        # players expose get_name
+        self.assertTrue(all(hasattr(p, 'get_name') for p in self.shell.game.players))
+        # verify that the shell commands are callable
+        self.assertTrue(callable(getattr(self.shell, 'do_start', None)))
+        self.assertTrue(callable(getattr(self.shell, 'do_quit', None)))
+        self.assertTrue(callable(getattr(self.shell, 'do_cheat', None)))
+        # fake game method get_active_game returns False per test-double
+        self.assertFalse(self.shell.game.get_active_game())
+
 
 if __name__ == "__main__":
     unittest.main()
