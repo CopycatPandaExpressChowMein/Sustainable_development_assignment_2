@@ -2,6 +2,9 @@ import unittest
 from war.Shell import Shell
 from war.Player import Player
 from war.CardHand import CardHand
+from unittest.mock import patch
+import io
+import sys
 
 # Create a small test-double (fake) Game so Shell methods don't block on input
 class FakeGame:
@@ -108,6 +111,93 @@ class TestShell(unittest.TestCase):
         self.assertTrue(callable(getattr(self.shell, 'do_cheat', None)))
         # fake game method get_active_game returns False per test-double
         self.assertFalse(self.shell.game.get_active_game())
+
+
+# Additional tests from the former TestShellExtra.py
+class FakeGameForShell:
+    def __init__(self):
+        self.started_with = None
+        self.name_changed = None
+        self.saved = False
+        self._active = False
+
+    def start(self, *args, **kwargs):
+        self.started_with = (args, kwargs)
+
+    def get_active_game(self):
+        return self._active
+
+    def name_change(self, a, b):
+        self.name_changed = (a, b)
+
+    def save_highscore(self):
+        self.saved = True
+
+
+class TestShellExtra(unittest.TestCase):
+
+    def test_do_start_singleplayer_default_ai_level(self):
+        fake = FakeGameForShell()
+        shell = Shell(game=fake)
+        # Sequence: pick mode '1', player1 name, then empty ai_level to accept default
+        with patch('builtins.input', side_effect=['1', 'PlayerOne', '']):
+            shell.do_start('')
+
+        # Verify the fake game.start was called with mode 1 and ai_level default
+        args, kwargs = fake.started_with
+        self.assertEqual(args[0], 1)
+        self.assertEqual(args[1], 'PlayerOne')
+        self.assertIn('ai_level', kwargs)
+        self.assertEqual(kwargs['ai_level'], 'top')
+
+    def test_do_start_singleplayer_invalid_ai_then_valid(self):
+        fake = FakeGameForShell()
+        shell = Shell(game=fake)
+        # pick '1', name, then invalid 'bad', then valid 'greedy'
+        with patch('builtins.input', side_effect=['1', 'P', 'bad', 'greedy']):
+            shell.do_start('')
+
+        args, kwargs = fake.started_with
+        self.assertEqual(args[0], 1)
+        self.assertEqual(args[1], 'P')
+        self.assertEqual(kwargs.get('ai_level'), 'greedy')
+
+    def test_do_start_two_player(self):
+        fake = FakeGameForShell()
+        shell = Shell(game=fake)
+        # pick '2', player1, player2
+        with patch('builtins.input', side_effect=['2', 'P1', 'P2']):
+            shell.do_start('')
+
+        args, kwargs = fake.started_with
+        self.assertEqual(args[0], 2)
+        self.assertEqual(args[1], 'P1')
+        self.assertEqual(args[2], 'P2')
+
+    def test_do_namechange_inactive_prints_message(self):
+        fake = FakeGameForShell()
+        fake._active = False
+        shell = Shell(game=fake)
+        captured = io.StringIO()
+        with patch('sys.stdout', new=captured):
+            shell.do_namechange('')
+        out = captured.getvalue()
+        self.assertIn('Please start a game before you begin drawing cards!', out)
+
+    def test_do_namechange_active_calls_game_name_change(self):
+        fake = FakeGameForShell()
+        fake._active = True
+        shell = Shell(game=fake)
+        with patch('builtins.input', side_effect=['OldName', 'NewName']):
+            shell.do_namechange('')
+        self.assertEqual(fake.name_changed, ('OldName', 'NewName'))
+
+    def test_do_quit_calls_save_highscore_and_returns_true(self):
+        fake = FakeGameForShell()
+        shell = Shell(game=fake)
+        result = shell.do_quit('')
+        self.assertTrue(fake.saved)
+        self.assertTrue(result)
 
 
 if __name__ == "__main__":
