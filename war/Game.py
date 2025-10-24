@@ -82,8 +82,8 @@ class Game:
                     ██║███╗██║██║██║╚██╗██║
                     ╚███╔███╔╝██║██║ ╚████║
                     ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝
-                {player2_name + " won the game!"}
-                {player1_name + " loses...."}
+                    {player2_name + " won the game!"}
+                    {player1_name + " loses...."}
                 Enter 'start' to begin another game!
                             """
             print(p2_win_msg)
@@ -100,8 +100,8 @@ class Game:
                     ██║███╗██║██║██║╚██╗██║
                     ╚███╔███╔╝██║██║ ╚████║
                     ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝
-                {player1_name + " won the game!"}
-                {player2_name + " loses...."}
+                    {player1_name + " won the game!"}
+                    {player2_name + " loses...."}
                 Enter 'start' to begin another game!
                             """
             print(p1_win_msg)
