@@ -112,3 +112,13 @@ All code follows PEP 8 standards and is formatted with Black for consistency and
 
 # UML Diagrams
 --------------------------
+Below are the UML class diagrams for our War card game.
+They describe the structure and relationships between all main classes in the project.
+
+Amjad: Implemented Card, Deck, and CardHand classes.
+
+Jesper: Implemented Player, Statistics, and Highscore classes.
+
+Besart: Implemented Game, Shell, Intelligence, and Main classes.
+
+Each diagram illustrates class attributes, methods, and their associations within the project.
