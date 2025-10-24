@@ -80,3 +80,11 @@ class CardHand:
         """
         self.activeCard = active_cards
         return self.activeCard
+    
+    def get_amount(self):
+        return self.amount
+
+    def set_amount(self, amount):
+        self.amount = amount
+        return self.amount
+    
