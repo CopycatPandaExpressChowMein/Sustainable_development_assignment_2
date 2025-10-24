@@ -1,10 +1,7 @@
 """CardHand class for managing a player's hand of cards."""
 
-from .Card import Card  # Import Card class from the same package
-
-
 class CardHand:
-    def __init__(self, cards):
+    def __init__(self, cards=[]):
         """
         Initialize the hand with a list of cards.
         :param cards: list of Card objects
@@ -42,6 +39,17 @@ class CardHand:
         if not self.activeCard:
             return None
         return self.activeCard.pop(0)  # Remove and return one active card
+    
+    def return_cards(self):
+        """
+        Returns all active cards to the players hand. 
+        I.E clears the activeCards list.
+        """
+        i, tmp = 0, len(self.activeCard)
+        while i < tmp:
+            self.hand.append(self.removeCard())
+            i += 1
+        self.amount = len(self.hand)
 
     def getHand(self):
         """
@@ -57,3 +65,26 @@ class CardHand:
         """
         self.hand = list(hand)  # Set a new hand
         self.amount = len(hand)  # Update the count
+
+    def get_active_card(self):
+        """
+        Returns the list of active cards        
+        """
+        return self.activeCard
+    
+    def set_active_card(self, active_cards=[]):
+        """
+        Replace the active cards with a new list of active cards.
+
+        :active_cards: List of card objects. Default param is an empty list.
+        """
+        self.activeCard = active_cards
+        return self.activeCard
+    
+    def get_amount(self):
+        return self.amount
+
+    def set_amount(self, amount):
+        self.amount = amount
+        return self.amount
+    
