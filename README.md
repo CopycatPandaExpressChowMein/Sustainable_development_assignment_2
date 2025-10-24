@@ -83,7 +83,8 @@ python war/Main.py
 
 # Basic Game Info
 --------------------------
-
+War is a simple two-player card game written in Python for Sustainable Development Assignment 2.
+Each player draws cards; the higher value wins the round. If the cards are equal, a “war” occurs until one player wins all cards.
 
 
 # Unit Testing
