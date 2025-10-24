@@ -21,11 +21,14 @@ There are two main ways to install the game:
 - Download the game as a Zip file and Unzip
 - Clone the Repo
 
-## Downloading a Zip file
+### Downloading a Zip file
 --------------------------
+To download the zip file, either navigate to the latest release and download it from there. Or click the big green 'Code' button, which will open a drop down menu with a download option.
+
+Once downloaded simply unzip the file with your unzipper of choice.
 
 
-## Cloning a Repo
+### Cloning a Repo
 --------------------------
 To clone the repo, simply open the terminal and enter
 
@@ -34,8 +37,35 @@ git clone https://github.com/CopycatPandaExpressChowMein/Sustainable_development
 ```
 
 This will clone the report to the directory the terminal is currently open in.
-## Installing Venv
+### Installing Venv
 --------------------------
+In order to ensure that you have all the dependencies necessary, we recommend that you make sure you have a Python Virtual Environment (Venv for short) operational. A makefile with a make command is included with the project to make this as easy as possible. Simply do the following:
+
+How to Install
+```
+# Create the virtual environment
+make venv
+
+# Activate on Windows
+. .venv/Scripts/activate
+
+# Activate on Linx/Mac
+. .venv/bin/activate
+```
+
+When you are done you can leave the venv using the command deactivate.
+
+### Installing dependencies
+--------------------------
+To install the PIP packages that are dependencies to the project and/or the development environment. The dependencies are documented in the requirements.txt.
+Do not forget to check that you have an active venv.
+```
+# Do install them
+make install
+
+# Check what is installed
+make installed
+```
 
 # Running the game
 --------------------------

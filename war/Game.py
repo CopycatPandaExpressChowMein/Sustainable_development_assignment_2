@@ -223,10 +223,14 @@ class Game:
             idx2 = None
 
         player1_card = (
-            player1_hand.draw_card(idx1) if idx1 is not None else player1_hand.draw_card()
+            player1_hand.draw_card(idx1)
+            if idx1 is not None
+            else player1_hand.draw_card()
         )
         player2_card = (
-            player2_hand.draw_card(idx2) if idx2 is not None else player2_hand.draw_card()
+            player2_hand.draw_card(idx2)
+            if idx2 is not None
+            else player2_hand.draw_card()
         )
         # Only count the draw for top-level (external) invocations. Internal recursive
         # draws during war resolution should not increment the public draw counter.

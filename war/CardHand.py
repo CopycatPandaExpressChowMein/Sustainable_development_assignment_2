@@ -1,5 +1,6 @@
 """CardHand class for managing a player's hand of cards."""
 
+
 class CardHand:
     def __init__(self, cards=None):
         """Initialize the CardHand.
@@ -46,7 +47,7 @@ class CardHand:
         if not self.activeCard:
             return None
         return self.activeCard.pop(0)  # Remove and return one active card
-    
+
     def return_cards(self):
         """Return all active cards back into the player's hand.
 
@@ -73,7 +74,7 @@ class CardHand:
     def get_active_card(self):
         """Return the list of active cards."""
         return self.activeCard
-    
+
     def set_active_card(self, active_cards=[]):
         """Replace the active cards with a new list.
 
@@ -81,11 +82,10 @@ class CardHand:
         """
         self.activeCard = list(active_cards)
         return self.activeCard
-    
+
     def get_amount(self):
         return self.amount
 
     def set_amount(self, amount):
         self.amount = amount
         return self.amount
-    

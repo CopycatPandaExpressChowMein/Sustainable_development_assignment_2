@@ -1,7 +1,7 @@
-try: #Try imports for executing Main normally
+try:  # Try imports for executing Main normally
     from Shell import Shell
-except: #Except imports for UnitTesting. To prevent module not found Error.
-    from .Shell import Shell 
+except:  # Except imports for UnitTesting. To prevent module not found Error.
+    from .Shell import Shell
 
 
 class Main:
@@ -9,7 +9,7 @@ class Main:
 
     def run(self):
         """Runs the main program"""
-        
+
         Shell().cmdloop()
 
 
