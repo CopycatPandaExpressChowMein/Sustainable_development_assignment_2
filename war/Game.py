@@ -1,3 +1,10 @@
+"""Core game module.
+
+Contains the Game class which implements the main War game logic and state.
+This module is intentionally free of direct long-running interactive loops so the
+logic can be used programmatically by tests and by the Shell CLI.
+"""
+
 import datetime
 try: #Try imports for executing Main normally
     from Deck import Deck
@@ -19,20 +26,21 @@ class Game:
 
     
     def __init__(self):
-        """initialises the game with default value"""
+        """Initialize the Game with default values."""
         self.__highscore = Highscore()
         self.__active_game = False
 
-    def start(self,  mode=1, player1="Anonymous", player2="Anonymous"):
-        """
-        Starts the game.
-        
-        :player1: Name of player 1 as a String. Default param is Anonymous.
-        :player2: Name of player 2 as a String. Default param is Anonymous.
-        :mode: The gamemode as an int, 1 representing singleplayer and 2 multiplayer. Default param is 1 (Singleplayer)
+    def start(self,  mode=1, player1="Anonymous", player2="Anonymous", ai_level="top"):
+        """Start a new game and deal cards to players.
+
+        :param mode: 1 for singleplayer or 2 for two-player
+        :param player1: name of player 1 (default 'Anonymous')
+        :param player2: name of player 2 (ignored in singleplayer)
+        :param ai_level: intelligence level for AI players ('top', 'random', 'greedy')
         """
         self.__player1 = Player(player1)
-        self.__player2 = Player(player2) if mode == 2 else Intelligence("AI") #Checks whether the current mode is single or multiplayer and assigns player2 accordingly.
+        # Checks whether the current mode is single or multiplayer and assigns player2 accordingly.
+        self.__player2 = Player(player2) if mode == 2 else Intelligence("AI", level=ai_level)
         self.__players = [self.__player1, self.__player2]
         
         self.__deck = Deck()
@@ -49,96 +57,86 @@ class Game:
         
 
     def get_active_game(self):
-        """Returns a bool indicating whether or not a game is ongoing or not."""
+        """Return True when a game is currently active, otherwise False."""
         return self.__active_game
 
     def cheat(self):
-        """Display both players' hands and allow swapping one card.
+        """Programmatic cheat hook (no-op kept for compatibility)."""
+        # programmatic no-op kept for compatibility with Shell.do_cheat()
+        return None
 
-        This helper is intended for testing. It shows each player's hand and
-        lets the user swap a single card between the selected player and the
-        opponent. Swapped-in cards are placed on top of each hand so they will
-        be drawn next.
+    def cheat_swap(self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0) -> bool:
+        """Swap cards between two players by index.
+
+        Returns True on success or False when players/indices are invalid.
         """
-        # Ensure players are initialized
-        if not getattr(self, "players", None) or len(self.players) < 2:
-            print("No active game or fewer than two players. Start a game first to use cheat().")
-            return
+        # locate players
+        players = getattr(self, "_Game__players", None)
+        if not players:
+            return False
 
-        # Use the game's players list
-        players = self.players
+        p_from = None
+        p_to = None
+        for p in players:
+            try:
+                if p.get_name() == from_name:
+                    p_from = p
+                if p.get_name() == to_name:
+                    p_to = p
+            except Exception:
+                continue
 
-        # Display each player's hand with indices
-        for i, p in enumerate(players):
-            hand = p.get_hand()
-            cards = hand.getHand() if hand is not None else []
-            display = ", ".join(f"[{idx}] {str(c)}" for idx, c in enumerate(cards))
-            print(f"{i+1}) {p.get_name()} - {len(cards)} cards: {display}")
+        if p_from is None or p_to is None:
+            return False
 
-        # Prompt for which player to act as (index or name)
-        choice = input("Which player are you? Enter 1 or 2 (or player name): ").strip()
-        src_idx = None
-        if choice in ("1", "2"):
-            src_idx = int(choice) - 1
-        else:
-            # Match by name
-            for i, p in enumerate(players):
-                if p.get_name() == choice:
-                    src_idx = i
-                    break
+        hand_from = p_from.get_hand().getHand()
+        hand_to = p_to.get_hand().getHand()
 
-        if src_idx is None or src_idx not in (0, 1):
-            print("Invalid player selection. Aborting cheat.")
-            return
+        # validate indices
+        if index_from < 0 or index_from >= len(hand_from):
+            return False
+        if index_to < 0 or index_to >= len(hand_to):
+            return False
 
-        tgt_idx = 1 - src_idx
-        src_hand_obj = players[src_idx].get_hand()
-        tgt_hand_obj = players[tgt_idx].get_hand()
+        # perform swap
+        card_from = hand_from.pop(index_from)
+        card_to = hand_to.pop(index_to)
 
-        if src_hand_obj is None or tgt_hand_obj is None:
-            print("One of the players does not have a hand. Aborting cheat.")
-            return
+        # reinsert cards
+        hand_from.insert(index_from, card_to)
+        hand_to.insert(index_to, card_from)
 
-        src_hand = src_hand_obj.getHand()
-        tgt_hand = tgt_hand_obj.getHand()
-
-        if not src_hand:
-            print(f"{players[src_idx].get_name()} has no cards to swap.")
-            return
-        if not tgt_hand:
-            print(f"{players[tgt_idx].get_name()} has no cards to swap.")
-            return
-
-        # Show detailed hands
-        print(f"\nYour hand ({players[src_idx].get_name()}):")
-        for i, c in enumerate(src_hand):
-            print(f"  {i}: {c}")
-        print(f"\nOpponent's hand ({players[tgt_idx].get_name()}):")
-        for i, c in enumerate(tgt_hand):
-            print(f"  {i}: {c}")
-
+        # update amounts
         try:
-            s_index = int(input("Enter index of your card to give away: ").strip())
-            t_index = int(input("Enter index of opponent's card to take: ").strip())
-        except ValueError:
-            print("Invalid index input. Aborting cheat.")
+            p_from.get_hand().amount = len(hand_from)
+            p_to.get_hand().amount = len(hand_to)
+        except Exception:
+            pass
+
+        return True
+
+    def _pause(self):
+        """Pause helper that avoids blocking when running tests."""
+        try:
+            import sys
+            # If unittest is running, skip pause to avoid blocking automated tests
+            if 'unittest' in sys.modules:
+                return
+        except Exception:
+            pass
+        try:
+            input("Press to continue...")
+        except Exception:
             return
-
-        if s_index < 0 or s_index >= len(src_hand) or t_index < 0 or t_index >= len(tgt_hand):
-            print("Index out of range. Aborting cheat.")
-            return
-
-        # Swap the selected cards and place the taken cards on top
-        s_card = src_hand.pop(s_index)
-        t_card = tgt_hand.pop(t_index)
-
-        src_hand.insert(0, t_card)
-        tgt_hand.insert(0, s_card)
-
-        print(f"Swapped your {s_card} with opponent's {t_card}. The taken cards were placed on top of each hand.")
+        
 
     #TODO Graphics
-    def draw_cards(self):
+    def draw_cards(self, internal=False):
+        """Execute a single draw round and resolve the result.
+
+        When ``internal`` is True the call is part of recursive war resolution
+        and will not increment the public draw counter.
+        """
 
         
 
@@ -207,12 +205,28 @@ class Game:
         {player1_name:^50}
                     """
         print(screen1)
-        input("Press to continue...")
+        self._pause()
 
-        # Each player draws a card
-        player1_card = player1_hand.drawcard()
-        player2_card = player2_hand.drawcard()
-        self.num_draws += 1
+        # Each player draws a card. If a player provides a choose_index method (AI), use it.
+        idx1 = None
+        idx2 = None
+        try:
+            if hasattr(self.__players[0], "choose_index"):
+                idx1 = self.__players[0].choose_index()
+        except Exception:
+            idx1 = None
+        try:
+            if hasattr(self.__players[1], "choose_index"):
+                idx2 = self.__players[1].choose_index()
+        except Exception:
+            idx2 = None
+
+        player1_card = player1_hand.drawcard(idx1) if idx1 is not None else player1_hand.drawcard()
+        player2_card = player2_hand.drawcard(idx2) if idx2 is not None else player2_hand.drawcard()
+        # Only count the draw for top-level (external) invocations. Internal recursive
+        # draws during war resolution should not increment the public draw counter.
+        if not internal:
+            self.num_draws += 1
 
         screen2 =   f"""
         {player2_name:^50}
@@ -232,7 +246,7 @@ class Game:
         {player1_name:^50}
                     """
         print(screen2)
-        input("Press to continue...")
+        self._pause()
 
         # Compare card values using correct get_value() method
         if player1_card.get_value() > player2_card.get_value():
@@ -310,7 +324,7 @@ class Game:
         {player1_name:^50}
                         """
             print(screen3alt3)
-            input("Press to continue...")
+            self._pause()
 
             # Check if players have enough cards for war
             if len(player1_hand.getHand()) < 2: #Player 1 doesn't have enough
@@ -366,10 +380,10 @@ class Game:
 
 
 
-            # Each player places one card face down
+            # Each player places one card face down (internal mechanics, do not
+            # increment the public draw counter)
             player1_hand.drawcard()
             player2_hand.drawcard()
-            self.num_draws += 1
 
             screen2 =   f"""
         {player2_name:^50}
@@ -389,18 +403,26 @@ class Game:
         {player1_name:^50}
                     """
             print(screen2)
-            input("Press to continue...")
+            self._pause()
 
-            # Recursively call draw_cards to determine who wins the war
-            self.draw_cards()
+            # Recursively call draw_cards to determine who wins the war. Mark
+            # this as internal so the public draw counter isn't incremented again.
+            self.draw_cards(internal=True)
         
 
 
     def name_change(self, current_name, new_name):
-        """ 
-        Takes a current and new name and updates it in the highscore object.
-        Prints the change to cmd.
-        And then saves the highscore object to json.
+        """Change a player's name and persist the updated highscores.
+
+        This updates the player's key in the Highscore object and triggers
+        a save to the configured highscores file.
+
+        Parameters
+        ----------
+        current_name : str
+            The existing player name to replace.
+        new_name : str
+            The new player name.
         """
         self.__highscore.update_player_name(current_name, new_name)
         self.save_highscore()
