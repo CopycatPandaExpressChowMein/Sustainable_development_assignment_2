@@ -1,7 +1,7 @@
 import json
-try:
+try: #Try imports for executing Main normally
     from Statistics import Statistics
-except:
+except: #Except imports for UnitTesting. To prevent module not found Error.
     from .Statistics import Statistics
 
 
