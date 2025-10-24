@@ -74,7 +74,7 @@ class TestPlayer(unittest.TestCase):
         ret = p.set_hand(new_hand)
         self.assertIs(ret, new_hand)
         # mutate the hand and check player.view
-        new_hand.addCard(object())
+        new_hand.add_card(object())
         self.assertIs(p.get_hand(), new_hand)
 
     def test_set_name_returns_and_updates(self):

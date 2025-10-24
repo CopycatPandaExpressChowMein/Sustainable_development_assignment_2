@@ -91,8 +91,8 @@ class Game:
         if p_from is None or p_to is None:
             return False
 
-        hand_from = p_from.get_hand().getHand()
-        hand_to = p_to.get_hand().getHand()
+        hand_from = p_from.get_hand().get_hand()
+        hand_to = p_to.get_hand().get_hand()
 
         # validate indices
         if index_from < 0 or index_from >= len(hand_from):
@@ -147,7 +147,7 @@ class Game:
         player2_name = self.__players[1].get_name()
 
         # Check if any player ran out of cards, game over condition
-        if len(player1_hand.getHand()) == 0:
+        if len(player1_hand.get_hand()) == 0:
             # Player 2 wins, player 1 ran out of cards
             self.__highscore.add_statistics(
                 player2_name, True, self.num_draws, datetime.date.today()
@@ -167,7 +167,7 @@ class Game:
                             """
             print(p2_win_msg)
             return
-        elif len(player2_hand.getHand()) == 0:
+        elif len(player2_hand.get_hand()) == 0:
             # Player 1 wins, player 2 ran out of cards
             self.__highscore.add_statistics(
                 player1_name, True, self.num_draws, datetime.date.today()
@@ -223,10 +223,10 @@ class Game:
             idx2 = None
 
         player1_card = (
-            player1_hand.drawcard(idx1) if idx1 is not None else player1_hand.drawcard()
+            player1_hand.draw_card(idx1) if idx1 is not None else player1_hand.draw_card()
         )
         player2_card = (
-            player2_hand.drawcard(idx2) if idx2 is not None else player2_hand.drawcard()
+            player2_hand.draw_card(idx2) if idx2 is not None else player2_hand.draw_card()
         )
         # Only count the draw for top-level (external) invocations. Internal recursive
         # draws during war resolution should not increment the public draw counter.
@@ -259,7 +259,7 @@ class Game:
             save_len = len(player2_active_cards)
             i, tmp = 0, len(player2_active_cards)
             while i < tmp:
-                player1_hand.addCard(player2_hand.removeCard())
+                player1_hand.add_card(player2_hand.remove_card())
                 i += 1
             player1_hand.return_cards()
 
@@ -287,7 +287,7 @@ class Game:
             save_len = len(player1_active_cards)
             i, tmp = 0, len(player1_active_cards)
             while i < tmp:
-                player2_hand.addCard(player1_hand.removeCard())
+                player2_hand.add_card(player1_hand.remove_card())
                 i += 1
             player2_hand.return_cards()
 
@@ -332,9 +332,9 @@ class Game:
             self._pause()
 
             # Check if players have enough cards for war
-            if len(player1_hand.getHand()) < 2:  # Player 1 doesn't have enough
+            if len(player1_hand.get_hand()) < 2:  # Player 1 doesn't have enough
                 for card in player1_hand.get_active_card():
-                    player2_hand.addCard(player1_hand.removeCard())
+                    player2_hand.add_card(player1_hand.remove_card())
                 player2_hand.return_cards()
 
                 screen3alt3 = f"""
@@ -357,9 +357,9 @@ class Game:
                 print(screen3alt3)
 
                 return
-            elif len(player2_hand.getHand()) < 2:  # Player 2 doesn't have enough cards
+            elif len(player2_hand.get_hand()) < 2:  # Player 2 doesn't have enough cards
                 for card in player2_hand.get_active_card():
-                    player1_hand.addCard(player2_hand.removeCard())
+                    player1_hand.add_card(player2_hand.remove_card())
                 player1_hand.return_cards()
 
                 screen3alt3 = f"""
@@ -385,8 +385,8 @@ class Game:
 
             # Each player places one card face down (internal mechanics, do not
             # increment the public draw counter)
-            player1_hand.drawcard()
-            player2_hand.drawcard()
+            player1_hand.draw_card()
+            player2_hand.draw_card()
 
             screen2 = f"""
         {player2_name:^50}

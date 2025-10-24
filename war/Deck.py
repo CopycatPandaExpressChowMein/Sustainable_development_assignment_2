@@ -99,10 +99,10 @@ class Deck:
         half = len(self._deck) // 2
         return self._deck[:half], self._deck[half:]
 
-    def getDeck(self):
+    def get_deck(self):
         """Return the full deck of cards."""
         return self._deck
 
-    def setDeck(self, deck):
+    def set_deck(self, deck):
         """Replace the current deck with a new list of cards."""
         self._deck = deck

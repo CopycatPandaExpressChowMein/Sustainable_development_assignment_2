@@ -42,13 +42,13 @@ class TestGame(unittest.TestCase):
         game = Game()
         game.start(mode=1, player1="Alice")
         # record initial sizes
-        h0 = len(game._Game__players[0].get_hand().getHand())
-        h1 = len(game._Game__players[1].get_hand().getHand())
+        h0 = len(game._Game__players[0].get_hand().get_hand())
+        h1 = len(game._Game__players[1].get_hand().get_hand())
         game.draw_cards()
         self.assertEqual(game.num_draws, 1)
         # At least one player's hand has decreased (or game ended)
-        new_h0 = len(game._Game__players[0].get_hand().getHand())
-        new_h1 = len(game._Game__players[1].get_hand().getHand())
+        new_h0 = len(game._Game__players[0].get_hand().get_hand())
+        new_h1 = len(game._Game__players[1].get_hand().get_hand())
         self.assertTrue(new_h0 < h0 or new_h1 < h1 or not game.get_active_game())
 
     def test_cheat_swap_success_and_failure(self):
@@ -56,8 +56,8 @@ class TestGame(unittest.TestCase):
         game = Game()
         game.start(mode=2, player1="P1", player2="P2")
 
-        p1_hand = game._Game__players[0].get_hand().getHand()
-        p2_hand = game._Game__players[1].get_hand().getHand()
+        p1_hand = game._Game__players[0].get_hand().get_hand()
+        p2_hand = game._Game__players[1].get_hand().get_hand()
 
         # Ensure both hands have at least one card for the test
         self.assertGreaterEqual(len(p1_hand), 1)
@@ -71,8 +71,8 @@ class TestGame(unittest.TestCase):
         ok = game.cheat_swap("P1", "P2", 0, 0)
         self.assertTrue(ok)
 
-        p1_hand_after = game._Game__players[0].get_hand().getHand()
-        p2_hand_after = game._Game__players[1].get_hand().getHand()
+        p1_hand_after = game._Game__players[0].get_hand().get_hand()
+        p2_hand_after = game._Game__players[1].get_hand().get_hand()
 
         self.assertIs(p1_hand_after[0], p2_top_before)
         self.assertIs(p2_hand_after[0], p1_top_before)
@@ -81,8 +81,8 @@ class TestGame(unittest.TestCase):
         before_p1 = list(p1_hand_after)
         before_p2 = list(p2_hand_after)
         self.assertFalse(game.cheat_swap("P1", "P2", 999, 0))
-        self.assertEqual(before_p1, game._Game__players[0].get_hand().getHand())
-        self.assertEqual(before_p2, game._Game__players[1].get_hand().getHand())
+        self.assertEqual(before_p1, game._Game__players[0].get_hand().get_hand())
+        self.assertEqual(before_p2, game._Game__players[1].get_hand().get_hand())
 
     def test_start_with_ai_level_and_ai_gets_level(self):
         """Starting singleplayer with ai_level should create an Intelligence with that level."""
@@ -104,7 +104,7 @@ class TestGame(unittest.TestCase):
 
         game._Game__players[0].set_hand(CardHand([]))
         # ensure player B has at least one card
-        self.assertGreaterEqual(len(game._Game__players[1].get_hand().getHand()), 0)
+        self.assertGreaterEqual(len(game._Game__players[1].get_hand().get_hand()), 0)
         # call draw_cards should record B as winner
         game.draw_cards()
         highs = game._Game__highscore.get_highscores()
@@ -145,8 +145,8 @@ class TestGame(unittest.TestCase):
         p2.set_hand(CardHand([Card(5, "5", "s", "b")]))
 
         # Ensure precondition
-        self.assertEqual(len(p1.get_hand().getHand()), 2)
-        self.assertEqual(len(p2.get_hand().getHand()), 1)
+        self.assertEqual(len(p1.get_hand().get_hand()), 2)
+        self.assertEqual(len(p2.get_hand().get_hand()), 1)
 
         # Trigger the draw which should detect the war and then p1 can't continue and thus p2 wins
         g.draw_cards()

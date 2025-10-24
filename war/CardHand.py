@@ -1,6 +1,5 @@
 """CardHand class for managing a player's hand of cards."""
 
-
 class CardHand:
     def __init__(self, cards=None):
         """Initialize the CardHand.
@@ -15,7 +14,7 @@ class CardHand:
         self.activeCard = []  # Cards that have been drawn (active)
         self.amount = len(self.hand)  # Number of cards currently in hand
 
-    def drawcard(self, index=0):
+    def draw_card(self, index=0):
         """Draw a card from the hand at the given index.
 
         Moves the card from `hand` to `activeCard`. If no index is provided,
@@ -31,7 +30,7 @@ class CardHand:
         self.amount = len(self.hand)
         return card
 
-    def addCard(self, card):
+    def add_card(self, card):
         """Add a Card object to the hand.
 
         :param card: Card object to append
@@ -39,7 +38,7 @@ class CardHand:
         self.hand.append(card)  # Add the card to the hand
         self.amount = len(self.hand)  # Update the count
 
-    def removeCard(self):
+    def remove_card(self):
         """Remove and return one active card.
 
         Returns the earliest active card or None if there are no active cards.
@@ -47,7 +46,7 @@ class CardHand:
         if not self.activeCard:
             return None
         return self.activeCard.pop(0)  # Remove and return one active card
-
+    
     def return_cards(self):
         """Return all active cards back into the player's hand.
 
@@ -55,15 +54,15 @@ class CardHand:
         """
         i, tmp = 0, len(self.activeCard)
         while i < tmp:
-            self.hand.append(self.removeCard())
+            self.hand.append(self.remove_card())
             i += 1
         self.amount = len(self.hand)
 
-    def getHand(self):
+    def get_hand(self):
         """Return the current list of Card objects in the hand."""
         return self.hand
 
-    def setHand(self, hand):
+    def set_hand(self, hand):
         """Replace the hand with a new list of cards.
 
         :param hand: list of Card objects
@@ -74,7 +73,7 @@ class CardHand:
     def get_active_card(self):
         """Return the list of active cards."""
         return self.activeCard
-
+    
     def set_active_card(self, active_cards=[]):
         """Replace the active cards with a new list.
 
@@ -82,10 +81,11 @@ class CardHand:
         """
         self.activeCard = list(active_cards)
         return self.activeCard
-
+    
     def get_amount(self):
         return self.amount
 
     def set_amount(self, amount):
         self.amount = amount
         return self.amount
+    

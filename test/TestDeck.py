@@ -20,11 +20,11 @@ class TestDeck(unittest.TestCase):
 
     def test_shuffle_changes_order(self):
         """Test that shuffle() changes the card order."""
-        original_order = self.deck.getDeck().copy()
+        original_order = self.deck.get_deck().copy()
         self.deck.shuffle()
         self.assertNotEqual(
             original_order,
-            self.deck.getDeck(),
+            self.deck.get_deck(),
             "Deck order did not change after shuffle.",
         )
 
@@ -34,28 +34,28 @@ class TestDeck(unittest.TestCase):
         self.assertEqual(len(half1), 26)
         self.assertEqual(len(half2), 26)
 
-    def test_getDeck_returns_list_of_cards(self):
-        """Test that getDeck() returns a list of Card objects."""
-        deck_list = self.deck.getDeck()
+    def test_get_deck_returns_list_of_cards(self):
+        """Test that get_deck() returns a list of Card objects."""
+        deck_list = self.deck.get_deck()
         self.assertIsInstance(deck_list, list)
         self.assertTrue(all(isinstance(card, Card) for card in deck_list))
 
-    def test_setDeck_replaces_deck(self):
-        """Test that setDeck() replaces the deck with a new one."""
+    def test_set_deck_replaces_deck(self):
+        """Test that set_deck() replaces the deck with a new one."""
         new_cards = [Card(2, "🂢", "Spades", "black"), Card(3, "🂣", "Spades", "black")]
-        self.deck.setDeck(new_cards)
-        self.assertEqual(self.deck.getDeck(), new_cards)
-        self.assertEqual(len(self.deck.getDeck()), 2)
+        self.deck.set_deck(new_cards)
+        self.assertEqual(self.deck.get_deck(), new_cards)
+        self.assertEqual(len(self.deck.get_deck()), 2)
 
     def test_deck_unique_symbols(self):
         """Ensure all cards in deck have unique symbols (52 unique glyphs)."""
-        symbols = [c.get_symbol() for c in self.deck.getDeck()]
+        symbols = [c.get_symbol() for c in self.deck.get_deck()]
         self.assertEqual(len(symbols), 52)
         self.assertEqual(len(set(symbols)), 52)
 
     def test_split_returns_all_cards(self):
         """The union of halves should equal the original deck set."""
-        d = list(self.deck.getDeck())
+        d = list(self.deck.get_deck())
         half1, half2 = self.deck.split()
         combined = half1 + half2
         self.assertEqual(len(combined), len(d))
@@ -67,37 +67,37 @@ class TestDeck(unittest.TestCase):
 
     def test_shuffle_variation_over_multiple_runs(self):
         """Shuffling multiple times should produce at least some order changes (probabilistic but reliable here)."""
-        d1 = [c.get_symbol() for c in self.deck.getDeck()]
+        d1 = [c.get_symbol() for c in self.deck.get_deck()]
         self.deck.shuffle()
-        d2 = [c.get_symbol() for c in self.deck.getDeck()]
+        d2 = [c.get_symbol() for c in self.deck.get_deck()]
         # very unlikely to be equal after shuffle
         self.assertNotEqual(d1, d2)
 
-    def test_getDeck_returns_list_reference(self):
+    def test_get_deck_returns_list_reference(self):
         """Modifying the returned list should reflect in the Deck object (intent of current implementation)."""
-        dref = self.deck.getDeck()
+        dref = self.deck.get_deck()
         self.assertIsInstance(dref, list)
         first = dref[0]
         # swap first two elements and ensure deck reflects change
         dref[0], dref[1] = dref[1], dref[0]
-        self.assertNotEqual(self.deck.getDeck()[0], first)
+        self.assertNotEqual(self.deck.get_deck()[0], first)
 
-    def test_setDeck_replaces_deck(self):
-        """setDeck should replace the internal deck list with a new one provided."""
+    def test_set_deck_replaces_deck(self):
+        """set_deck should replace the internal deck list with a new one provided."""
         # create a tiny fake deck
         fake_card = Card(2, "X", "None", "black")
         new_deck = [fake_card]
-        self.deck.setDeck(new_deck)
-        self.assertEqual(self.deck.getDeck(), new_deck)
+        self.deck.set_deck(new_deck)
+        self.assertEqual(self.deck.get_deck(), new_deck)
         # ensure changes to the returned list are visible (same reference behaviour)
-        self.deck.getDeck().append(Card(3, "Y", "None", "red"))
-        self.assertEqual(len(self.deck.getDeck()), 2)
+        self.deck.get_deck().append(Card(3, "Y", "None", "red"))
+        self.assertEqual(len(self.deck.get_deck()), 2)
 
     def test_shuffle_preserves_multiset(self):
         """Shuffling should not change the multiset of cards in the deck."""
-        orig = [c.get_symbol() for c in self.deck.getDeck()]
+        orig = [c.get_symbol() for c in self.deck.get_deck()]
         self.deck.shuffle()
-        after = [c.get_symbol() for c in self.deck.getDeck()]
+        after = [c.get_symbol() for c in self.deck.get_deck()]
         # same multiset (sorted equality) and same length
         self.assertEqual(sorted(orig), sorted(after))
         self.assertCountEqual(orig, after)
@@ -105,7 +105,7 @@ class TestDeck(unittest.TestCase):
 
     def test_each_rank_has_four_cards(self):
         """Each rank (2..14) should appear exactly four times in a standard deck."""
-        values = [c.get_value() for c in self.deck.getDeck()]
+        values = [c.get_value() for c in self.deck.get_deck()]
         # explicit assertions for each rank to increase static assertion count
         self.assertEqual(values.count(2), 4)
         self.assertEqual(values.count(3), 4)
