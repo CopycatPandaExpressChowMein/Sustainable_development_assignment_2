@@ -108,20 +108,20 @@ test: lint coverage
 .PHONY: pydoc
 pydoc:
 	@$(call MESSAGE,$@)
-	install -d doc/pydoc
+	install -d doc/api
 	$(PYTHON) -m pydoc -w war/*.py
-	mv *.html doc/pydoc
+	mv *.html doc/api
 
 pdoc:
 	@$(call MESSAGE,$@)
-	pdoc --force --html --output-dir doc/pdoc war/*.py
+	pdoc --force --html --output-dir doc/api war/*.py
 
 pyreverse:
 	@$(call MESSAGE,$@)
-	install -d doc/pyreverse
+	install -d doc/uml
 	pyreverse war/*.py
-	dot -Tpng classes.dot -o doc/pyreverse/classes.png
-	dot -Tpng packages.dot -o doc/pyreverse/packages.png
+	dot -Tpng classes.dot -o doc/uml/classes.png
+	dot -Tpng packages.dot -o doc/uml/packages.png
 	rm -f classes.dot packages.dot
 
 doc: pdoc pyreverse #pydoc sphinx
