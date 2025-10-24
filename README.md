@@ -93,10 +93,22 @@ All main classes in the project have dedicated unittest files located in the tes
 Tests verify that each class and method behaves correctly.
 
 To run all tests:
+
+```
 python -m unittest discover -s test -v
+```
+
 
 # Documentation
 --------------------------
+The project is fully documented with docstrings describing classes, methods, and parameters.
+Documentation can be viewed with PyDoc:
+
+```
+python -m pydoc war
+```
+All code follows PEP 8 standards and is formatted with Black for consistency and readability.
+
 
 # UML Diagrams
 --------------------------
