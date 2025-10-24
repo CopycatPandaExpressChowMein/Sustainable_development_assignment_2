@@ -1,3 +1,10 @@
+"""AI (Intelligence) module.
+
+Contains the Intelligence class implementing selectable AI levels used in
+single-player mode. Levels supported include 'top', 'random', and 'greedy'.
+"""
+
+
 class Intelligence:
     """AI logic with selectable intelligence levels.
 

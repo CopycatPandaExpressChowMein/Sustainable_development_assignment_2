@@ -1,3 +1,10 @@
+"""Core game module.
+
+Contains the Game class which implements the main War game logic and state.
+This module is intentionally free of direct long-running interactive loops so the
+logic can be used programmatically by tests and by the Shell CLI.
+"""
+
 import datetime
 try: #Try imports for executing Main normally
     from Deck import Deck

@@ -1,3 +1,11 @@
+"""Player model module.
+
+Defines the Player class which holds a player's name and CardHand. This
+lightweight model is used by Game and by tests and intentionally keeps I/O
+out of the data model.
+"""
+
+
 class Player:
     """
     Object that retains info such as the name and CardHand of the  player.

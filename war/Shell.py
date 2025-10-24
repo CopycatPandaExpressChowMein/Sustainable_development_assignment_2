@@ -1,3 +1,10 @@
+"""Command-line Shell for the War game.
+
+This module implements a small interactive CLI using cmd.Cmd. The Shell class
+is thin: it accepts a Game (or a test-double) via its constructor so logic is
+testable without running an interactive loop.
+"""
+
 import cmd
 try: #Try imports for executing Main normally
     from Game import Game

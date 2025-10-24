@@ -1,3 +1,10 @@
+"""Highscore persistence module.
+
+Provides the Highscore class used to load/save player statistics to JSON and
+reconstruct Statistics objects on load. This module contains IO code and
+serialization helpers used by Game and Shell.
+"""
+
 import json
 import os
 from typing import Any

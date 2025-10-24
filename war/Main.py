@@ -1,3 +1,9 @@
+"""Application entrypoint module.
+
+Provides a tiny Main wrapper that launches the Shell CLI. Kept minimal so it
+is safe to import in tests without side-effects.
+"""
+
 try: #Try imports for executing Main normally
     from Shell import Shell
 except: #Except imports for UnitTesting. To prevent module not found Error.
