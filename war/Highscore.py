@@ -1,9 +1,7 @@
 import json
-import os
-from typing import Any
 try:
     from Statistics import Statistics
-except Exception:
+except:
     from .Statistics import Statistics
 
 
