@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>Shell API documentation</title>
+<meta name="description" content="Command-line Shell for the War game …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Shell</code></h1>
+</header>
+<section id="section-intro">
+<p>Command-line Shell for the War game.</p>
+<p>This module implements a small interactive CLI using cmd.Cmd. The Shell class
+is thin: it accepts a Game (or a test-double) via its constructor so logic is
+testable without running an interactive loop.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Shell.Shell"><code class="flex name class">
+<span>class <span class="ident">Shell</span></span>
+<span>(</span><span>game=None)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Shell(cmd.Cmd):
+    &#34;&#34;&#34;Command-line interface shell for the War game.&#34;&#34;&#34;
+
+    intro = &#34;&#34;&#34; 
+    
+                ██╗    ██╗ █████╗ ██████╗ ██╗
+                ██║    ██║██╔══██╗██╔══██╗██║
+                ██║ █╗ ██║███████║██████╔╝██║
+                ██║███╗██║██╔══██║██╔══██╗╚═╝
+                ╚███╔███╔╝██║  ██║██║  ██║██╗
+                 ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝
+            
+                        Welcome to War!
+
+                Type &#39;Start&#39; to begin playing.
+       If you don&#39;t know the rules, simply type &#39;rules&#39;!
+
+              For more help, type &#39;help&#39; or &#39;?&#39;.
+
+            &#34;&#34;&#34;
+    prompt = &#34;&gt; &#34;
+
+    def __init__(self, game=None):
+        &#34;&#34;&#34;Initialize the Shell and optionally inject a Game instance for tests.&#34;&#34;&#34;
+        super().__init__()
+        self.game = game if game is not None else Game()
+
+    # Commands that let the user play the game
+    def do_start(self, arg):
+        &#34;&#34;&#34;Start a new interactive game by prompting for mode and names.&#34;&#34;&#34;
+        while True:
+            try:
+                mode = int(
+                    input(&#34;Pick gamemode (1) for singleplayer, (2) for two-player: &#34;)
+                )
+                if mode == 1 or mode == 2:
+                    break
+                else:
+                    print(&#34;Please enter either (1) or (2).&#34;)
+            except:
+                print(&#34;Please enter either (1) or (2).&#34;)
+
+        player1 = input(&#34;Please enter the name of player 1: &#34;)
+        if mode == 2:
+            player2 = input(&#34;Please enter the name of player 2: &#34;)
+            self.game.start(mode, player1, player2)
+        else:
+            # Ask for AI intelligence level when starting singleplayer mode
+            while True:
+                ai_level = (
+                    input(&#34;Choose AI level (&#39;top&#39;, &#39;random&#39;, &#39;greedy&#39;) [top]: &#34;)
+                    .strip()
+                    .lower()
+                )
+                if ai_level == &#34;&#34;:
+                    ai_level = &#34;top&#34;
+                if ai_level in (&#34;top&#34;, &#34;random&#34;, &#34;greedy&#34;):
+                    break
+                print(&#34;Invalid choice. Please select &#39;top&#39;, &#39;random&#39; or &#39;greedy&#39;.&#34;)
+            self.game.start(mode, player1, ai_level=ai_level)
+
+        start_txt = &#34;&#34;&#34;
+              
+           You are now free to begin drawing cards!
+             Use the command &#39;draw&#39; or &#39;draw_card&#39;
+          
+                    &#34;&#34;&#34;
+        print(start_txt)
+
+    def do_draw_card(self, arg):
+        &#34;&#34;&#34;Draw one round in the active game.
+
+        Prints a helpful message if no game is active.
+        &#34;&#34;&#34;
+        if self.game.get_active_game():
+            self.game.draw_cards()
+        else:
+            print(&#34;Please start a game before you begin drawing cards!&#34;)
+
+    def do_draw(self, arg):
+        &#34;&#34;&#34;Alias for `draw_card`.&#34;&#34;&#34;
+        self.do_draw_card(arg)
+
+    def do_cheat(self, arg):
+        &#34;&#34;&#34;Trigger the game&#39;s cheat hook (used by tests or for debug).&#34;&#34;&#34;
+        self.game.cheat()
+
+    # Commands that give functionality to the game
+    def do_rules(self, arg):
+        &#34;&#34;&#34;Print the rules of the War card game.&#34;&#34;&#34;
+        rules_text = &#34;&#34;&#34;
+
+        War card game rules:
+        - The goal is to win all the cards.
+        - The deck is divided evenly between two players.
+        - Each player reveals the top card.
+            - The higher card wins both cards.
+        - Aces are high. Suits don&#39;t matter.
+        - If the cards are equal, a &#39;war&#39; occurs:
+            - Each player places one card face down.
+            - Each player then places then one card face up.
+            - The higher face-up card wins all cards on the table.
+            - If again tied, repeat the war.
+        - The game continues until one player has all cards.
+        - This is a simple game of chance with no strategy.
+
+            &#34;&#34;&#34;
+        print(rules_text)
+
+    def do_highscores(self, arg):
+        &#34;&#34;&#34;Display stored highscores by delegating to the Game object.&#34;&#34;&#34;
+        self.game.show_highscore()
+
+    # TODO Better way to implement?
+    def do_namechange(self, arg):
+        &#34;&#34;&#34;Change a player&#39;s name in the active game and persist highscores.
+
+        Prompts interactively for the existing and replacement names.
+        &#34;&#34;&#34;
+        if self.game.get_active_game():
+            name_to_replace = input(&#34;Please enter the name you would like to change: &#34;)
+            replacing_name = input(
+                f&#34;Please enter the name you would like to change {name_to_replace} to: &#34;
+            )
+            self.game.name_change(name_to_replace, replacing_name)
+        else:
+            print(&#34;Please start a game before you begin drawing cards!&#34;)
+
+    # Commands to quit the game
+    def do_quit(self, arg):
+        &#34;&#34;&#34;Save highscores (best-effort) and exit the shell.&#34;&#34;&#34;
+        print(&#34;Saving and Quitting the war game.&#34;)
+        # Attempt to save highscores if the Game-like object supports it.
+        if hasattr(self.game, &#34;save_highscore&#34;) and callable(
+            getattr(self.game, &#34;save_highscore&#34;)
+        ):
+            try:
+                self.game.save_highscore()
+            except Exception:
+                # Don&#39;t let save errors break quitting; best-effort only.
+                pass
+        return True
+
+    def do_q(self, arg):
+        &#34;&#34;&#34;Saves and closes the game.&#34;&#34;&#34;
+        return self.do_quit(arg)
+
+    def do_exit(self, arg):
+        &#34;&#34;&#34;Saves and closes the game.&#34;&#34;&#34;
+        return self.do_quit(arg)
+
+    def do_EOF(self, arg):
+        &#34;&#34;&#34;Saves and closes the game.&#34;&#34;&#34;
+        return self.do_quit(arg)</code></pre>
+</details>
+<div class="desc"><p>Command-line interface shell for the War game.</p>
+<p>Initialize the Shell and optionally inject a Game instance for tests.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>cmd.Cmd</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="Shell.Shell.intro"><code class="name">var <span class="ident">intro</span></code></dt>
+<dd>
+<div class="desc"><p>The type of the None singleton.</p></div>
+</dd>
+<dt id="Shell.Shell.prompt"><code class="name">var <span class="ident">prompt</span></code></dt>
+<dd>
+<div class="desc"><p>The type of the None singleton.</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="Shell.Shell.do_EOF"><code class="name flex">
+<span>def <span class="ident">do_EOF</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_EOF(self, arg):
+    &#34;&#34;&#34;Saves and closes the game.&#34;&#34;&#34;
+    return self.do_quit(arg)</code></pre>
+</details>
+<div class="desc"><p>Saves and closes the game.</p></div>
+</dd>
+<dt id="Shell.Shell.do_cheat"><code class="name flex">
+<span>def <span class="ident">do_cheat</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_cheat(self, arg):
+    &#34;&#34;&#34;Trigger the game&#39;s cheat hook (used by tests or for debug).&#34;&#34;&#34;
+    self.game.cheat()</code></pre>
+</details>
+<div class="desc"><p>Trigger the game's cheat hook (used by tests or for debug).</p></div>
+</dd>
+<dt id="Shell.Shell.do_draw"><code class="name flex">
+<span>def <span class="ident">do_draw</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_draw(self, arg):
+    &#34;&#34;&#34;Alias for `draw_card`.&#34;&#34;&#34;
+    self.do_draw_card(arg)</code></pre>
+</details>
+<div class="desc"><p>Alias for <code>draw_card</code>.</p></div>
+</dd>
+<dt id="Shell.Shell.do_draw_card"><code class="name flex">
+<span>def <span class="ident">do_draw_card</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_draw_card(self, arg):
+    &#34;&#34;&#34;Draw one round in the active game.
+
+    Prints a helpful message if no game is active.
+    &#34;&#34;&#34;
+    if self.game.get_active_game():
+        self.game.draw_cards()
+    else:
+        print(&#34;Please start a game before you begin drawing cards!&#34;)</code></pre>
+</details>
+<div class="desc"><p>Draw one round in the active game.</p>
+<p>Prints a helpful message if no game is active.</p></div>
+</dd>
+<dt id="Shell.Shell.do_exit"><code class="name flex">
+<span>def <span class="ident">do_exit</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_exit(self, arg):
+    &#34;&#34;&#34;Saves and closes the game.&#34;&#34;&#34;
+    return self.do_quit(arg)</code></pre>
+</details>
+<div class="desc"><p>Saves and closes the game.</p></div>
+</dd>
+<dt id="Shell.Shell.do_highscores"><code class="name flex">
+<span>def <span class="ident">do_highscores</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_highscores(self, arg):
+    &#34;&#34;&#34;Display stored highscores by delegating to the Game object.&#34;&#34;&#34;
+    self.game.show_highscore()</code></pre>
+</details>
+<div class="desc"><p>Display stored highscores by delegating to the Game object.</p></div>
+</dd>
+<dt id="Shell.Shell.do_namechange"><code class="name flex">
+<span>def <span class="ident">do_namechange</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_namechange(self, arg):
+    &#34;&#34;&#34;Change a player&#39;s name in the active game and persist highscores.
+
+    Prompts interactively for the existing and replacement names.
+    &#34;&#34;&#34;
+    if self.game.get_active_game():
+        name_to_replace = input(&#34;Please enter the name you would like to change: &#34;)
+        replacing_name = input(
+            f&#34;Please enter the name you would like to change {name_to_replace} to: &#34;
+        )
+        self.game.name_change(name_to_replace, replacing_name)
+    else:
+        print(&#34;Please start a game before you begin drawing cards!&#34;)</code></pre>
+</details>
+<div class="desc"><p>Change a player's name in the active game and persist highscores.</p>
+<p>Prompts interactively for the existing and replacement names.</p></div>
+</dd>
+<dt id="Shell.Shell.do_q"><code class="name flex">
+<span>def <span class="ident">do_q</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_q(self, arg):
+    &#34;&#34;&#34;Saves and closes the game.&#34;&#34;&#34;
+    return self.do_quit(arg)</code></pre>
+</details>
+<div class="desc"><p>Saves and closes the game.</p></div>
+</dd>
+<dt id="Shell.Shell.do_quit"><code class="name flex">
+<span>def <span class="ident">do_quit</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_quit(self, arg):
+    &#34;&#34;&#34;Save highscores (best-effort) and exit the shell.&#34;&#34;&#34;
+    print(&#34;Saving and Quitting the war game.&#34;)
+    # Attempt to save highscores if the Game-like object supports it.
+    if hasattr(self.game, &#34;save_highscore&#34;) and callable(
+        getattr(self.game, &#34;save_highscore&#34;)
+    ):
+        try:
+            self.game.save_highscore()
+        except Exception:
+            # Don&#39;t let save errors break quitting; best-effort only.
+            pass
+    return True</code></pre>
+</details>
+<div class="desc"><p>Save highscores (best-effort) and exit the shell.</p></div>
+</dd>
+<dt id="Shell.Shell.do_rules"><code class="name flex">
+<span>def <span class="ident">do_rules</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_rules(self, arg):
+    &#34;&#34;&#34;Print the rules of the War card game.&#34;&#34;&#34;
+    rules_text = &#34;&#34;&#34;
+
+    War card game rules:
+    - The goal is to win all the cards.
+    - The deck is divided evenly between two players.
+    - Each player reveals the top card.
+        - The higher card wins both cards.
+    - Aces are high. Suits don&#39;t matter.
+    - If the cards are equal, a &#39;war&#39; occurs:
+        - Each player places one card face down.
+        - Each player then places then one card face up.
+        - The higher face-up card wins all cards on the table.
+        - If again tied, repeat the war.
+    - The game continues until one player has all cards.
+    - This is a simple game of chance with no strategy.
+
+        &#34;&#34;&#34;
+    print(rules_text)</code></pre>
+</details>
+<div class="desc"><p>Print the rules of the War card game.</p></div>
+</dd>
+<dt id="Shell.Shell.do_start"><code class="name flex">
+<span>def <span class="ident">do_start</span></span>(<span>self, arg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def do_start(self, arg):
+    &#34;&#34;&#34;Start a new interactive game by prompting for mode and names.&#34;&#34;&#34;
+    while True:
+        try:
+            mode = int(
+                input(&#34;Pick gamemode (1) for singleplayer, (2) for two-player: &#34;)
+            )
+            if mode == 1 or mode == 2:
+                break
+            else:
+                print(&#34;Please enter either (1) or (2).&#34;)
+        except:
+            print(&#34;Please enter either (1) or (2).&#34;)
+
+    player1 = input(&#34;Please enter the name of player 1: &#34;)
+    if mode == 2:
+        player2 = input(&#34;Please enter the name of player 2: &#34;)
+        self.game.start(mode, player1, player2)
+    else:
+        # Ask for AI intelligence level when starting singleplayer mode
+        while True:
+            ai_level = (
+                input(&#34;Choose AI level (&#39;top&#39;, &#39;random&#39;, &#39;greedy&#39;) [top]: &#34;)
+                .strip()
+                .lower()
+            )
+            if ai_level == &#34;&#34;:
+                ai_level = &#34;top&#34;
+            if ai_level in (&#34;top&#34;, &#34;random&#34;, &#34;greedy&#34;):
+                break
+            print(&#34;Invalid choice. Please select &#39;top&#39;, &#39;random&#39; or &#39;greedy&#39;.&#34;)
+        self.game.start(mode, player1, ai_level=ai_level)
+
+    start_txt = &#34;&#34;&#34;
+          
+       You are now free to begin drawing cards!
+         Use the command &#39;draw&#39; or &#39;draw_card&#39;
+      
+                &#34;&#34;&#34;
+    print(start_txt)</code></pre>
+</details>
+<div class="desc"><p>Start a new interactive game by prompting for mode and names.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Shell.Shell" href="#Shell.Shell">Shell</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Shell.Shell.do_EOF" href="#Shell.Shell.do_EOF">do_EOF</a></code></li>
+<li><code><a title="Shell.Shell.do_cheat" href="#Shell.Shell.do_cheat">do_cheat</a></code></li>
+<li><code><a title="Shell.Shell.do_draw" href="#Shell.Shell.do_draw">do_draw</a></code></li>
+<li><code><a title="Shell.Shell.do_draw_card" href="#Shell.Shell.do_draw_card">do_draw_card</a></code></li>
+<li><code><a title="Shell.Shell.do_exit" href="#Shell.Shell.do_exit">do_exit</a></code></li>
+<li><code><a title="Shell.Shell.do_highscores" href="#Shell.Shell.do_highscores">do_highscores</a></code></li>
+<li><code><a title="Shell.Shell.do_namechange" href="#Shell.Shell.do_namechange">do_namechange</a></code></li>
+<li><code><a title="Shell.Shell.do_q" href="#Shell.Shell.do_q">do_q</a></code></li>
+<li><code><a title="Shell.Shell.do_quit" href="#Shell.Shell.do_quit">do_quit</a></code></li>
+<li><code><a title="Shell.Shell.do_rules" href="#Shell.Shell.do_rules">do_rules</a></code></li>
+<li><code><a title="Shell.Shell.do_start" href="#Shell.Shell.do_start">do_start</a></code></li>
+<li><code><a title="Shell.Shell.intro" href="#Shell.Shell.intro">intro</a></code></li>
+<li><code><a title="Shell.Shell.prompt" href="#Shell.Shell.prompt">prompt</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

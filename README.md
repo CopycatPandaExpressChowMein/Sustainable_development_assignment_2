@@ -92,17 +92,32 @@ Each player draws cards; the higher value wins the round. If the cards are equal
 All main classes in the project have dedicated unittest files located in the test/ folder.
 Tests verify that each class and method behaves correctly.
 
-To run all tests:
+Run all tests
+```
+make unittest
+```
 
+Run tests with coverage
 ```
-python -m unittest discover -s test -v
+make coverage
 ```
+
+Run linters and unittests with coverage
+```
+make test
+```
+
+You can also run the tests for invidual classes using
+```
+python -m unittest test.test_game
+```
+
 
 
 # Documentation
 --------------------------
 The project is fully documented with docstrings describing classes, methods, and parameters.
-Documentation can be viewed with PyDoc:
+Documentation can be found in the doc
 
 ```
 python -m pydoc war

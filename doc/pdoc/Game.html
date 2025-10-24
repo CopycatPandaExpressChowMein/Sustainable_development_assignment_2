@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>Game API documentation</title>
+<meta name="description" content="Core game module …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Game</code></h1>
+</header>
+<section id="section-intro">
+<p>Core game module.</p>
+<p>Contains the Game class which implements the main War game logic and state.
+This module is intentionally free of direct long-running interactive loops so the
+logic can be used programmatically by tests and by the Shell CLI.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Game.Game"><code class="flex name class">
+<span>class <span class="ident">Game</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Game:
+    &#34;&#34;&#34;Represents the game logic and contains the methods to run and manipulate the game.&#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the Game with default values.&#34;&#34;&#34;
+        self.__highscore = Highscore()
+        self.__active_game = False
+
+    def start(self, mode=1, player1=&#34;Anonymous&#34;, player2=&#34;Anonymous&#34;, ai_level=&#34;top&#34;):
+        &#34;&#34;&#34;Start a new game and deal cards to players.
+
+        :param mode: 1 for singleplayer or 2 for two-player
+        :param player1: name of player 1 (default &#39;Anonymous&#39;)
+        :param player2: name of player 2 (ignored in singleplayer)
+        :param ai_level: intelligence level for AI players (&#39;top&#39;, &#39;random&#39;, &#39;greedy&#39;)
+        &#34;&#34;&#34;
+        self.__player1 = Player(player1)
+        # Checks whether the current mode is single or multiplayer and assigns player2 accordingly.
+        self.__player2 = (
+            Player(player2) if mode == 2 else Intelligence(&#34;AI&#34;, level=ai_level)
+        )
+        self.__players = [self.__player1, self.__player2]
+
+        self.__deck = Deck()
+        hands = self.__deck.split()
+        self.__players[0].set_hand(CardHand(hands[0]))
+        self.__players[1].set_hand(CardHand(hands[1]))
+
+        for player in self.__players:
+            self.__highscore.add_player(player.get_name())
+
+        self.num_draws = 0  # Counter for the number of draws taken per game. Incremented each time cards are drawn.
+
+        self.__active_game = True
+
+    def get_active_game(self):
+        &#34;&#34;&#34;Return True when a game is currently active, otherwise False.&#34;&#34;&#34;
+        return self.__active_game
+
+    def cheat(self):
+        &#34;&#34;&#34;Programmatic cheat hook (no-op kept for compatibility).&#34;&#34;&#34;
+        # programmatic no-op kept for compatibility with Shell.do_cheat()
+        return None
+
+    def cheat_swap(
+        self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0
+    ) -&gt; bool:
+        &#34;&#34;&#34;Swap cards between two players by index.
+
+        Returns True on success or False when players/indices are invalid.
+        &#34;&#34;&#34;
+        # locate players
+        players = getattr(self, &#34;_Game__players&#34;, None)
+        if not players:
+            return False
+
+        p_from = None
+        p_to = None
+        for p in players:
+            try:
+                if p.get_name() == from_name:
+                    p_from = p
+                if p.get_name() == to_name:
+                    p_to = p
+            except Exception:
+                continue
+
+        if p_from is None or p_to is None:
+            return False
+
+        hand_from = p_from.get_hand().get_hand()
+        hand_to = p_to.get_hand().get_hand()
+
+        # validate indices
+        if index_from &lt; 0 or index_from &gt;= len(hand_from):
+            return False
+        if index_to &lt; 0 or index_to &gt;= len(hand_to):
+            return False
+
+        # perform swap
+        card_from = hand_from.pop(index_from)
+        card_to = hand_to.pop(index_to)
+
+        # reinsert cards
+        hand_from.insert(index_from, card_to)
+        hand_to.insert(index_to, card_from)
+
+        # update amounts
+        try:
+            p_from.get_hand().amount = len(hand_from)
+            p_to.get_hand().amount = len(hand_to)
+        except Exception:
+            pass
+
+        return True
+
+    def _pause(self):
+        &#34;&#34;&#34;Pause helper that avoids blocking when running tests.&#34;&#34;&#34;
+        try:
+            import sys
+
+            # If unittest is running, skip pause to avoid blocking automated tests
+            if &#34;unittest&#34; in sys.modules:
+                return
+        except Exception:
+            pass
+        try:
+            input(&#34;Press to continue...&#34;)
+        except Exception:
+            return
+
+    # TODO Graphics
+    def draw_cards(self, internal=False):
+        &#34;&#34;&#34;Execute a single draw round and resolve the result.
+
+        When ``internal`` is True the call is part of recursive war resolution
+        and will not increment the public draw counter.
+        &#34;&#34;&#34;
+
+        player1_hand = self.__players[0].get_hand()
+        player2_hand = self.__players[1].get_hand()
+
+        player1_name = self.__players[0].get_name()
+        player2_name = self.__players[1].get_name()
+
+        # Check if any player ran out of cards, game over condition
+        if len(player1_hand.get_hand()) == 0:
+            # Player 2 wins, player 1 ran out of cards
+            self.__highscore.add_statistics(
+                player2_name, True, self.num_draws, datetime.date.today()
+            )
+
+            p2_win_msg = f&#34;&#34;&#34; 
+
+                    ██╗    ██╗██╗███╗   ██╗
+                    ██║    ██║██║████╗  ██║
+                    ██║ █╗ ██║██║██╔██╗ ██║
+                    ██║███╗██║██║██║╚██╗██║
+                    ╚███╔███╔╝██║██║ ╚████║
+                    ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝
+                    {player2_name + &#34; won the game!&#34;}
+                    {player1_name + &#34; loses....&#34;}
+                Enter &#39;start&#39; to begin another game!
+                            &#34;&#34;&#34;
+            print(p2_win_msg)
+            return
+        elif len(player2_hand.get_hand()) == 0:
+            # Player 1 wins, player 2 ran out of cards
+            self.__highscore.add_statistics(
+                player1_name, True, self.num_draws, datetime.date.today()
+            )
+
+            p1_win_msg = f&#34;&#34;&#34;
+
+                    ██╗    ██╗██╗███╗   ██╗
+                    ██║    ██║██║████╗  ██║
+                    ██║ █╗ ██║██║██╔██╗ ██║
+                    ██║███╗██║██║██║╚██╗██║
+                    ╚███╔███╔╝██║██║ ╚████║
+                    ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝
+                    {player1_name + &#34; won the game!&#34;}
+                    {player2_name + &#34; loses....&#34;}
+                Enter &#39;start&#39; to begin another game!
+                            &#34;&#34;&#34;
+            print(p1_win_msg)
+            return
+
+        screen1 = f&#34;&#34;&#34;
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                                                ▌
+        ▐         {player2_hand.get_amount():&lt;2}🂠                                    ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                      Draw!                     ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                    🂠{player1_hand.get_amount():&gt;2}         ▌
+        ▐                                                ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                    &#34;&#34;&#34;
+        print(screen1)
+        self._pause()
+
+        # Each player draws a card. If a player provides a choose_index method (AI), use it.
+        idx1 = None
+        idx2 = None
+        try:
+            if hasattr(self.__players[0], &#34;choose_index&#34;):
+                idx1 = self.__players[0].choose_index()
+        except Exception:
+            idx1 = None
+        try:
+            if hasattr(self.__players[1], &#34;choose_index&#34;):
+                idx2 = self.__players[1].choose_index()
+        except Exception:
+            idx2 = None
+
+        player1_card = (
+            player1_hand.draw_card(idx1)
+            if idx1 is not None
+            else player1_hand.draw_card()
+        )
+        player2_card = (
+            player2_hand.draw_card(idx2)
+            if idx2 is not None
+            else player2_hand.draw_card()
+        )
+        # Only count the draw for top-level (external) invocations. Internal recursive
+        # draws during war resolution should not increment the public draw counter.
+        if not internal:
+            self.num_draws += 1
+
+        screen2 = f&#34;&#34;&#34;
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       ?                        ▌
+        ▐         {player2_hand.get_amount():&lt;2}🂠           🂠                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                    Reveal...                   ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       🂠           🂠{player1_hand.get_amount():&gt;2}          ▌
+        ▐                       ?                        ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                    &#34;&#34;&#34;
+        print(screen2)
+        self._pause()
+
+        # Compare card values using correct get_value() method
+        if player1_card.get_value() &gt; player2_card.get_value():
+            player2_active_cards = player2_hand.get_active_card()
+            save_len = len(player2_active_cards)
+            i, tmp = 0, len(player2_active_cards)
+            while i &lt; tmp:
+                player1_hand.add_card(player2_hand.remove_card())
+                i += 1
+            player1_hand.return_cards()
+
+            screen3alt1 = f&#34;&#34;&#34;
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       {player2_card.get_value():&lt;2}                       ▌
+        ▐         {player2_hand.get_amount():&lt;2}🂠           {player2_card.get_symbol()}                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐{(player1_name + &#34; wins! They get &#34; + str(save_len) + &#34; card(s)&#34;):^48}▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():&gt;2}          ▌
+        ▐                       {player1_card.get_value():&lt;2}                       ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                        &#34;&#34;&#34;
+            print(screen3alt1)
+
+        elif player1_card.get_value() &lt; player2_card.get_value():
+            player1_active_cards = player1_hand.get_active_card()
+            save_len = len(player1_active_cards)
+            i, tmp = 0, len(player1_active_cards)
+            while i &lt; tmp:
+                player2_hand.add_card(player1_hand.remove_card())
+                i += 1
+            player2_hand.return_cards()
+
+            screen3alt2 = f&#34;&#34;&#34;
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       {player2_card.get_value():&lt;2}                       ▌
+        ▐         {player2_hand.get_amount():&lt;2}🂠           {player2_card.get_symbol()}                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐{(player2_name + &#34; wins! They get &#34; + str(save_len) + &#34; card(s)&#34;):^48}▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():&gt;2}          ▌
+        ▐                       {player1_card.get_value():&lt;2}                       ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                        &#34;&#34;&#34;
+            print(screen3alt2)
+
+        else:
+            screen3alt3 = f&#34;&#34;&#34;
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       {player2_card.get_value():&lt;2}                       ▌
+        ▐         {player2_hand.get_amount():&lt;2}🂠           {player2_card.get_symbol()}                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                      War!                      ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():&gt;2}          ▌
+        ▐                       {player1_card.get_value():&lt;2}                       ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                        &#34;&#34;&#34;
+            print(screen3alt3)
+            self._pause()
+
+            # Check if players have enough cards for war
+            if len(player1_hand.get_hand()) &lt; 2:  # Player 1 doesn&#39;t have enough
+                for card in player1_hand.get_active_card():
+                    player2_hand.add_card(player1_hand.remove_card())
+                player2_hand.return_cards()
+
+                screen3alt3 = f&#34;&#34;&#34;
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       {player2_card.get_value():&lt;2}                       ▌
+        ▐         {player2_hand.get_amount():&lt;2}🂠           {player2_card.get_symbol()}                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐{(player1_name + &#34; doesn&#39;t have enough cards!&#34;):^48}▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():&gt;2}          ▌
+        ▐                       {player1_card.get_value():&lt;2}                       ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                        &#34;&#34;&#34;
+                print(screen3alt3)
+
+                return
+            elif len(player2_hand.get_hand()) &lt; 2:  # Player 2 doesn&#39;t have enough cards
+                for card in player2_hand.get_active_card():
+                    player1_hand.add_card(player2_hand.remove_card())
+                player1_hand.return_cards()
+
+                screen3alt3 = f&#34;&#34;&#34;
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       {player2_card.get_value():&lt;2}                       ▌
+        ▐         {player2_hand.get_amount():&lt;2}🂠           {player2_card.get_symbol()}                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐{(player2_name + &#34; doesn&#39;t have enough cards!&#34;):^48}▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():&gt;2}          ▌
+        ▐                       {player1_card.get_value():&lt;2}                       ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                        &#34;&#34;&#34;
+                print(screen3alt3)
+
+                return
+
+            # Each player places one card face down (internal mechanics, do not
+            # increment the public draw counter)
+            player1_hand.draw_card()
+            player2_hand.draw_card()
+
+            screen2 = f&#34;&#34;&#34;
+        {player2_name:^50}
+        ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+        ▐                       ?                        ▌
+        ▐         {player2_hand.get_amount():&lt;2}🂠           🂠                        ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐             Place cards face down...           ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                                                ▌
+        ▐                       🂠           🂠{player1_hand.get_amount():&gt;2}          ▌
+        ▐                       ?                        ▌
+        ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+        {player1_name:^50}
+                    &#34;&#34;&#34;
+            print(screen2)
+            self._pause()
+
+            # Recursively call draw_cards to determine who wins the war. Mark
+            # this as internal so the public draw counter isn&#39;t incremented again.
+            self.draw_cards(internal=True)
+
+    def name_change(self, current_name, new_name):
+        &#34;&#34;&#34;Change a player&#39;s name and persist the updated highscores.
+
+        This updates the player&#39;s key in the Highscore object and triggers
+        a save to the configured highscores file.
+
+        Parameters
+        ----------
+        current_name : str
+            The existing player name to replace.
+        new_name : str
+            The new player name.
+        &#34;&#34;&#34;
+        self.__highscore.update_player_name(current_name, new_name)
+        self.save_highscore()
+
+    # Functions for manipulating highscores
+    def show_highscore(self):
+        &#34;&#34;&#34;Prints the current values of the highscore object as a String.&#34;&#34;&#34;
+        print(self.__highscore)
+
+    def save_highscore(self):
+        &#34;&#34;&#34;Saves the current values of the highscore object.&#34;&#34;&#34;
+        self.__highscore.save_highscores()</code></pre>
+</details>
+<div class="desc"><p>Represents the game logic and contains the methods to run and manipulate the game.</p>
+<p>Initialize the Game with default values.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="Game.Game.cheat"><code class="name flex">
+<span>def <span class="ident">cheat</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cheat(self):
+    &#34;&#34;&#34;Programmatic cheat hook (no-op kept for compatibility).&#34;&#34;&#34;
+    # programmatic no-op kept for compatibility with Shell.do_cheat()
+    return None</code></pre>
+</details>
+<div class="desc"><p>Programmatic cheat hook (no-op kept for compatibility).</p></div>
+</dd>
+<dt id="Game.Game.cheat_swap"><code class="name flex">
+<span>def <span class="ident">cheat_swap</span></span>(<span>self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cheat_swap(
+    self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0
+) -&gt; bool:
+    &#34;&#34;&#34;Swap cards between two players by index.
+
+    Returns True on success or False when players/indices are invalid.
+    &#34;&#34;&#34;
+    # locate players
+    players = getattr(self, &#34;_Game__players&#34;, None)
+    if not players:
+        return False
+
+    p_from = None
+    p_to = None
+    for p in players:
+        try:
+            if p.get_name() == from_name:
+                p_from = p
+            if p.get_name() == to_name:
+                p_to = p
+        except Exception:
+            continue
+
+    if p_from is None or p_to is None:
+        return False
+
+    hand_from = p_from.get_hand().get_hand()
+    hand_to = p_to.get_hand().get_hand()
+
+    # validate indices
+    if index_from &lt; 0 or index_from &gt;= len(hand_from):
+        return False
+    if index_to &lt; 0 or index_to &gt;= len(hand_to):
+        return False
+
+    # perform swap
+    card_from = hand_from.pop(index_from)
+    card_to = hand_to.pop(index_to)
+
+    # reinsert cards
+    hand_from.insert(index_from, card_to)
+    hand_to.insert(index_to, card_from)
+
+    # update amounts
+    try:
+        p_from.get_hand().amount = len(hand_from)
+        p_to.get_hand().amount = len(hand_to)
+    except Exception:
+        pass
+
+    return True</code></pre>
+</details>
+<div class="desc"><p>Swap cards between two players by index.</p>
+<p>Returns True on success or False when players/indices are invalid.</p></div>
+</dd>
+<dt id="Game.Game.draw_cards"><code class="name flex">
+<span>def <span class="ident">draw_cards</span></span>(<span>self, internal=False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def draw_cards(self, internal=False):
+    &#34;&#34;&#34;Execute a single draw round and resolve the result.
+
+    When ``internal`` is True the call is part of recursive war resolution
+    and will not increment the public draw counter.
+    &#34;&#34;&#34;
+
+    player1_hand = self.__players[0].get_hand()
+    player2_hand = self.__players[1].get_hand()
+
+    player1_name = self.__players[0].get_name()
+    player2_name = self.__players[1].get_name()
+
+    # Check if any player ran out of cards, game over condition
+    if len(player1_hand.get_hand()) == 0:
+        # Player 2 wins, player 1 ran out of cards
+        self.__highscore.add_statistics(
+            player2_name, True, self.num_draws, datetime.date.today()
+        )
+
+        p2_win_msg = f&#34;&#34;&#34; 
+
+                ██╗    ██╗██╗███╗   ██╗
+                ██║    ██║██║████╗  ██║
+                ██║ █╗ ██║██║██╔██╗ ██║
+                ██║███╗██║██║██║╚██╗██║
+                ╚███╔███╔╝██║██║ ╚████║
+                ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝
+                {player2_name + &#34; won the game!&#34;}
+                {player1_name + &#34; loses....&#34;}
+            Enter &#39;start&#39; to begin another game!
+                        &#34;&#34;&#34;
+        print(p2_win_msg)
+        return
+    elif len(player2_hand.get_hand()) == 0:
+        # Player 1 wins, player 2 ran out of cards
+        self.__highscore.add_statistics(
+            player1_name, True, self.num_draws, datetime.date.today()
+        )
+
+        p1_win_msg = f&#34;&#34;&#34;
+
+                ██╗    ██╗██╗███╗   ██╗
+                ██║    ██║██║████╗  ██║
+                ██║ █╗ ██║██║██╔██╗ ██║
+                ██║███╗██║██║██║╚██╗██║
+                ╚███╔███╔╝██║██║ ╚████║
+                ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝
+                {player1_name + &#34; won the game!&#34;}
+                {player2_name + &#34; loses....&#34;}
+            Enter &#39;start&#39; to begin another game!
+                        &#34;&#34;&#34;
+        print(p1_win_msg)
+        return
+
+    screen1 = f&#34;&#34;&#34;
+    {player2_name:^50}
+    ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+    ▐                                                ▌
+    ▐         {player2_hand.get_amount():&lt;2}🂠                                    ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                      Draw!                     ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                    🂠{player1_hand.get_amount():&gt;2}         ▌
+    ▐                                                ▌
+    ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+    {player1_name:^50}
+                &#34;&#34;&#34;
+    print(screen1)
+    self._pause()
+
+    # Each player draws a card. If a player provides a choose_index method (AI), use it.
+    idx1 = None
+    idx2 = None
+    try:
+        if hasattr(self.__players[0], &#34;choose_index&#34;):
+            idx1 = self.__players[0].choose_index()
+    except Exception:
+        idx1 = None
+    try:
+        if hasattr(self.__players[1], &#34;choose_index&#34;):
+            idx2 = self.__players[1].choose_index()
+    except Exception:
+        idx2 = None
+
+    player1_card = (
+        player1_hand.draw_card(idx1)
+        if idx1 is not None
+        else player1_hand.draw_card()
+    )
+    player2_card = (
+        player2_hand.draw_card(idx2)
+        if idx2 is not None
+        else player2_hand.draw_card()
+    )
+    # Only count the draw for top-level (external) invocations. Internal recursive
+    # draws during war resolution should not increment the public draw counter.
+    if not internal:
+        self.num_draws += 1
+
+    screen2 = f&#34;&#34;&#34;
+    {player2_name:^50}
+    ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+    ▐                       ?                        ▌
+    ▐         {player2_hand.get_amount():&lt;2}🂠           🂠                        ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                    Reveal...                   ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                       🂠           🂠{player1_hand.get_amount():&gt;2}          ▌
+    ▐                       ?                        ▌
+    ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+    {player1_name:^50}
+                &#34;&#34;&#34;
+    print(screen2)
+    self._pause()
+
+    # Compare card values using correct get_value() method
+    if player1_card.get_value() &gt; player2_card.get_value():
+        player2_active_cards = player2_hand.get_active_card()
+        save_len = len(player2_active_cards)
+        i, tmp = 0, len(player2_active_cards)
+        while i &lt; tmp:
+            player1_hand.add_card(player2_hand.remove_card())
+            i += 1
+        player1_hand.return_cards()
+
+        screen3alt1 = f&#34;&#34;&#34;
+    {player2_name:^50}
+    ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+    ▐                       {player2_card.get_value():&lt;2}                       ▌
+    ▐         {player2_hand.get_amount():&lt;2}🂠           {player2_card.get_symbol()}                        ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐{(player1_name + &#34; wins! They get &#34; + str(save_len) + &#34; card(s)&#34;):^48}▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():&gt;2}          ▌
+    ▐                       {player1_card.get_value():&lt;2}                       ▌
+    ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+    {player1_name:^50}
+                    &#34;&#34;&#34;
+        print(screen3alt1)
+
+    elif player1_card.get_value() &lt; player2_card.get_value():
+        player1_active_cards = player1_hand.get_active_card()
+        save_len = len(player1_active_cards)
+        i, tmp = 0, len(player1_active_cards)
+        while i &lt; tmp:
+            player2_hand.add_card(player1_hand.remove_card())
+            i += 1
+        player2_hand.return_cards()
+
+        screen3alt2 = f&#34;&#34;&#34;
+    {player2_name:^50}
+    ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+    ▐                       {player2_card.get_value():&lt;2}                       ▌
+    ▐         {player2_hand.get_amount():&lt;2}🂠           {player2_card.get_symbol()}                        ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐{(player2_name + &#34; wins! They get &#34; + str(save_len) + &#34; card(s)&#34;):^48}▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():&gt;2}          ▌
+    ▐                       {player1_card.get_value():&lt;2}                       ▌
+    ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+    {player1_name:^50}
+                    &#34;&#34;&#34;
+        print(screen3alt2)
+
+    else:
+        screen3alt3 = f&#34;&#34;&#34;
+    {player2_name:^50}
+    ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+    ▐                       {player2_card.get_value():&lt;2}                       ▌
+    ▐         {player2_hand.get_amount():&lt;2}🂠           {player2_card.get_symbol()}                        ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                      War!                      ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():&gt;2}          ▌
+    ▐                       {player1_card.get_value():&lt;2}                       ▌
+    ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+    {player1_name:^50}
+                    &#34;&#34;&#34;
+        print(screen3alt3)
+        self._pause()
+
+        # Check if players have enough cards for war
+        if len(player1_hand.get_hand()) &lt; 2:  # Player 1 doesn&#39;t have enough
+            for card in player1_hand.get_active_card():
+                player2_hand.add_card(player1_hand.remove_card())
+            player2_hand.return_cards()
+
+            screen3alt3 = f&#34;&#34;&#34;
+    {player2_name:^50}
+    ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+    ▐                       {player2_card.get_value():&lt;2}                       ▌
+    ▐         {player2_hand.get_amount():&lt;2}🂠           {player2_card.get_symbol()}                        ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐{(player1_name + &#34; doesn&#39;t have enough cards!&#34;):^48}▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():&gt;2}          ▌
+    ▐                       {player1_card.get_value():&lt;2}                       ▌
+    ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+    {player1_name:^50}
+                    &#34;&#34;&#34;
+            print(screen3alt3)
+
+            return
+        elif len(player2_hand.get_hand()) &lt; 2:  # Player 2 doesn&#39;t have enough cards
+            for card in player2_hand.get_active_card():
+                player1_hand.add_card(player2_hand.remove_card())
+            player1_hand.return_cards()
+
+            screen3alt3 = f&#34;&#34;&#34;
+    {player2_name:^50}
+    ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+    ▐                       {player2_card.get_value():&lt;2}                       ▌
+    ▐         {player2_hand.get_amount():&lt;2}🂠           {player2_card.get_symbol()}                        ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐{(player2_name + &#34; doesn&#39;t have enough cards!&#34;):^48}▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                       {player1_card.get_symbol()}           🂠{player1_hand.get_amount():&gt;2}          ▌
+    ▐                       {player1_card.get_value():&lt;2}                       ▌
+    ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+    {player1_name:^50}
+                    &#34;&#34;&#34;
+            print(screen3alt3)
+
+            return
+
+        # Each player places one card face down (internal mechanics, do not
+        # increment the public draw counter)
+        player1_hand.draw_card()
+        player2_hand.draw_card()
+
+        screen2 = f&#34;&#34;&#34;
+    {player2_name:^50}
+    ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
+    ▐                       ?                        ▌
+    ▐         {player2_hand.get_amount():&lt;2}🂠           🂠                        ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐             Place cards face down...           ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                                                ▌
+    ▐                       🂠           🂠{player1_hand.get_amount():&gt;2}          ▌
+    ▐                       ?                        ▌
+    ▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
+    {player1_name:^50}
+                &#34;&#34;&#34;
+        print(screen2)
+        self._pause()
+
+        # Recursively call draw_cards to determine who wins the war. Mark
+        # this as internal so the public draw counter isn&#39;t incremented again.
+        self.draw_cards(internal=True)</code></pre>
+</details>
+<div class="desc"><p>Execute a single draw round and resolve the result.</p>
+<p>When <code>internal</code> is True the call is part of recursive war resolution
+and will not increment the public draw counter.</p></div>
+</dd>
+<dt id="Game.Game.get_active_game"><code class="name flex">
+<span>def <span class="ident">get_active_game</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_active_game(self):
+    &#34;&#34;&#34;Return True when a game is currently active, otherwise False.&#34;&#34;&#34;
+    return self.__active_game</code></pre>
+</details>
+<div class="desc"><p>Return True when a game is currently active, otherwise False.</p></div>
+</dd>
+<dt id="Game.Game.name_change"><code class="name flex">
+<span>def <span class="ident">name_change</span></span>(<span>self, current_name, new_name)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def name_change(self, current_name, new_name):
+    &#34;&#34;&#34;Change a player&#39;s name and persist the updated highscores.
+
+    This updates the player&#39;s key in the Highscore object and triggers
+    a save to the configured highscores file.
+
+    Parameters
+    ----------
+    current_name : str
+        The existing player name to replace.
+    new_name : str
+        The new player name.
+    &#34;&#34;&#34;
+    self.__highscore.update_player_name(current_name, new_name)
+    self.save_highscore()</code></pre>
+</details>
+<div class="desc"><p>Change a player's name and persist the updated highscores.</p>
+<p>This updates the player's key in the Highscore object and triggers
+a save to the configured highscores file.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>current_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The existing player name to replace.</dd>
+<dt><strong><code>new_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The new player name.</dd>
+</dl></div>
+</dd>
+<dt id="Game.Game.save_highscore"><code class="name flex">
+<span>def <span class="ident">save_highscore</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save_highscore(self):
+    &#34;&#34;&#34;Saves the current values of the highscore object.&#34;&#34;&#34;
+    self.__highscore.save_highscores()</code></pre>
+</details>
+<div class="desc"><p>Saves the current values of the highscore object.</p></div>
+</dd>
+<dt id="Game.Game.show_highscore"><code class="name flex">
+<span>def <span class="ident">show_highscore</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_highscore(self):
+    &#34;&#34;&#34;Prints the current values of the highscore object as a String.&#34;&#34;&#34;
+    print(self.__highscore)</code></pre>
+</details>
+<div class="desc"><p>Prints the current values of the highscore object as a String.</p></div>
+</dd>
+<dt id="Game.Game.start"><code class="name flex">
+<span>def <span class="ident">start</span></span>(<span>self, mode=1, player1='Anonymous', player2='Anonymous', ai_level='top')</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def start(self, mode=1, player1=&#34;Anonymous&#34;, player2=&#34;Anonymous&#34;, ai_level=&#34;top&#34;):
+    &#34;&#34;&#34;Start a new game and deal cards to players.
+
+    :param mode: 1 for singleplayer or 2 for two-player
+    :param player1: name of player 1 (default &#39;Anonymous&#39;)
+    :param player2: name of player 2 (ignored in singleplayer)
+    :param ai_level: intelligence level for AI players (&#39;top&#39;, &#39;random&#39;, &#39;greedy&#39;)
+    &#34;&#34;&#34;
+    self.__player1 = Player(player1)
+    # Checks whether the current mode is single or multiplayer and assigns player2 accordingly.
+    self.__player2 = (
+        Player(player2) if mode == 2 else Intelligence(&#34;AI&#34;, level=ai_level)
+    )
+    self.__players = [self.__player1, self.__player2]
+
+    self.__deck = Deck()
+    hands = self.__deck.split()
+    self.__players[0].set_hand(CardHand(hands[0]))
+    self.__players[1].set_hand(CardHand(hands[1]))
+
+    for player in self.__players:
+        self.__highscore.add_player(player.get_name())
+
+    self.num_draws = 0  # Counter for the number of draws taken per game. Incremented each time cards are drawn.
+
+    self.__active_game = True</code></pre>
+</details>
+<div class="desc"><p>Start a new game and deal cards to players.</p>
+<p>:param mode: 1 for singleplayer or 2 for two-player
+:param player1: name of player 1 (default 'Anonymous')
+:param player2: name of player 2 (ignored in singleplayer)
+:param ai_level: intelligence level for AI players ('top', 'random', 'greedy')</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Game.Game" href="#Game.Game">Game</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Game.Game.cheat" href="#Game.Game.cheat">cheat</a></code></li>
+<li><code><a title="Game.Game.cheat_swap" href="#Game.Game.cheat_swap">cheat_swap</a></code></li>
+<li><code><a title="Game.Game.draw_cards" href="#Game.Game.draw_cards">draw_cards</a></code></li>
+<li><code><a title="Game.Game.get_active_game" href="#Game.Game.get_active_game">get_active_game</a></code></li>
+<li><code><a title="Game.Game.name_change" href="#Game.Game.name_change">name_change</a></code></li>
+<li><code><a title="Game.Game.save_highscore" href="#Game.Game.save_highscore">save_highscore</a></code></li>
+<li><code><a title="Game.Game.show_highscore" href="#Game.Game.show_highscore">show_highscore</a></code></li>
+<li><code><a title="Game.Game.start" href="#Game.Game.start">start</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>
