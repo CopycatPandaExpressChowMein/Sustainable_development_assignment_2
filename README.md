@@ -25,7 +25,7 @@ There are two main ways to install the game:
 --------------------------
 To download the zip file, either navigate to the latest release and download it from there. Or click the big green 'Code' button, which will open a drop down menu with a download option.
 
-Once downloaded simply unzip the file with your unzipper of choice.
+Once downloaded simply unzip the file with your tool of choice.
 
 
 ### Cloning a Repo
@@ -69,6 +69,17 @@ make installed
 
 # Running the game
 --------------------------
+In order to run the game, open your terminal and navigate to the main directory:
+
+```
+cd /*filepath here*/Sustainable_development_assignment_2/
+```
+
+Once the terminal is open in the right directory you can run it with the following:
+
+```
+python war/Main.py
+```
 
 # Basic Game Info
 --------------------------
