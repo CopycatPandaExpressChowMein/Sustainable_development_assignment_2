@@ -1,3 +1,4 @@
+"""Unit tests for the application entrypoint `Main`."""
 import unittest
 from war.Main import Main  # if needed
 

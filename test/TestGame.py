@@ -1,3 +1,4 @@
+"""Unit tests for the core Game logic (war/Game.py)."""
 import unittest
 import datetime
 import os

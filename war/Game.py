@@ -128,7 +128,7 @@ class Game:
         
 
     #TODO Graphics
-    def draw_cards(self):
+    def draw_cards(self, internal=False):
 
         
 
@@ -215,7 +215,10 @@ class Game:
 
         player1_card = player1_hand.drawcard(idx1) if idx1 is not None else player1_hand.drawcard()
         player2_card = player2_hand.drawcard(idx2) if idx2 is not None else player2_hand.drawcard()
-        self.num_draws += 1
+        # Only count the draw for top-level (external) invocations. Internal recursive
+        # draws during war resolution should not increment the public draw counter.
+        if not internal:
+            self.num_draws += 1
 
         screen2 =   f"""
         {player2_name:^50}
@@ -369,10 +372,10 @@ class Game:
 
 
 
-            # Each player places one card face down
+            # Each player places one card face down (internal mechanics, do not
+            # increment the public draw counter)
             player1_hand.drawcard()
             player2_hand.drawcard()
-            self.num_draws += 1
 
             screen2 =   f"""
         {player2_name:^50}
@@ -394,8 +397,9 @@ class Game:
             print(screen2)
             self._pause()
 
-            # Recursively call draw_cards to determine who wins the war
-            self.draw_cards()
+            # Recursively call draw_cards to determine who wins the war. Mark
+            # this as internal so the public draw counter isn't incremented again.
+            self.draw_cards(internal=True)
         
 
 

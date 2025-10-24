@@ -1,3 +1,4 @@
+"""Additional Highscore tests (file I/O, round-trips and edge cases)."""
 import unittest
 import os
 import json

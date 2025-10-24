@@ -1,3 +1,4 @@
+"""Unit tests for AI behaviour (Intelligence class)."""
 import unittest
 
 from war.Intelligence import Intelligence

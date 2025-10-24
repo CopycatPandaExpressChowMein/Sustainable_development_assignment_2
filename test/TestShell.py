@@ -1,3 +1,4 @@
+"""Unit tests for the Shell (CLI) behaviour and command handlers."""
 import unittest
 from war.Shell import Shell
 from war.Player import Player

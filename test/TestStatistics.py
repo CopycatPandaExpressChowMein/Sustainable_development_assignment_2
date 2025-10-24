@@ -1,3 +1,4 @@
+"""Unit tests for the Statistics data model and serialization helpers."""
 import unittest, datetime
 from war.Statistics import Statistics
 

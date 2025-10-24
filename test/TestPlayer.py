@@ -1,3 +1,4 @@
+"""Unit tests for the Player class and basic player behaviours."""
 import unittest
 from war.Player import Player
 from war.CardHand import CardHand

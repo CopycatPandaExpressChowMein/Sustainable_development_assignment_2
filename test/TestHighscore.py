@@ -1,3 +1,4 @@
+"""Unit tests for Highscore persistence and Statistics handling."""
 import unittest, os, json, datetime
 from war.Highscore import Highscore
 from war.Statistics import Statistics
