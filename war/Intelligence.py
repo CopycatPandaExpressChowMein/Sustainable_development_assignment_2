@@ -20,19 +20,19 @@ class Intelligence:
         self.set_level(level)
 
     def set_name(self, name):
-        """Sets the name for the AI"""
+        """Set the AI name."""
         self.name = name
 
     def set_hand(self, hand):
-        """Sets the hand (CardHand) for the AI"""
+        """Set the AI's CardHand."""
         self.hand = hand
 
     def get_hand(self):
-        """Returns the AI's current hand (CardHand)"""
+        """Return the AI's current CardHand."""
         return self.hand
 
     def get_name(self):
-        """Returns the name of the AI"""
+        """Return the AI's name."""
         return self.name
 
     def set_level(self, level: str):

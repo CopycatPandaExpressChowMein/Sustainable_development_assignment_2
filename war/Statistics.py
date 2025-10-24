@@ -4,19 +4,18 @@ import datetime
 
 
 class Statistics:
-    """Object that stores information about game statistics.
+    """Model representing the outcome of a single game.
 
     Fields:
     - has_won: bool
     - draws: int
-    - date: Optional[str] (ISO date string) or None
+    - date: Optional[datetime.date]
     """
 
     def __init__(self, has_won: bool = False, draws: int = 0, date: Optional[object] = None):
-        """Initialize Statistics.
+        """Create a Statistics instance.
 
-        Accepts a datetime.date or an ISO date string for `date`. Internally the date
-        is stored as an ISO string to make the object JSON-friendly.
+        `date` may be a datetime.date, an ISO date string, or None.
         """
         self.set_has_won(has_won)
         self.set_draws(draws)
@@ -36,9 +35,10 @@ class Statistics:
         return self.__draws
 
     def set_date(self, date: Optional[object]) -> Optional[datetime.date]:
-        """Store date as a datetime.date object. Accepts datetime.date, ISO string or None.
+        """Set the Statistics date from several accepted representations.
 
-        Returns the stored datetime.date or None.
+        Accepts a datetime.date, an ISO date string, or None and returns the
+        stored datetime.date or None.
         """
         if date is None:
             self.__date = None

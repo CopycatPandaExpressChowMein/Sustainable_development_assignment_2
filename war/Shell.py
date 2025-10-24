@@ -15,7 +15,7 @@ except: #Except imports for UnitTesting. To prevent module not found Error.
 #TODO Rework Graphical interface
 
 class Shell(cmd.Cmd):
-    """handles the interface of the game, input and output."""
+    """Command-line interface shell for the War game."""
     intro = """ 
     
                 ██╗    ██╗ █████╗ ██████╗ ██╗
@@ -36,18 +36,13 @@ class Shell(cmd.Cmd):
     prompt = "> "
 
     def __init__(self, game=None):
-        """Initialize the Shell. Accept an optional Game (or test double) to allow injection for tests.
-
-        If no game is provided, a real Game instance is created.
-        """
+        """Initialize the Shell and optionally inject a Game instance for tests."""
         super().__init__()
         self.game = game if game is not None else Game()
 
     #Commands that let the user play the game
     def do_start(self, arg):
-        """
-        Starts the game.
-        """
+        """Start a new interactive game by prompting for mode and names."""
         while True:
             try:
                 mode = int(input("Pick gamemode (1) for singleplayer, (2) for two-player: "))
@@ -84,9 +79,9 @@ class Shell(cmd.Cmd):
         
 
     def do_draw_card(self, arg):
-        """
-        Draws a card from your deck.
-        Will not work unless a game has been started using the 'start' command.
+        """Draw one round in the active game.
+
+        Prints a helpful message if no game is active.
         """
         if self.game.get_active_game():
             self.game.draw_cards()
@@ -94,16 +89,16 @@ class Shell(cmd.Cmd):
             print("Please start a game before you begin drawing cards!")
 
     def do_draw(self, arg):
-        """Draws a card from your deck."""
+        """Alias for `draw_card`."""
         self.do_draw_card(arg)
 
     def do_cheat(self, arg):
-        """Shh! This function will let you cheat in the game."""
+        """Trigger the game's cheat hook (used by tests or for debug)."""
         self.game.cheat()
 
     #Commands that give functionality to the game
     def do_rules(self, arg):
-        """Prints the rules of War."""
+        """Print the rules of the War card game."""
         rules_text = """
 
         War card game rules:
@@ -124,14 +119,14 @@ class Shell(cmd.Cmd):
         print(rules_text)
     
     def do_highscores(self, arg):
-        """Prints a list of all Highscores!"""
+        """Display stored highscores by delegating to the Game object."""
         self.game.show_highscore()
 
     #TODO Better way to implement?
     def do_namechange(self, arg):
-        """
-        Lets the User/s change names.
-        Will not work unless a game has been started using the 'start' command.
+        """Change a player's name in the active game and persist highscores.
+
+        Prompts interactively for the existing and replacement names.
         """
         if self.game.get_active_game():
                 name_to_replace = input("Please enter the name you would like to change: ")
@@ -142,7 +137,7 @@ class Shell(cmd.Cmd):
 
     #Commands to quit the game
     def do_quit(self, arg):
-        """Saves and closes the game."""
+        """Save highscores (best-effort) and exit the shell."""
         print("Saving and Quitting the war game.")
         # Attempt to save highscores if the Game-like object supports it.
         if hasattr(self.game, 'save_highscore') and callable(getattr(self.game, 'save_highscore')):

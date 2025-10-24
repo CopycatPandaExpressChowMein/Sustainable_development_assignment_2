@@ -26,17 +26,17 @@ class Game:
 
     
     def __init__(self):
-        """initialises the game with default value"""
+        """Initialize the Game with default values."""
         self.__highscore = Highscore()
         self.__active_game = False
 
     def start(self,  mode=1, player1="Anonymous", player2="Anonymous", ai_level="top"):
-        """
-        Starts the game.
-        
-        :player1: Name of player 1 as a String. Default param is Anonymous.
-        :player2: Name of player 2 as a String. Default param is Anonymous.
-        :mode: The gamemode as an int, 1 representing singleplayer and 2 multiplayer. Default param is 1 (Singleplayer)
+        """Start a new game and deal cards to players.
+
+        :param mode: 1 for singleplayer or 2 for two-player
+        :param player1: name of player 1 (default 'Anonymous')
+        :param player2: name of player 2 (ignored in singleplayer)
+        :param ai_level: intelligence level for AI players ('top', 'random', 'greedy')
         """
         self.__player1 = Player(player1)
         # Checks whether the current mode is single or multiplayer and assigns player2 accordingly.
@@ -57,22 +57,18 @@ class Game:
         
 
     def get_active_game(self):
-        """Returns a bool indicating whether or not a game is ongoing or not."""
+        """Return True when a game is currently active, otherwise False."""
         return self.__active_game
 
     def cheat(self):
-        """Allows you to cheat in the game (programmatic wrapper)."""
+        """Programmatic cheat hook (no-op kept for compatibility)."""
         # programmatic no-op kept for compatibility with Shell.do_cheat()
         return None
 
     def cheat_swap(self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0) -> bool:
-        """Programmatic cheat: swap a card from one player's hand to another player's hand.
+        """Swap cards between two players by index.
 
-        Finds players by name in the current game and swaps the card at index_from in
-        from_name's hand with the card at index_to in to_name's hand.
-
-        Returns True on successful swap, False if players not found or indices invalid.
-        This method performs pure game-state changes and does not interact with I/O.
+        Returns True on success or False when players/indices are invalid.
         """
         # locate players
         players = getattr(self, "_Game__players", None)
@@ -120,7 +116,7 @@ class Game:
         return True
 
     def _pause(self):
-        """Pause helper: no-op when running under unit tests to avoid blocking input()."""
+        """Pause helper that avoids blocking when running tests."""
         try:
             import sys
             # If unittest is running, skip pause to avoid blocking automated tests
@@ -136,18 +132,10 @@ class Game:
 
     #TODO Graphics
     def draw_cards(self, internal=False):
-        """Perform a single draw round and resolve the outcome.
+        """Execute a single draw round and resolve the result.
 
-        This method executes one round where each player draws a card (or an
-        index chosen by an AI), compares their values, handles wins/losses
-        and resolves 'war' situations recursively. When ``internal`` is
-        True this invocation is part of an internal war resolution and will
-        not increment the public draw counter.
-
-        Parameters
-        ----------
-        internal : bool
-            Mark the call as internal (used for recursive war resolution).
+        When ``internal`` is True the call is part of recursive war resolution
+        and will not increment the public draw counter.
         """
 
         

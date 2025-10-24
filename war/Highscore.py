@@ -15,27 +15,22 @@ except:
 
 
 class Highscore:
-    """
-    Object that handles loading, saving and management of game statistics.
-    Uses a private dictionary to store highscores, each key is related to a list of Statistics objects.
+    """Manage persistence and in-memory storage of player statistics.
+
+    Stores highscores in a private dictionary mapping player names to lists
+    of Statistics objects. Provides load/save and simple management helpers.
     """
 
     def __init__(self, filename="war/highscores.json"):
-        """
-        Initializes the Highscore object.
-        Calls for the load_highscores() function to handle loading previous data based on the given filename.
-        (Or creates a new Dict if there is file associated with the given filename)
+        """Initialize Highscore and load existing data from filename.
 
-        :filename: The filename to save and load to. Default is war/highscores.json.
+        :param filename: path to JSON file used for persistence
         """
         self.__filename = filename
         self.load_highscores()
 
     def __str__(self):
-        """
-        Defines how to represent the object as a String.
-        Loops through all names and statistics, printing each name, and their associated statistics beneath.
-        """
+        """Return a human-readable representation of all highscores."""
         tmp = []
         for name, statistics in self.__highscores.items():
             lines = [f"{name}:"]
@@ -48,12 +43,7 @@ class Highscore:
         return "\n".join(tmp)
 
     def save_highscores(self):
-        """
-        Attempts to save the '__highscores' dictionary to a json file. 
-        Uses the private filename variable.
-
-        :return: Returns True if saving was successful, otherwise returns False.
-        """
+        """Save highscores to the configured JSON file."""
         try:
             # Ensure directory exists
             os.makedirs(os.path.dirname(self.__filename), exist_ok=True)
@@ -77,13 +67,7 @@ class Highscore:
             print(f"Highscores successfully saved to file {self.__filename}")
 
     def load_highscores(self):
-        """
-        Attempts to load the highscores dictionary from a json file.
-        If no Json file exists the '__highscores' dictionary is initalized as an empty dictionary.
-        Uses the private filename variable.
-
-        :return: Finally returns the new dictionary.
-        """
+        """Load highscores from JSON, returning an empty dict on failure."""
         try:
             with open(self.__filename, "r", encoding="utf-8") as file:
                 raw = json.load(file)
@@ -114,12 +98,10 @@ class Highscore:
         return self.__highscores
 
     def add_player(self, name: str = "Anonymous", statistics=None):
-        """
-        Adds a new player (key) to the dictionary, and associates it with a list of statistics (value).
-        Does nothing if the player already exists.
+        """Add a player key to the highscores dict.
 
-        :name: The name of the player as a String. Uses default param Anonymous.
-        :statistics: A list of Statistics objects. Uses an empty list as default param.
+        If the player exists this is a no-op. `statistics` should be a list
+        of Statistics objects or None.
         """
 
         if statistics is None:
@@ -131,11 +113,10 @@ class Highscore:
             print(f"Player {name} already exists in dictionary")
 
     def update_player_name(self, name, new_name):
-        """
-        Changes the name of a player (key) in the dictionary, if they exist. 
+        """Rename a player key while preserving their statistics.
 
-        :name: The name of an existing player as a String.
-        :new_name: The name to replace it with as a String.
+        If `name` does not exist tests expect `new_name` to be created as an
+        empty entry.
         """
         if name in self.__highscores:
             # move existing entry to new name
@@ -152,10 +133,9 @@ class Highscore:
 
 
     def remove_player(self, name):
-        """
-        Attempts to remove a player (key) from the dictionary.
-        
-        :name: Name of a player as a String.
+        """Remove a player key from the highscores dictionary.
+
+        Prints a message when the key is not present rather than raising.
         """
         try:
             self.__highscores.pop(name)
@@ -163,13 +143,10 @@ class Highscore:
             print(f"Unable to find or remove key named {name}")
 
     def add_statistics(self, name, has_won=False, draws=0, date=None):
-        """
-        Attempts to add statistics to the list of a player.
-        
-        :name: Name of a player as a String
-        :has_won: Whether or not the player won the game as a bool.
-        :draws: Number of draws done in the game as an int.
-        :date: Date the game was played as a datettime object.
+        """Append a Statistics record for the given player name.
+
+        If the player key does not exist a message is printed and no-op is
+        performed.
         """
         try:
             tmp = self.__highscores.get(name)
@@ -181,11 +158,9 @@ class Highscore:
             print(f"No key in dictionary named {name}. Statistics not appended.")
 
     def remove_statistics(self, name, stat_num=0):
-        """
-        Attempts to remove statistics from the list of a player.
-        
-        :name: Name of a player as a String. 
-        :stat_num: Index of the Stat object to remove in the list. Default param is index 0
+        """Remove a statistics entry at index `stat_num` for `name`.
+
+        Safe: prints a message on KeyError/IndexError instead of raising.
         """
         try:
             tmp = self.__highscores.get(name)
@@ -197,31 +172,26 @@ class Highscore:
             )
 
     def set_highscores(self, highscores):
-        """
-        Sets the Dictionary variable to the given argument.
+        """Replace the in-memory highscores dictionary.
 
-        :highscores: A dictionary with key:value pairs referencing player names and their associated games as lists.
+        :param highscores: dict mapping player names to lists of statistics
         """
         self.__highscores = highscores
         return self.__highscores
 
     def get_highscores(self):
-        """
-        Returns the private variable '__highscores' as a dictionary
-        """
+        """Return the current highscores dictionary."""
         return self.__highscores
 
     def set_filename(self, filename):
-        """
-        Sets the filename variable to the given argument.,
-        
-        :filename: Filename for use with IO operations as a String. Should be of the format "{filename}.json".
+        """Set the filename used for loading/saving highscores.
+
+        :param filename: path to a JSON file
+        :return: the stored filename
         """
         self.__filename = filename
         return self.__filename
 
     def get_filename(self):
-        """
-        Returns the currently used filename that the class saves to.
-        """
+        """Return the current highscores filename."""
         return self.__filename
