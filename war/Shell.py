@@ -101,7 +101,11 @@ class Shell(cmd.Cmd):
 
     def do_cheat(self, arg):
         """Trigger the game's cheat hook (used by tests or for debug)."""
-        self.game.cheat()
+
+        if self.game.get_active_game():
+            self.game.cheat()
+        else:
+            print("Please start a game before you begin drawing cards!")
 
     # Commands that give functionality to the game
     def do_rules(self, arg):

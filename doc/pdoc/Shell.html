@@ -144,7 +144,11 @@ testable without running an interactive loop.</p>
 
     def do_cheat(self, arg):
         &#34;&#34;&#34;Trigger the game&#39;s cheat hook (used by tests or for debug).&#34;&#34;&#34;
-        self.game.cheat()
+
+        if self.game.get_active_game():
+            self.game.cheat()
+        else:
+            print(&#34;Please start a game before you begin drawing cards!&#34;)
 
     # Commands that give functionality to the game
     def do_rules(self, arg):
@@ -257,7 +261,11 @@ testable without running an interactive loop.</p>
 </summary>
 <pre><code class="python">def do_cheat(self, arg):
     &#34;&#34;&#34;Trigger the game&#39;s cheat hook (used by tests or for debug).&#34;&#34;&#34;
-    self.game.cheat()</code></pre>
+
+    if self.game.get_active_game():
+        self.game.cheat()
+    else:
+        print(&#34;Please start a game before you begin drawing cards!&#34;)</code></pre>
 </details>
 <div class="desc"><p>Trigger the game's cheat hook (used by tests or for debug).</p></div>
 </dd>

@@ -98,61 +98,11 @@ logic can be used programmatically by tests and by the Shell CLI.</p>
         return self.__active_game
 
     def cheat(self):
-        &#34;&#34;&#34;Programmatic cheat hook (no-op kept for compatibility).&#34;&#34;&#34;
-        # programmatic no-op kept for compatibility with Shell.do_cheat()
-        return None
-
-    def cheat_swap(
-        self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0
-    ) -&gt; bool:
-        &#34;&#34;&#34;Swap cards between two players by index.
-
-        Returns True on success or False when players/indices are invalid.
-        &#34;&#34;&#34;
-        # locate players
-        players = getattr(self, &#34;_Game__players&#34;, None)
-        if not players:
-            return False
-
-        p_from = None
-        p_to = None
-        for p in players:
-            try:
-                if p.get_name() == from_name:
-                    p_from = p
-                if p.get_name() == to_name:
-                    p_to = p
-            except Exception:
-                continue
-
-        if p_from is None or p_to is None:
-            return False
-
-        hand_from = p_from.get_hand().get_hand()
-        hand_to = p_to.get_hand().get_hand()
-
-        # validate indices
-        if index_from &lt; 0 or index_from &gt;= len(hand_from):
-            return False
-        if index_to &lt; 0 or index_to &gt;= len(hand_to):
-            return False
-
-        # perform swap
-        card_from = hand_from.pop(index_from)
-        card_to = hand_to.pop(index_to)
-
-        # reinsert cards
-        hand_from.insert(index_from, card_to)
-        hand_to.insert(index_to, card_from)
-
-        # update amounts
-        try:
-            p_from.get_hand().amount = len(hand_from)
-            p_to.get_hand().amount = len(hand_to)
-        except Exception:
-            pass
-
-        return True
+        &#34;&#34;&#34;Sets the value of all of Player1s cards to 99&#34;&#34;&#34;
+        print(&#34;Shhh. Be sneaky... All your cards now have a value of 99.&#34;)
+        player1_deck = self.__players[0].get_hand().get_hand()
+        for card in player1_deck:
+            card.set_value(99)
 
     def _pause(self):
         &#34;&#34;&#34;Pause helper that avoids blocking when running tests.&#34;&#34;&#34;
@@ -491,74 +441,13 @@ logic can be used programmatically by tests and by the Shell CLI.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def cheat(self):
-    &#34;&#34;&#34;Programmatic cheat hook (no-op kept for compatibility).&#34;&#34;&#34;
-    # programmatic no-op kept for compatibility with Shell.do_cheat()
-    return None</code></pre>
+    &#34;&#34;&#34;Sets the value of all of Player1s cards to 99&#34;&#34;&#34;
+    print(&#34;Shhh. Be sneaky... All your cards now have a value of 99.&#34;)
+    player1_deck = self.__players[0].get_hand().get_hand()
+    for card in player1_deck:
+        card.set_value(99)</code></pre>
 </details>
-<div class="desc"><p>Programmatic cheat hook (no-op kept for compatibility).</p></div>
-</dd>
-<dt id="Game.Game.cheat_swap"><code class="name flex">
-<span>def <span class="ident">cheat_swap</span></span>(<span>self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0) ‑> bool</span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def cheat_swap(
-    self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0
-) -&gt; bool:
-    &#34;&#34;&#34;Swap cards between two players by index.
-
-    Returns True on success or False when players/indices are invalid.
-    &#34;&#34;&#34;
-    # locate players
-    players = getattr(self, &#34;_Game__players&#34;, None)
-    if not players:
-        return False
-
-    p_from = None
-    p_to = None
-    for p in players:
-        try:
-            if p.get_name() == from_name:
-                p_from = p
-            if p.get_name() == to_name:
-                p_to = p
-        except Exception:
-            continue
-
-    if p_from is None or p_to is None:
-        return False
-
-    hand_from = p_from.get_hand().get_hand()
-    hand_to = p_to.get_hand().get_hand()
-
-    # validate indices
-    if index_from &lt; 0 or index_from &gt;= len(hand_from):
-        return False
-    if index_to &lt; 0 or index_to &gt;= len(hand_to):
-        return False
-
-    # perform swap
-    card_from = hand_from.pop(index_from)
-    card_to = hand_to.pop(index_to)
-
-    # reinsert cards
-    hand_from.insert(index_from, card_to)
-    hand_to.insert(index_to, card_from)
-
-    # update amounts
-    try:
-        p_from.get_hand().amount = len(hand_from)
-        p_to.get_hand().amount = len(hand_to)
-    except Exception:
-        pass
-
-    return True</code></pre>
-</details>
-<div class="desc"><p>Swap cards between two players by index.</p>
-<p>Returns True on success or False when players/indices are invalid.</p></div>
+<div class="desc"><p>Sets the value of all of Player1s cards to 99</p></div>
 </dd>
 <dt id="Game.Game.draw_cards"><code class="name flex">
 <span>def <span class="ident">draw_cards</span></span>(<span>self, internal=False)</span>
@@ -989,7 +878,6 @@ a save to the configured highscores file.</p>
 <h4><code><a title="Game.Game" href="#Game.Game">Game</a></code></h4>
 <ul class="two-column">
 <li><code><a title="Game.Game.cheat" href="#Game.Game.cheat">cheat</a></code></li>
-<li><code><a title="Game.Game.cheat_swap" href="#Game.Game.cheat_swap">cheat_swap</a></code></li>
 <li><code><a title="Game.Game.draw_cards" href="#Game.Game.draw_cards">draw_cards</a></code></li>
 <li><code><a title="Game.Game.get_active_game" href="#Game.Game.get_active_game">get_active_game</a></code></li>
 <li><code><a title="Game.Game.name_change" href="#Game.Game.name_change">name_change</a></code></li>

@@ -61,61 +61,11 @@ class Game:
         return self.__active_game
 
     def cheat(self):
-        """Programmatic cheat hook (no-op kept for compatibility)."""
-        # programmatic no-op kept for compatibility with Shell.do_cheat()
-        return None
-
-    def cheat_swap(
-        self, from_name: str, to_name: str, index_from: int = 0, index_to: int = 0
-    ) -> bool:
-        """Swap cards between two players by index.
-
-        Returns True on success or False when players/indices are invalid.
-        """
-        # locate players
-        players = getattr(self, "_Game__players", None)
-        if not players:
-            return False
-
-        p_from = None
-        p_to = None
-        for p in players:
-            try:
-                if p.get_name() == from_name:
-                    p_from = p
-                if p.get_name() == to_name:
-                    p_to = p
-            except Exception:
-                continue
-
-        if p_from is None or p_to is None:
-            return False
-
-        hand_from = p_from.get_hand().get_hand()
-        hand_to = p_to.get_hand().get_hand()
-
-        # validate indices
-        if index_from < 0 or index_from >= len(hand_from):
-            return False
-        if index_to < 0 or index_to >= len(hand_to):
-            return False
-
-        # perform swap
-        card_from = hand_from.pop(index_from)
-        card_to = hand_to.pop(index_to)
-
-        # reinsert cards
-        hand_from.insert(index_from, card_to)
-        hand_to.insert(index_to, card_from)
-
-        # update amounts
-        try:
-            p_from.get_hand().amount = len(hand_from)
-            p_to.get_hand().amount = len(hand_to)
-        except Exception:
-            pass
-
-        return True
+        """Sets the value of all of Player1s cards to 99"""
+        print("Shhh. Be sneaky... All your cards now have a value of 99.")
+        player1_deck = self.__players[0].get_hand().get_hand()
+        for card in player1_deck:
+            card.set_value(99)
 
     def _pause(self):
         """Pause helper that avoids blocking when running tests."""

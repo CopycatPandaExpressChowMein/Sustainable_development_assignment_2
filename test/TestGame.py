@@ -51,39 +51,6 @@ class TestGame(unittest.TestCase):
         new_h1 = len(game._Game__players[1].get_hand().get_hand())
         self.assertTrue(new_h0 < h0 or new_h1 < h1 or not game.get_active_game())
 
-    def test_cheat_swap_success_and_failure(self):
-        """Test that cheat_swap exchanges cards when indices are valid and rejects invalid indices."""
-        game = Game()
-        game.start(mode=2, player1="P1", player2="P2")
-
-        p1_hand = game._Game__players[0].get_hand().get_hand()
-        p2_hand = game._Game__players[1].get_hand().get_hand()
-
-        # Ensure both hands have at least one card for the test
-        self.assertGreaterEqual(len(p1_hand), 1)
-        self.assertGreaterEqual(len(p2_hand), 1)
-
-        # Record top cards
-        p1_top_before = p1_hand[0]
-        p2_top_before = p2_hand[0]
-
-        # Successful swap of top cards
-        ok = game.cheat_swap("P1", "P2", 0, 0)
-        self.assertTrue(ok)
-
-        p1_hand_after = game._Game__players[0].get_hand().get_hand()
-        p2_hand_after = game._Game__players[1].get_hand().get_hand()
-
-        self.assertIs(p1_hand_after[0], p2_top_before)
-        self.assertIs(p2_hand_after[0], p1_top_before)
-
-        # Out of range indices should fail and leave hands unchanged
-        before_p1 = list(p1_hand_after)
-        before_p2 = list(p2_hand_after)
-        self.assertFalse(game.cheat_swap("P1", "P2", 999, 0))
-        self.assertEqual(before_p1, game._Game__players[0].get_hand().get_hand())
-        self.assertEqual(before_p2, game._Game__players[1].get_hand().get_hand())
-
     def test_start_with_ai_level_and_ai_gets_level(self):
         """Starting singleplayer with ai_level should create an Intelligence with that level."""
         game = Game()
@@ -122,12 +89,6 @@ class TestGame(unittest.TestCase):
         game.name_change("Old", "NewName")
         self.assertIn("NewName", hs.get_highscores())
         self.assertNotIn("Old", hs.get_highscores())
-
-    def test_cheat_swap_missing_player(self):
-        """cheat_swap should return False when one of the player names is not found."""
-        game = Game()
-        game.start(mode=2, player1="X", player2="Y")
-        self.assertFalse(game.cheat_swap("X", "NoSuchPlayer", 0, 0))
 
     def test_war_with_insufficient_cards_causes_loss_and_records_highscore(self):
         """If a war occurs but player1 cannot continue (not enough cards) player2 should win and be recorded."""

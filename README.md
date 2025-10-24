@@ -15,6 +15,14 @@ The main goal with this project was to write a small Terminal game in line with 
 
 **OBS!** Note that instructions for the following segments were written with Git Bash in mind, meaning that the commands may not look the exact same for a different Terminal.
 
+Furthermore, the documentation for this project makes heavy use of __Make__, which can be installed using [Chocolatey](https://chocolatey.org/install)
+
+To install Make
+```
+Choco install make
+```
+
+
 # Installation
 --------------------------
 There are two main ways to install the game:
@@ -67,6 +75,13 @@ make install
 make installed
 ```
 
+Additionally, in order to generate UMLs of the project, make sure that Graphviz is installed.
+
+How to install Graphviz:
+```
+choco install Graphviz
+```
+
 # Running the game
 --------------------------
 In order to run the game, open your terminal and navigate to the main directory:
@@ -83,9 +98,44 @@ python war/Main.py
 
 # Basic Game Info
 --------------------------
-War is a simple two-player card game written in Python for Sustainable Development Assignment 2.
-Each player draws cards; the higher value wins the round. If the cards are equal, a “war” occurs until one player wins all cards.
+The key commands used in the game are:
 
+- start
+    - This command starts a new game, it will prompt you to select a game mode then name all the players
+- draw/draw_card
+    - This command progresses the game, and can only be executed once a game has started
+- rules
+    - This command prints the rules of the game.
+- highscores
+    - This command prints all highscores in memory.
+- exit/quit/q
+    - This command closes the game.
+- namechange
+    - This command lets a player change their name
+
+### start
+Running the start command tells the program to execute the start function in the Game class. Taking player input such as mode, names and ai difficulty as parameters. And then assigns the values in the game such as a deck of cards.
+
+### draw/draw_card
+Running the draw command tells the program to execute the draw_card function in the Game class. This function first compares the number of cards each player has to check if either still has cards left to play. After which it will print a series of GUI String elements, draw cards and compare them. In case a war occurs the function is recursively called to continue.
+
+### Highscores
+Highscores are loaded from a file in memory, if one doesn't exist it will be created the next time the game is saved. All highscores are saved as a dictionary in a json file, containing a player name and a list of wins that player has. After each finished game, new statistics are added to the player that won. Which can then be viewed by printing the highscores.
+
+### Game mode
+Upon starting a game the player(s) are prompted to select a game mode, either single player (1) or two-player (2). Depending on the choice you then name either 1 or both players, and if you selected single player you get to pick the difficulty of the AI.
+
+### AI
+The AI class functions almost exactly the same as a player. But has 3 difficulties
+- Random 
+    - Takes a random card from the deck.
+- Top
+    - Takes the top card in the deck (Default).
+- Greedy
+    - Always plays the highest card.
+
+### Cheating
+The player can cheat for testing purposes. This executes the cheat function in the Game class, which sets the value of all of their cards to 99. 
 
 # Unit Testing
 --------------------------
@@ -116,24 +166,33 @@ python -m unittest test.test_game
 
 # Documentation
 --------------------------
-The project is fully documented with docstrings describing classes, methods, and parameters.
-Documentation can be found in the doc
+Documentation can be found in the ```doc/``` folder.
 
+Generate documentation:
 ```
-python -m pydoc war
+make pdoc
 ```
-All code follows PEP 8 standards and is formatted with Black for consistency and readability.
 
+Generate documentation and UML
+```
+make doc
+```
 
 # UML Diagrams
 --------------------------
-Below are the UML class diagrams for our War card game.
-They describe the structure and relationships between all main classes in the project.
+PNG of the UML diagrams can be found in the ```doc/``` folder.
+**OBS!** Without __Graphviz__ installed the UML generation will fail.
 
-Amjad: Implemented Card, Deck, and CardHand classes.
+![UML classes](/doc/pyreverse/classes.png)
 
-Jesper: Implemented Player, Statistics, and Highscore classes.
+![UML packages](/doc/pyreverse/packages.png)
 
-Besart: Implemented Game, Shell, Intelligence, and Main classes.
+Generate UML:
+```
+make pyreverse
+```
 
-Each diagram illustrates class attributes, methods, and their associations within the project.
+Generate documentation and UML:
+```
+make doc
+```
