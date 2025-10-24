@@ -89,6 +89,11 @@ Each player draws cards; the higher value wins the round. If the cards are equal
 
 # Unit Testing
 --------------------------
+All main classes in the project have dedicated unittest files located in the test/ folder.
+Tests verify that each class and method behaves correctly.
+
+To run all tests:
+python -m unittest discover -s test -v
 
 # Documentation
 --------------------------
